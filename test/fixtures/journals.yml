@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  trade_date: 2018-02-15
+  figure: 1
+  trade_type: one
+  schedule: one
+
+two:
+  trade_date: 2018-02-15
+  figure: 1
+  trade_type: two
+  schedule: two

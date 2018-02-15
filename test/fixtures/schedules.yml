@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_datetime: 2018-02-15 09:23:45
+  end_datetime: 2018-02-15 09:23:45
+  seat_type: MyString
+  fix: false
+  check: false
+  location: one
+  event: one
+  otherside: one
+  user: one
+
+two:
+  start_datetime: 2018-02-15 09:23:45
+  end_datetime: 2018-02-15 09:23:45
+  seat_type: MyString
+  fix: false
+  check: false
+  location: two
+  event: two
+  otherside: two
+  user: two

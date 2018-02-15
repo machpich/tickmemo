@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  position_status: 1
+  trade_type: one
+  account: one
+
+two:
+  position_status: 1
+  trade_type: two
+  account: two
