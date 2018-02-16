@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Tickememo</title>
+    <title>TICKMEMO</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,6 +9,25 @@
   </head>
 
   <body>
+    <h1><%= link_to 'TICKMEMO', root_path%></h1>
+
+    <% if current_user %>
+    <ul>
+      <li>
+        <%= link_to "#{current_user.email}",journals_path%>
+      </li>
+      <li>
+        <%= link_to '検索',search_path%>
+      </li>
+      <li>
+        <%= link_to '設定',setting_path%>
+      </li>
+      <li>
+        <%= link_to 'ログアウト',destroy_user_session_path,method: :delete%>
+      </li>
+    </ul>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

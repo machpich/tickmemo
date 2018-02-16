@@ -1,0 +1,20 @@
+<h3>スケジュール一覧</h3>
+<div>
+  予定
+    <ul>
+      <%= link_to schedule_path(1) do%>
+      <li>日付</li>
+      <li>時間</li>
+      <li>場所</li>
+      <li>席種</li>
+      <li>メモ</li>
+      <% end %>
+    </ul>
+  演目
+    <ul>
+      <%= link_to event_path(1) do%>
+      <li>タイトル</li>
+      <li>演者</li>
+      <% end %>
+    </ul>
+</div>
