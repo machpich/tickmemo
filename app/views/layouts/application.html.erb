@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>TICKMEMO</title>
+    <meta http-equiv="Content-Language" content="ja">
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,25 +10,37 @@
   </head>
 
   <body>
-    <h1><%= link_to 'TICKMEMO', root_path%></h1>
+    <header>
+      <div class="container clearfix">
+        <div class="header-left">
+          <%= link_to 'TICKMEMO', index_path%>
+        </div>
 
-    <% if current_user %>
-    <ul>
-      <li>
-        <%= link_to "#{current_user.email}",journals_path%>
-      </li>
-      <li>
-        <%= link_to '検索',search_path%>
-      </li>
-      <li>
-        <%= link_to '設定',setting_path%>
-      </li>
-      <li>
-        <%= link_to 'ログアウト',destroy_user_session_path,method: :delete%>
-      </li>
-    </ul>
-    <% end %>
+        <div class="header-right">
+          <% if current_user %>
+          <ul>
+            <li>
+              <%= link_to "#{current_user.email}",journals_path%>
+            </li>
+            <li>
+              <%= link_to '検索',search_path%>
+            </li>
+            <li>
+              <%= link_to '設定',setting_path%>
+            </li>
+            <li>
+              <%= link_to 'ログアウト',destroy_user_session_path,method: :delete%>
+            </li>
+          </ul>
+          <% end %>
+        </div>
+      </div>
+    </header>
 
-    <%= yield %>
+    <div class="container">
+
+      <%= yield %>
+    </div>
+
   </body>
 </html>

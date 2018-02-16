@@ -3,4 +3,8 @@ class EventsController < ApplicationController
 
   def show
   end
+
+  def edit
+    render layout: 'settings'
+  end
 end
