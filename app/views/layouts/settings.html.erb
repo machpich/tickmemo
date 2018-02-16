@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TICKMEMO</title>
+    <meta http-equiv="Content-Language" content="ja">
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="header">
+      <p><%= link_to 'TICKMEMO', index_path%></p>
+
+      <div>
+        <% if current_user %>
+        <ul>
+          <li>
+            <%= link_to "#{current_user.email}",journals_path%>
+          </li>
+          <li>
+            <%= link_to '検索',search_path%>
+          </li>
+          <li>
+            <%= link_to '設定',setting_path%>
+          </li>
+          <li>
+            <%= link_to 'ログアウト',destroy_user_session_path,method: :delete%>
+          </li>
+        </ul>
+        <% end %>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div class="col-md-4">
+        <h1>設定項目</h1>
+        <div>
+          <ul>
+            <li><%= link_to 'ユーザー情報変更', edit_user_registration_path %></li>
+            <li><%= link_to 'イベント情報変更', edit_event_path(1) %></li>
+            <li><%= link_to '取引先情報変更', edit_otherside_path(1) %></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <%= yield %>
+      </div>
+    </div>
+
+  </body>
+</html>

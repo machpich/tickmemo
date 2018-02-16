@@ -8,13 +8,14 @@ Rails.application.routes.draw do
   resources :othersides, except:[:index,:new]
   resources :events,except: [:index,:new]
 
-#設定周り
   get '/setting' => 'home#setting'
   resource :settings, only: [:index] do
     resources :users, only:[:index]
   end
 
-  devise_for :users
+  devise_for :users,:controllers => {
+ :registrations => 'users/registrations'
+}
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 end

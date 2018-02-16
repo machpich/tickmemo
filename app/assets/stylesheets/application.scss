@@ -12,4 +12,41 @@
  *
  *= require_tree .
  *= require_self
+
+  * CSSメモ
+  * メインカラー
+  * #F3F3F3 : 薄いグレー
+  * #F8E71C : イエロー
+  * #A9A9A9 : 濃い目のグレー
+  * #767676 : もっと濃い目のグレー
  */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================================================ */
+
+header {
+  background-color: #F3F3F3;
+  height: 50px;
+  line-height: 50px;
+}
+
+.header-left {
+  float: left;
+}
+
+.header-right {
+  float: right;
+}
+
+.header-right li {
+    display: inline-block;
+    padding: 0 20px;
+}

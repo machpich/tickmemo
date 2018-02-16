@@ -1,11 +1,13 @@
-<h1>othersides#show</h1>
-<h2>特定の予定</h2>
-
+<h2>予定詳細</h2>
+<div class="col-md-4">
 <!-- 貸借管理 -->
 <%= render 'application/total_loan'%>
 
 <!-- 仕訳登録フォーム -->
 <%= render 'application/journal_form'%>
 
+</div>
+<div class="col-md-8">
 <!-- 履歴明細 -->
 <%= render 'application/journal_list'%>
+</div>>

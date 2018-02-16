@@ -1,10 +1,14 @@
 <h1>Schedules#show</h1>
 <h2>特定の予定</h2>
-<!-- 貸借管理 -->
-<%= render 'application/total_loan'%>
+<div class="col-md-4">
+  <!-- 貸借管理 -->
+  <%= render 'application/total_loan'%>
 
-<!-- 仕訳登録フォーム -->
-<%= render 'application/journal_form'%>
+  <!-- 仕訳登録フォーム -->
+  <%= render 'application/journal_form'%>
+</div>
 
-<h3>予定詳細</h3>
-<%= render 'application/schedule_list'%>
+<div class="col-md-8">
+  <h3>予定詳細</h3>
+  <%= render 'application/schedule_list'%>
+</div>
