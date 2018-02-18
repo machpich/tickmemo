@@ -1,11 +1,54 @@
-<div>
   <h3>予定登録フォーム</h3>
-  <ul>
-    <li>開始日時</li>
-    <li>終了時間</li>
-    <li>演目</li>
-    <li>場所</li>
-    <li>席種</li>
-    <li>メモ</li>
+
+  <!-- form_for部分 -->
+  <%= form_for event do |ev|%>
+  <ul class="submit_form">
+    <li>
+      <%= fields_for schedule do |sc| %>
+      <%= sc.label :start_datetime,"開始日時*" %>
+      <%= sc.datetime_field :start_datetime %>
+    </li>
+    <li>
+      <%= sc.label :end_data_time,"終了時間" %>
+      <%= sc.time_field :end_datetime %>
+    </li>
+    <li>
+      <%= fields_for :location do |lo| %>
+      <%= lo.label :place_name,"場所*" %>
+      <%= lo.text_field :place_name %>
+      <% end %>
+    </li>
+    <li>
+      <%= ev.label :program,"演目" %>
+      <%= ev.text_field :program %>
+    </li>
+    <li>
+      <%= ev.label :performer,"出演者" %>
+      <%= ev.text_field :performer %>
+    </li>
+    <div class="submit_form_sub">
+      <li>
+        <%= sc.label :seat_type,"席種" %>
+        <%= sc.text_field :seat_type %>
+      </li>
+      <li>
+        <%= fields_for :otherside do |ot|%>
+        <%= ot.label :otherside_name,"購入先" %>
+        <%= ot.text_field :otherside_name %>
+        <% end %>
+      </li>
+      <li>
+        <%= sc.fields_for :memo do |me| %>
+        <%= me.label :メモ %>
+        <%= me.text_area :body %>
+        <% end %>
+        <!-- scの終了タグ -->
+        <% end %>
+      </li>
+    </div>
   </ul>
-</div>
+  <div class="submit_form_btn">
+    <%= ev.submit "登録",class:"btn"%>
+  </div>
+  <!-- evの終了タグ -->
+  <% end %>
