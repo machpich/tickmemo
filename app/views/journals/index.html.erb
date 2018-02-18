@@ -1,11 +1,14 @@
 <h1>journals#index</h1>
 <h2>全明細時系列</h2>
 
+<div class="col-md-4">
 <!-- 貸借管理 -->
 <%= render 'application/total_loan'%>
 
 <!-- 仕訳登録フォーム -->
 <%= render 'application/journal_form'%>
-
+</div>
+<div class="col-md-8">
 <!-- 取引履歴一覧 -->
 <%= render 'application/journal_list'%>
+</div>
