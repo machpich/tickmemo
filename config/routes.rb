@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   get '/index' => 'schedules#index'
   get '/search' => 'home#search'
 
-  resources :schedules, only: [:index,:show,:create,:update,:destroy]
-  resources :journals, only: [:index,:create,:update,:destroy]
+  resources :schedules, only: [:index,:show,:create,:update,:destroy] do
+    resources :journals, only: [:create,:update,:destroy]
+  end
   resources :othersides, except:[:index,:new]
   resources :events,except: [:index,:new]
 

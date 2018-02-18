@@ -1,20 +1,38 @@
 <h1>schedule</h1>
-<div>
-  予定
-    <ul>
-      <%= link_to schedule_path(1) do%>
-      <li>日付</li>
-      <li>時間</li>
-      <li>場所</li>
-      <li>席種</li>
-      <li>メモ</li>
+<% if schedules.present? %>
+
+      <% schedules.each do |schedule| %>
+      <% event = schedule.event %>
+      <table class="list_table">
+        <tbody>
+          <tr>
+            <td>[c]</td>
+            <td colspan="2"><strong><%= link_to "#{schedule.start_datetime.strftime("%Y/%m/%d (%a)")}",schedule_path(schedule) %></strong>
+              <i class="fas fa-sun"></i>
+              <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %></td>
+            <td><i class="fas fa-map-marker-alt"></i> <%= "#{schedule.location.place_name}" %></td>
+            <td><%= "#{schedule.seat_type}席" %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="3" class="schedule_title"><%= link_to "#{schedule.event.program}", event_path(schedule.event) %></td>
+            <td>[edit][delete]</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4"><%= schedule.event.performer %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4">購入先: <%= link_to "#{schedule.otherside.otherside_name}",otherside_path(schedule.otherside) %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4" class="schedule/memo"><%= "memo: #{schedule.memo.body}" unless schedule.memo.body == nil? %></td>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
       <% end %>
-    </ul>
-  演目
-    <ul>
-      <%= link_to event_path(1) do%>
-      <li>タイトル</li>
-      <li>演者</li>
-      <% end %>
-    </ul>
-</div>
+
+  <%end%>

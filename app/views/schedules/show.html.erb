@@ -1,12 +1,106 @@
-<h2>Schedules#show  特定の予定</h2>
 <div class="col-md-4">
   <!-- 貸借管理 -->
-  <%= render 'application/total_loan'%>
+  <%= render 'application/total_loan', othersides: @othersides %>
 
   <!-- 仕訳登録フォーム -->
-  <%= render 'application/journal_form'%>
+  <%#= render 'application/journal_form'%>
+    <div>
+    <h3>仕訳登録フォーム</h3>
+    <%= form_for ([@schedule, @journal]) do |f|%>
+      <ul class="submit_form">
+      <li>
+        <%= f.label :trade_date,"取引日" %>
+        <%= f.date_field :trade_date %>
+      </li>
+      <li>
+        <%= f.label :figure,"金額" %>
+        <%= f.text_field :figure %>
+      </li>
+      <li>
+        <%= f.label :trade_type_id,"取引種類" %>
+        <%= f.collection_select :trade_type_id, TradeType.all, :id, :trade_name %>
+      </li>
+      <li>
+        <%= f.fields_for :memo do |me| %>
+        <%= me.label :メモ %>
+        <%= me.text_area :body %>
+        <% end %>
+      </li>
+      <div class="submit_form_btn">
+        <%= f.submit "登録",class:"btn"%>
+      </div>
+    <%end%>
+  </div>
 </div>
 
 <div class="col-md-8">
-  <%= render 'application/schedule_list'%>
+<h1><%= link_to "#{@schedule.start_datetime.strftime("%Y/%m/%d (%a)")}  #{@schedule.start_datetime.strftime("%H:%M")}",schedule_path(@schedule) %></h1>
+      <table class="list_table">
+        <tbody>
+          <tr>
+            <td>[c]</td>
+            <td colspan="3" class="schedule_title"><%= link_to "#{@schedule.event.program}", event_path(@schedule.event) %></td>
+            <td>[edit][delete]</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><%= @schedule.event.performer %></td>
+            <td><i class="fas fa-sun"></i>
+              <%= @schedule.start_datetime.strftime("%H:%M")%><%= "-#{@schedule.end_datetime.strftime("%H:%M")}" if @schedule.end_datetime.present? %></td>
+            <td><i class="fas fa-map-marker-alt"></i> <%= "#{@schedule.location.place_name}" %></td>
+            <td><%= "#{@schedule.seat_type}席" %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4">購入先: <%= link_to "#{@schedule.otherside.otherside_name}",otherside_path(@schedule.otherside) %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4" class="schedule/memo"><%= "memo: #{@schedule.memo.body}"%></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="journals">
+      <table class="table">
+        <caption>個別明細</caption>
+        <thead>
+          <tr>
+            <th>日付</th>
+            <th>取引種類</th>
+            <th>金額</th>
+            <th>借方科目<br>(立替者)</th>
+            <th>貸方科目<br>(立替者)</th>
+            <th>借方金額</th>
+            <th>バランス</th>
+            <th>貸方金額</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @schedule.journals.order("trade_date").each do |journal|%>
+          <tr>
+            <td><%= journal.trade_date %></td>
+            <td><%= journal.trade_type.trade_name %></td>
+            <td><%= journal.figure %></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+            [e]
+          <%= link_to "[d]",schedule_journal_path(journal),method: :delete %></td>
+          </tr>
+          <% if journal.memo.present? %>
+          <tr>
+            <td></td>
+            <td colspan="7" class="memo">memo: <%= journal.memo.body %></td>
+          </tr>
+          <% end %>
+          <% end %>
+        </tbody>
+      </table>
+      </div>
+
 </div>

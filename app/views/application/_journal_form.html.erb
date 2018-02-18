@@ -1,5 +1,11 @@
 <div>
   <h3>仕訳登録フォーム</h3>
+  <%= form_for @journal do |f|%>
+  <div class="submit_form_btn">
+    <%= f.submit "登録",class:"btn"%>
+  </div>
+  <%end%>
+
   <ul>
     <li>演目</li>
     <li>金額</li>

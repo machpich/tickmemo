@@ -37,6 +37,7 @@ h1 {
     padding: 10px 30px;
     font-size: 28px;
     font-weight: 200;
+    margin: 0 0 30px;
 }
 /* =========================layout======================= */
 
@@ -44,6 +45,7 @@ header {
   background-color: #F3F3F3;
   height: 50px;
   line-height: 50px;
+  margin-bottom: 50px;
 }
 
 .header-left {
@@ -84,7 +86,7 @@ header {
     font-weight: normal;
 }
 
-.submit_form input,.submit_form textarea {
+.submit_form input,.submit_form textarea,.submit_form select {
     width: 180px;
     padding: 5px;
     margin: 5px;

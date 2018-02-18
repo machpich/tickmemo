@@ -28,6 +28,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @schedules = Schedule.where(user_id:current_user.id,event_id:params[:id]).order(:start_datetime)
   end
 
   def edit
