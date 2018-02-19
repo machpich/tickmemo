@@ -1,8 +1,24 @@
 <div class="col-md-4">
-  <!-- 貸借管理 -->
-  <%= render 'application/total_loan', othersides: @othersides %>
+<!-- 貸借管理 -->
+  <%#= render 'application/total_loan', othersides: @othersides %>
+  <div class="loan_field">
+    <h4>貸借管理</h4>
+    <table>
+      <tbody>
+        <tr>
+          <% if @schedule.otherside.nil? %>
+          NO ONE LOAN IT !!
+          <% else %>
+          <td><%= link_to "#{@schedule.otherside.otherside_name}", otherside_path(@schedule.otherside) %></td>
+          <td>まるまる円</td>
+        </tr>
+        <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <!-- 仕訳登録フォーム -->
+<!-- 仕訳登録フォーム -->
   <%#= render 'application/journal_form'%>
     <div>
     <h3>仕訳登録フォーム</h3>
@@ -33,6 +49,8 @@
   </div>
 </div>
 
+<!-- 予定詳細 -->
+
 <div class="col-md-8">
 <h1><%= link_to "#{@schedule.start_datetime.strftime("%Y/%m/%d (%a)")}  #{@schedule.start_datetime.strftime("%H:%M")}",schedule_path(@schedule) %></h1>
       <table class="list_table">
@@ -61,6 +79,8 @@
         </tbody>
       </table>
 
+<!-- 仕訳詳細 -->
+
       <div class="journals">
       <table class="table">
         <caption>個別明細</caption>
@@ -82,25 +102,27 @@
           <tr>
             <td><%= journal.trade_date %></td>
             <td><%= journal.trade_type.trade_name %></td>
-            <td><%= journal.figure %></td>
+            <td><%= journal.figure.to_s(:delimited) %></td>
+            <td><%= journal.details.first.account.account_name%><br>
+            <%= journal.details.first.otherside.otherside_name unless journal.details.last.otherside == @schedule.otherside %></td>
+            <td><%= journal.details.last.account.account_name %><br>
+            <%= journal.details.first.otherside.otherside_name unless journal.details.last.otherside == @schedule.otherside %></td>
+            <td><%= journal.figure.to_s(:delimited) if journal.details.first.account_id == 3%></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><%= journal.figure.to_s(:delimited) if journal.details.last.account_id == 3%></td>
             <td>
             [e]
-          <%= link_to "[d]",schedule_journal_path(journal),method: :delete %></td>
+            <%= link_to "[d]",schedule_journal_path(@schedule,journal),method: :delete %>
+            ▼
+            </td>
           </tr>
-          <% if journal.memo.present? %>
-          <tr>
+          <tr class="hidden">
+            <td></td>
             <td></td>
             <td colspan="7" class="memo">memo: <%= journal.memo.body %></td>
           </tr>
           <% end %>
-          <% end %>
         </tbody>
       </table>
       </div>
-
 </div>

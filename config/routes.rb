@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
   resources :othersides, except:[:index,:new]
   resources :events,except: [:index,:new]
+  resources :trade_account_dicts
 
   get '/setting' => 'home#setting'
   resource :settings, only: [:index] do

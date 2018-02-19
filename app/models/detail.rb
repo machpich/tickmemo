@@ -8,4 +8,6 @@ class Detail < ApplicationRecord
   belongs_to :account
   belongs_to :otherside
   has_and_belongs_to_many :journals
+
+  enum position_status: { debit: 0, credit: 1 }
 end
