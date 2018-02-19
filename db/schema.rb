@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180218114621) do
+ActiveRecord::Schema.define(version: 20180219072958) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "account_name"
@@ -25,15 +25,10 @@ ActiveRecord::Schema.define(version: 20180218114621) do
     t.integer "otherside_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "journal_id"
     t.index ["account_id"], name: "index_details_on_account_id"
+    t.index ["journal_id"], name: "index_details_on_journal_id"
     t.index ["otherside_id"], name: "index_details_on_otherside_id"
-  end
-
-  create_table "details_journals", id: false, force: :cascade do |t|
-    t.integer "detail_id", null: false
-    t.integer "journal_id", null: false
-    t.index ["detail_id"], name: "index_details_journals_on_detail_id"
-    t.index ["journal_id"], name: "index_details_journals_on_journal_id"
   end
 
   create_table "events", force: :cascade do |t|

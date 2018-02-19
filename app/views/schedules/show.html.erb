@@ -9,6 +9,7 @@
           <% if @schedule.otherside.nil? %>
           NO ONE LOAN IT !!
           <% else %>
+          <td><i class="material-icons">face</i></td>
           <td><%= link_to "#{@schedule.otherside.otherside_name}", otherside_path(@schedule.otherside) %></td>
           <td>まるまる円</td>
         </tr>
@@ -37,8 +38,14 @@
         <%= f.collection_select :trade_type_id, TradeType.all, :id, :trade_name %>
       </li>
       <li>
+        <%= fields_for :otherside do |ot| %>
+        <%= ot.label :立替者 %>
+        <%= ot.text_field :otherside_name %>
+        <% end %>
+      </li>
+      <li>
         <%= f.fields_for :memo do |me| %>
-        <%= me.label :メモ %>
+        <%= me.label :body,"メモ" %>
         <%= me.text_area :body %>
         <% end %>
       </li>
@@ -103,11 +110,12 @@
             <td><%= journal.trade_date %></td>
             <td><%= journal.trade_type.trade_name %></td>
             <td><%= journal.figure.to_s(:delimited) %></td>
-            <td><%= journal.details.first.account.account_name%><br>
-            <%= journal.details.first.otherside.otherside_name unless journal.details.last.otherside == @schedule.otherside %></td>
+            <% detailfirst = journal.details.first%>
+            <td><%= detailfirst.account.account_name%><br>
+            <%= detailfirst.otherside.otherside_name unless detailfirst.otherside.otherside_name == @schedule.otherside.otherside_name %></td>
             <td><%= journal.details.last.account.account_name %><br>
-            <%= journal.details.first.otherside.otherside_name unless journal.details.last.otherside == @schedule.otherside %></td>
-            <td><%= journal.figure.to_s(:delimited) if journal.details.first.account_id == 3%></td>
+            <%= journal.details.last.otherside.otherside_name unless journal.details.last.otherside.otherside_name == @schedule.otherside.otherside_name %></td>
+            <td><%= journal.figure.to_s(:delimited) if detailfirst.account_id == 3%></td>
             <td></td>
             <td><%= journal.figure.to_s(:delimited) if journal.details.last.account_id == 3%></td>
             <td>

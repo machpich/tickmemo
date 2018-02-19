@@ -25,10 +25,12 @@
         <tr>
           <td><%= trade_type.trade_name%></td>
           <% trade_type.trade_account_dicts.each do |tad|%>
-          <td><%= tad.account.account_name %>:
-            <%= tad.position_status_i18n %>
+          <td><%= tad.account.account_name %>
+            <%#= tad.position_status_i18n %>
+            <span style="font-size:8px">
           [e]
-          <%= link_to "[d]", trade_account_dict_path(tad), method: :delete%></td>
+          <%= link_to "[x]", trade_account_dict_path(tad), method: :delete%>
+        </span></td>
           <% end %>
         </tr>
       <% end %>

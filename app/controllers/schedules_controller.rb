@@ -16,6 +16,7 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.find(params[:id])
     @journal = Journal.new
     @journal.build_memo
+    @otherside = Otherside.new
   end
 
 

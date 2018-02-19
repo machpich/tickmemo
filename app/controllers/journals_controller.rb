@@ -7,12 +7,14 @@ class JournalsController < ApplicationController
     @journal.trade_type.trade_account_dicts.each do |tads|
       attributes = tads.attributes.slice("position_status", "account_id")
       @detail = @journal.details.build(attributes)
-      # if @detail.account_id == 4
-      #   @otherside = Otherside.create(otherside_params)
-      #   @detail.otherside = @otherside
-      # else
+      if @detail.account_id == 4
+        @otherside = Otherside.new(otherside_params)
+        @otherside.user_id = current_user.id
+        @otherside.save
+        @detail.otherside = @otherside
+      else
         @detail.otherside = @journal.schedule.otherside
-      # end
+      end
     end
     if @journal.save #&& @detail.save
       redirect_to schedule_path(@journal.schedule)
@@ -21,20 +23,6 @@ class JournalsController < ApplicationController
       redirect_to schedule_path(@journal.schedule)
     end
   end
-
-  # create_table "details", force: :cascade do |t|
-  #   t.integer "position_status"
-  #   t.integer "account_id"
-  #   t.integer "otherside_id"
-
-  #  create_table "details_journals", id: false, force: :cascade do |t|
-  #   t.integer "detail_id", null: false
-  #   t.integer "journal_id", null: false
-
-  #   create_table "trade_account_dicts", force: :cascade do |t|
-  #   t.integer "position_status"
-  #   t.integer "trade_type_id"
-  #   t.integer "account_id"
 
 
   def destroy
@@ -49,9 +37,9 @@ class JournalsController < ApplicationController
 
   private
 
-  # def otherside
-  #   params.require(:otherside).permit(:name)
-  # end
+  def otherside_params
+    params.require(:otherside).permit(:otherside_name)
+  end
 
   def journal_params
     params.require(:journal).permit(:trade_date,:figure,:trade_type_id,memo_attributes:[:body,:id,:_destroy])
