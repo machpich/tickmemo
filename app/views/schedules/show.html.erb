@@ -7,12 +7,18 @@
       <tbody>
         <tr>
           <% if @schedule.otherside.nil? %>
-          NO ONE LOAN IT !!
-          <% else %>
-          <td><i class="material-icons">face</i></td>
-          <td><%= link_to "#{@schedule.otherside.otherside_name}", otherside_path(@schedule.otherside) %></td>
-          <td>まるまる円</td>
+            NO ONE LOAN IT !!
+            <% else %>
+            <td><span class="glyphicon glyphicon-heart"></span></td>
+            <td><%= link_to "#{@schedule.otherside.otherside_name}", otherside_path(@schedule.otherside) %></td>
+            <td>まるまる円</td>
+        <% end %>
         </tr>
+        <tr>
+          <% if @schedule.otherside.nil? %>
+            <td><span class="glyphicon glyphicon-heart"></span></td>
+            <td></td>
+            <td>まるまる円</td>
         <% end %>
         </tr>
       </tbody>
