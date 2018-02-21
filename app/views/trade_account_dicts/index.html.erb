@@ -24,7 +24,7 @@
         <% @trade_types.each do |trade_type|%>
         <tr>
           <td><%= trade_type.trade_name%></td>
-          <% trade_type.trade_account_dicts.each do |tad|%>
+          <% trade_type.trade_account_dicts.includes(:account).each do |tad|%>
           <td><%= tad.account.account_name %>
             <%#= tad.position_status_i18n %>
             <span style="font-size:8px">

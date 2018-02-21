@@ -1,19 +1,56 @@
-<h3>取引一覧</h3>
-<div>
-  取引履歴
-    <ul>
-      <li>取引日時</li>
-      <li>取引内容</li>
-      <li>金額</li>
-      <li>関連イベント</li>
-      <li>イベント日時</li>
-    </ul>
-    詳細
-    <ul>
-      <li>借方</li>
-      <li>貸方</li>
-      <li>債権債務：借方発生</li>
-      <li>債権債務：残高</li>
-      <li>債権債務：貸方発生</li>
-    </ul>
-</div>
+      <div class="journals">
+      <table class="table">
+        <caption>個別明細</caption>
+        <thead>
+          <tr>
+            <th>日付</th>
+            <th>取引種類</th>
+            <th>金額</th>
+            <th>借方科目<br>(立替者)</th>
+            <th>貸方科目<br>(立替者)</th>
+            <th>バランス</th>
+            <th>演目</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% array = []%>
+          <% journals.includes(:trade_type,:memo,:schedule).order("trade_date").each do |journal|%>
+          <tr>
+            <td><%= journal.trade_date %></td>
+            <td><%= journal.trade_type.trade_name %></td>
+            <td><%= journal.figure.to_s(:delimited) %></td>
+            <% first = journal.details.first %>
+            <% last = journal.details.last%>
+
+            <td><%= first.account.account_name %><br>
+            <%= first.otherside.otherside_name unless first.otherside.otherside_name == journal.schedule.otherside.otherside_name %></td>
+
+            <td><%= last.account.account_name %><br>
+            <%= last.otherside.otherside_name unless last.otherside.otherside_name == journal.schedule.otherside.otherside_name %></td>
+
+            <td>
+              <% array << balance(journal) unless balance(journal)==nil%>
+              <%= total = array.sum.to_s(:delimited) %>
+            </td>
+            <td><%= link_to schedule_path(journal.schedule) do%>
+              <%= journal.schedule.start_datetime.strftime("%y/%m/%d") %><i class="<%= "#{matisowa_icon(journal.schedule)}"%>"></i>
+              <% end %>
+              <%=link_to journal.schedule.event.program, event_path(journal.schedule.event) %></td>
+            <td>
+            [e]
+            <%= link_to "[d]",schedule_journal_path(journal.schedule,journal),method: :delete %>
+            <%= "▼" unless journal.memo == nil %>
+            </td>
+          </tr>
+          <% unless journal.memo == nil %>
+          <tr class="hidden">
+            <td></td>
+            <td></td>
+            <td colspan="7" class="memo">memo: <%= journal.memo.body%></td>
+          </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+      </div>

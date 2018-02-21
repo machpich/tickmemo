@@ -1,12 +1,11 @@
 <div class="col-md-4">
 <!-- 貸借管理 -->
-  <%= render 'application/total_loan', otherside: @schedule.otherside %>
+<%= render 'application/total_loan', otherside: @schedule.otherside %>
 
-<!-- 仕訳登録フォーム -->
-  <%= render 'application/journal_mini_form', schedule:@schedule, journal:@journal %>
-</div>
-
+<!-- スケジュールフォーム -->
+<%= render 'application/schedule_form', event: @event, schedule: @schedule %>
 <!-- 予定詳細 -->
+</div>
 
 <div class="col-md-8">
 <h1><%= link_to "#{@schedule.start_datetime.strftime("%Y/%m/%d (%a)")}  #{@schedule.start_datetime.strftime("%H:%M")}",schedule_path(@schedule) %></h1>
@@ -15,7 +14,7 @@
           <tr>
             <td>[c]</td>
             <td colspan="3" class="schedule_title"><%= link_to "#{@schedule.event.program}", event_path(@schedule.event) %></td>
-            <td><%= link_to "[edit]", edit_schedule_path(@schedule)%>
+            <td>[edit]
               <%= link_to "[x]", schedule_path(@schedule), method: :delete%></td>
           </tr>
           <tr>

@@ -5,7 +5,7 @@
 class Otherside < ApplicationRecord
   belongs_to :user
   has_many :schedules, inverse_of: :otherside
-  has_many :accounts
+  has_many :journals
   has_many :details
   has_one :memo, as: :memoable, inverse_of: :memoable
 

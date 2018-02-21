@@ -1,10 +1,9 @@
   <h3>予定登録フォーム</h3>
 
   <!-- form_for部分 -->
-  <%= form_for event do |ev|%>
+  <%= form_for schedule do |sc|%>
   <ul class="submit_form">
     <li>
-      <%= fields_for schedule do |sc| %>
       <%= sc.label :start_datetime,"開始日時*" %>
       <%= sc.datetime_field :start_datetime %>
     </li>
@@ -19,12 +18,14 @@
       <% end %>
     </li>
     <li>
+      <%= fields_for event do |ev| %>
       <%= ev.label :program,"演目" %>
       <%= ev.text_field :program %>
     </li>
     <li>
       <%= ev.label :performer,"出演者" %>
       <%= ev.text_field :performer %>
+      <% end %>
     </li>
     <div class="submit_form_sub">
       <li>
@@ -42,13 +43,11 @@
         <%= me.label :メモ %>
         <%= me.text_area :body %>
         <% end %>
-        <!-- scの終了タグ -->
-        <% end %>
       </li>
     </div>
   </ul>
   <div class="submit_form_btn">
-    <%= ev.submit "登録",class:"btn btn-default"%>
+    <%= sc.submit "登録",class:"btn btn-default"%>
   </div>
-  <!-- evの終了タグ -->
+  <!-- scの終了タグ -->
   <% end %>

@@ -3,9 +3,11 @@ Rails.application.routes.draw do
   get '/index' => 'schedules#index'
   get '/search' => 'home#search'
 
-  resources :schedules, only: [:index,:show,:create,:update,:destroy] do
-    resources :journals, only: [:create,:update,:destroy]
+  resources :schedules, except: [:new] do
+    resources :journals, except: [:new]
   end
+  post '/journals' => 'journals#multicreate'
+
   resources :othersides, except:[:index,:new]
   resources :events,except: [:index,:new]
   resources :trade_account_dicts

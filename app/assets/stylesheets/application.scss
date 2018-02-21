@@ -19,10 +19,15 @@
   * #F8E71C : イエロー
   * #A9A9A9 : 濃い目のグレー
   * #767676 : もっと濃い目のグレー
+  * #f5f1f1
+  * $main-yellow-color: #F8E71C;
  */
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+$main-gray-color: #F3F3F3;
+$main-yellow-color: #e1d333;
 
 /* =========================material design======================= */
 
@@ -48,7 +53,7 @@ h1 {
 /* =========================layout======================= */
 
 header {
-  background-color: #F3F3F3;
+  background-color: $main-gray-color;
   height: 50px;
   line-height: 50px;
   margin-bottom: 50px;
@@ -69,18 +74,20 @@ header {
 
 /* ============================loan====================== */
 .loan_field {
-    background-color: #F3F3F3;
+    background-color: $main-gray-color;
     border-radius: 10px;
     padding: 10px 20px;
-}
 
-.loan_field table {
-    width: 80%;
-    margin: 0 auto;
-}
+    table {
+      width: 80%;
+      margin: 0 auto;
 
-.loan_field tr {
-    line-height: 2em;
+      tr {
+        line-height: 2em;
+      }
+
+    }
+
 }
 
 /* ===============schedule_form,journal_form======================== */
@@ -102,7 +109,7 @@ header {
 }
 
 input.btn {
-    background-color: #F8E71C;
+    background-color: $main-yellow-color;
     height: 40px;
     width: 100px;
     text-align: center;

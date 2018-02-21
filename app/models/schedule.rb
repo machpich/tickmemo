@@ -14,7 +14,8 @@ class Schedule < ApplicationRecord
   # belongs_to :event, inverse_of: :schedules
   belongs_to :otherside, inverse_of: :schedules
   belongs_to :user
-  has_many :journals
+  has_many :journals, dependent: :destroy
+  has_many :details, through: :journals
   has_one :memo, as: :memoable, inverse_of: :memoable
 
   accepts_nested_attributes_for :location
