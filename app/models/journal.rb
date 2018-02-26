@@ -8,7 +8,7 @@ class Journal < ApplicationRecord
   belongs_to :schedule
   belongs_to :otherside
   has_one :memo, as: :memoable, inverse_of: :memoable, dependent: :destroy
-  has_many :details, dependent: :destroy
+  has_many :details, dependent: :destroy, inverse_of: :journal
 
-  accepts_nested_attributes_for :memo
+  accepts_nested_attributes_for :memo, reject_if: :all_blank
 end

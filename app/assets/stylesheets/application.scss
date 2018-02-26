@@ -31,6 +31,10 @@ $main-yellow-color: #e1d333;
 
 /* =========================material design======================= */
 
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -126,4 +130,8 @@ input.btn {
 
 .submit_form_sub input,.submit_form textarea {
    width: 165px;
+}
+
+.table_list {
+  width: 100%;
 }

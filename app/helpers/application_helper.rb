@@ -1,29 +1,52 @@
 module ApplicationHelper
 
 # 借方金額表示
-  def credit(journal)
-    if journal.details.first.account_id == 3
-      return journal.figure
-    else
-      return 0
+  def credit(journal,sub_or_others)
+
+    # サブ取引先の場合 otherside_id ≠ schedule.otherside_id
+    if sub_or_others
+      if journal.details.first.account_id == 4
+        return journal.figure
+      else
+        return 0
+      end
+
+    else #その他の場合
+      if journal.details.first.account_id == 3
+        return journal.figure
+      else
+        return 0
+      end
     end
+
   end
 
 # 貸方金額表示
-  def debit(journal)
-    if journal.details.last.account_id == 3
-      return journal.figure
-    else
-      return 0
+  def debit(journal,sub_or_others)
+
+    # サブ取引先の場合 otherside_id ≠ schedule.otherside_id
+    if sub_or_others
+      if journal.details.last.account_id == 4
+        return journal.figure
+      else
+        return 0
+      end
+
+    else #その他の場合
+      if journal.details.last.account_id == 3
+        return journal.figure
+      else
+        return 0
+      end
     end
   end
 
 # 貸方と借方の合計
-  def balance(journal)
-    if debit(journal) ==0 and credit(journal) ==0
+  def balance(journal,sub_or_others)
+    if debit(journal,sub_or_others) ==0 and credit(journal,sub_or_others) ==0
       return 0
     else
-      return debit(journal) - credit(journal)
+      return debit(journal,sub_or_others) - credit(journal,sub_or_others)
     end
   end
 
@@ -39,14 +62,51 @@ module ApplicationHelper
     end
   end
 
-# 関係者を抽出してリストアップする
-  def otherside_list(otherside)
-    schedules = otherside.schedules
-    list = []
-    schedules.each do |schedule|
-      list << schedule.details.pluck(:otherside_id)
+# ========================= _total_loan.html.erbで使用  ===========================
+# detailsに関連先があるjournalを全て抽出し、利用されているotherside_idを配列化、メインで使用してるothersideを除外する
+# メインで使用しているothersideがnilの場合は除外せずに返す
+  def create_otherside_list(journals)
+    if journals.exists?
+      list = []
+      journals.each do |journal|
+        list << journal.details.pluck(:otherside_id)
+      end
+      list.flatten!.uniq!
+      list
+    else
+      return false
     end
-    list.flatten.uniq.reject{|e| e == otherside.id }
   end
+
+  def otherside_list(journals,otherside)
+    if otherside #画面の取引者だけか、それ以外のものがあるか
+      if create_otherside_list(journals).size == 1 #関連先が1つしかない
+        false
+      else
+        create_otherside_list(journals).reject{|e| e == otherside.id}
+      end
+    else #取引先情報が皆無
+      false
+    end
+  end
+
+# ========================= _journal_list.html.erb  ===========================
+# journalの借方detailのaccount_idが3（債務）か4（立替金）の場合。liability:負債科目
+def journal_credit_is_liability?(journal)
+  journal.details.first.account.character_status == 1
+end
+
+# journalの借方detailのaccount_idが3（債務）か4（立替金）の場合。liability:負債科目
+def journal_debit_is_liability?(journal)
+  journal.details.last.account.character_status == 1
+end
+
+def memo_exist?(obj:)
+  if obj.memo.blank? || obj.memo.body.blank?
+    return false
+  else
+    return true
+  end
+end
 
 end

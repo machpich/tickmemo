@@ -4,9 +4,10 @@ Rails.application.routes.draw do
   get '/search' => 'home#search'
 
   resources :schedules, except: [:new] do
-    resources :journals, except: [:new]
+    resources :journals, except: [:index,:new]
   end
   post '/journals' => 'journals#multicreate'
+  get '/journals' => 'journals#index'
 
   resources :othersides, except:[:index,:new]
   resources :events,except: [:index,:new]

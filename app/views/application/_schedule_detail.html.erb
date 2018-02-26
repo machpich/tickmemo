@@ -1,0 +1,28 @@
+<h1><%= link_to "#{@schedule.start_datetime.strftime("%Y/%m/%d (%a)")}  #{@schedule.start_datetime.strftime("%H:%M")}",schedule_path(@schedule) %></h1>
+      <table class="list_table">
+        <tbody>
+          <tr>
+            <td>[c]</td>
+            <td colspan="3" class="schedule_title"><%= link_to "#{@schedule.event.program}", event_path(@schedule.event) %></td>
+            <td>[edit]
+              <%= link_to "[x]", schedule_path(@schedule), method: :delete%></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><%= @schedule.event.performer %></td>
+              <!-- 時間によってアイコンを変える -->
+            <td><i class="<%= "#{matisowa_icon(@schedule)}"%>"></i>
+              <%= @schedule.start_datetime.strftime("%H:%M")%><%= "-#{@schedule.end_datetime.strftime("%H:%M")}" if @schedule.end_datetime.present? %></td>
+            <td><i class="fas fa-map-marker-alt"></i> <%= "#{@schedule.location.place_name}" %></td>
+            <td><%= "#{@schedule.seat_type}席" %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4">購入先: <%= link_to "#{@schedule.otherside.otherside_name}",otherside_path(@schedule.otherside) %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4" class="schedule/memo"><%= "memo: #{@schedule.memo.body}" if memo_exist?(obj:@schedule) %></td>
+          </tr>
+        </tbody>
+      </table>

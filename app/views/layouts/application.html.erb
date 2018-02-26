@@ -21,7 +21,7 @@
           <% if current_user %>
           <ul>
             <li>
-              <%= "#{current_user.email}"%>
+              <%= link_to "#{current_user.email}",journals_path%>
             </li>
             <li>
               <%= link_to '検索',search_path%>

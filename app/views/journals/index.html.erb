@@ -3,12 +3,13 @@
 
 <div class="col-md-4">
 <!-- 貸借管理 -->
-<%= render 'application/total_loan'%>
+<%= render 'application/total_loan', otherside: nil, othersides: @othersides, journals: nil %>
+
 
 <!-- 仕訳登録フォーム -->
-<%= render 'application/journal_form'%>
+<%#= render 'application/journal_form'%>
 </div>
 <div class="col-md-8">
 <!-- 取引履歴一覧 -->
-<%= render 'application/journal_list'%>
+<%#= render 'application/journal_list'%>
 </div>

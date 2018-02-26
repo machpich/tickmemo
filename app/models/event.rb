@@ -13,5 +13,5 @@ class Event < ApplicationRecord
 
   accepts_nested_attributes_for :schedules
   accepts_nested_attributes_for :locations
-  accepts_nested_attributes_for :memo
+  accepts_nested_attributes_for :memo, reject_if: :all_blank
 end

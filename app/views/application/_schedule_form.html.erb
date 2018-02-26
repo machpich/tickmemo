@@ -39,7 +39,7 @@
         <% end %>
       </li>
       <li>
-        <%= sc.fields_for :memo do |me| %>
+        <%= sc.fields_for :memo||schedule.build_memo do |me| %>
         <%= me.label :メモ %>
         <%= me.text_area :body %>
         <% end %>

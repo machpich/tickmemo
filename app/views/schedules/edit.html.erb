@@ -1,95 +1,15 @@
 <div class="col-md-4">
 <!-- 貸借管理 -->
-<%= render 'application/total_loan', otherside: @schedule.otherside %>
+<%= render 'application/total_loan', otherside: @schedule.otherside, othersides:nil, details: @details %>
 
 <!-- スケジュールフォーム -->
 <%= render 'application/schedule_form', event: @event, schedule: @schedule %>
-<!-- 予定詳細 -->
 </div>
 
 <div class="col-md-8">
-<h1><%= link_to "#{@schedule.start_datetime.strftime("%Y/%m/%d (%a)")}  #{@schedule.start_datetime.strftime("%H:%M")}",schedule_path(@schedule) %></h1>
-      <table class="list_table">
-        <tbody>
-          <tr>
-            <td>[c]</td>
-            <td colspan="3" class="schedule_title"><%= link_to "#{@schedule.event.program}", event_path(@schedule.event) %></td>
-            <td>[edit]
-              <%= link_to "[x]", schedule_path(@schedule), method: :delete%></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><%= @schedule.event.performer %></td>
-              <!-- 時間によってアイコンを変える -->
-            <td><i class="<%= "#{matisowa_icon(@schedule)}"%>"></i>
-              <%= @schedule.start_datetime.strftime("%H:%M")%><%= "-#{@schedule.end_datetime.strftime("%H:%M")}" if @schedule.end_datetime.present? %></td>
-            <td><i class="fas fa-map-marker-alt"></i> <%= "#{@schedule.location.place_name}" %></td>
-            <td><%= "#{@schedule.seat_type}席" %></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td colspan="4">購入先: <%= link_to "#{@schedule.otherside.otherside_name}",otherside_path(@schedule.otherside) %></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td colspan="4" class="schedule/memo"><%= "memo: #{@schedule.memo.body}"%></td>
-          </tr>
-        </tbody>
-      </table>
+<!-- 予定詳細 -->
+<%= render 'application/schedule_detail', schedule: @schedule %>
 
 <!-- 仕訳詳細 -->
-      <div class="journals">
-      <table class="table">
-        <caption>個別明細</caption>
-        <thead>
-          <tr>
-            <th>日付</th>
-            <th>取引種類</th>
-            <th>金額</th>
-            <th>借方科目<br>(立替者)</th>
-            <th>貸方科目<br>(立替者)</th>
-            <th>借方金額</th>
-            <th>バランス</th>
-            <th>貸方金額</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <%# journals = @schedule.journals.index_by(&:id)%>
-          <% @schedule.journals.includes(:trade_type,:memo).order("trade_date").each do |journal|%>
-          <%# @schedule.journals.includes(:trade_type,:memo).order("trade_date").each.with_index(1) do |journal,key|%>
-          <tr>
-            <td><%= journal.trade_date %></td>
-            <td><%= journal.trade_type.trade_name %></td>
-            <td><%= journal.figure.to_s(:delimited) %></td>
-
-            <td><%= journal.details.first.account.account_name %><br>
-            <%= journal.details.first.otherside.otherside_name unless journal.details.first.otherside.otherside_name == @schedule.otherside.otherside_name %></td>
-
-            <td><%= journal.details.last.account.account_name %><br>
-            <%= journal.details.last.otherside.otherside_name unless journal.details.last.otherside.otherside_name == @schedule.otherside.otherside_name %></td>
-
-            <td>
-              <%= credit(journal)==0? nil : credit(journal).to_s(:delimited) %>
-              </td>
-            <td>
-              <% @array << balance(journal) unless balance(journal)==nil%>
-              <%= total = @array.sum.to_s(:delimited) %>
-            </td>
-            <td><%= debit(journal)==0? nil : debit(journal).to_s(:delimited) %></td>
-            <td>
-            [e]
-            <%= link_to "[d]",schedule_journal_path(@schedule,journal),method: :delete %>
-            ▼
-            </td>
-          </tr>
-          <tr class="hidden">
-            <td></td>
-            <td></td>
-            <td colspan="7" class="memo">memo: <%= journal.memo.body %></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-      </div>
+<%= render 'application/journal_list', journals: @schedule.journals,sub_or_others: false %>
 </div>

@@ -9,24 +9,34 @@ class SchedulesController < ApplicationController
 
     @otherside = Otherside.new
 
-    @schedules = Schedule.where(user_id:current_user.id).includes([:event,:otherside,:memo,:location]).order(:start_datetime)
+    # 未来の予定（今月から6ヶ月）のみ表示
+    today = Date.today
+    from = today - 1.month
+    to = today + 5.month
+    @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).includes([:event,:otherside,:memo,:location]).order(:start_datetime)
   end
 
   def create
     # イベントと場所の登録
-    @event = Event.new(params_event)
+    @event = Event.find_or_initialize_by(params_event)
+    if @event.persisted?
+    else
     @event.user = current_user
-    @event.save
+    end
 
     #相手先情報の登録
-    @otherside = Otherside.new(params_otherside)
+    @otherside = Otherside.find_or_initialize_by(params_otherside)
+    if @otherside.persisted?
+    else
     @otherside.user = current_user
-    @otherside.save
+    end
 
     # 場所の登録
-    @location = Location.new(params_location)
+    @location = Location.find_or_initialize_by(params_location)
+    if @location.persisted?
+    else
     @location.event = @event
-    @location.save
+    end
 
     #スケジュールの登録
     @schedule = @event.schedules.build(params_schedule)
@@ -35,41 +45,62 @@ class SchedulesController < ApplicationController
       @schedule.user = current_user
       @schedule.save
 
+    @event.save && @otherside.save && @location.save
     redirect_to index_path
   end
 
   def show
+    # total_loan (otherside: @sub_or_others ? nil : @schedule.otherside, othersides: nil, details: @details)
+    # journal_mini_form (schedule:@schedule, journal:@journal)
+    # schedule_detail ( schedule: @schedule )
+    # journal_list (journals: @schedule.journals,sub_or_others: false)
+
+    # フォーム用
     @schedule = Schedule.find(params[:id])
     @journal = Journal.new
     @journal.build_memo
     @otherside = Otherside.new
-
-    @array = []
   end
 
   def edit
+    # フォーム用
     @schedule = Schedule.find(params[:id])
+    @schedule.memo || @schedule.build_memo
     @event = @schedule.event
     @otherside = @schedule.otherside
     @location = @schedule.location
-
-    @array = []
   end
 
   def update
     @schedule = Schedule.find(params[:id])
     @schedule.update(params_schedule)
 
-    @event = @schedule.event
-    @event.update(params_event)
+    @event = Event.find_or_initialize_by(params_event)
+    if @event.persisted?
+    else
+    @event.user = current_user
+    end
     # create or new　を実施
 
-    @otherside = @schedule.otherside
-    @otherside.update(params_otherside)
+    @otherside = Otherside.find_or_initialize_by(params_otherside)
+    if @otherside.persisted?
+    else
+    @otherside.user = current_user
+    end
 
-    @location = @schedule.location
-    @location.update(params_location)
+    @location = Location.find_or_initialize_by(params_location)
+    if @location.persisted?
+    else
+    @location.event = @event
+    end
 
+    @schedule.event = @event
+    @schedule.location = @location
+    @schedule.otherside = @otherside
+    @schedule.user = current_user
+    @schedule.save
+
+    @event.save && @otherside.save && @location.save
     redirect_to index_path
   end
 
@@ -102,5 +133,4 @@ class SchedulesController < ApplicationController
   def params_location
     params.require(:location).permit(:place_name,:event_id)
   end
-
 end

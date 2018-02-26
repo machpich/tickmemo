@@ -1,29 +1,47 @@
-  <div class="loan_field">
-    <h4>関係者</h4>
+<div class="loan_field">
+  <h4>関係者</h4>
     <table>
       <tbody>
-        <tr>
-          <% if otherside.nil? %>
-            NO ONE LOAN IT !!
-            <% else %>
-            <td><span class="glyphicon glyphicon-resize-vertical"></span></td>
-            <td><%= link_to "#{otherside.otherside_name}", otherside_path(otherside) %></td>
-          <% end %>
-        </tr>
+<!-- 複数のothersideがある場合　journal#index -->
+        <% if othersides %>
+            <% othersides.each do |otherside| %>
+            <tr>
+                <td><span class="glyphicon glyphicon-resize-vertical"></span></td>
+                <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
+            </tr>
+            <% end %>
+        <% end %>
+
+<!-- othersideのみある場合 -->
+        <% if otherside %>
+            <tr><td colspan="3">メインのつもり</td></tr>
+            <tr>
+                <td><span class="glyphicon glyphicon-resize-vertical"></span></td>
+                <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
+            </tr>
+        <% end %>
+
       </tbody>
     </table>
 
+<!-- 立替金関係者(otherside)がある場合 -->
+<% if journals %>
     <table>
       <tbody>
         <!-- otherside_list 相手先に関連のある立替者のリストアップメソッド -->
-        <% otherside_list(otherside).each do |num|%>
-        <% otherside = Otherside.find(num)%>
-        <tr>
-            <td><span class="glyphicon glyphicon-resize-horizontal"></span></td>
-            <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>
-            <td></td>
-        </tr>
+        <% if otherside_list(journals,otherside) %>
+            <% otherside_list(journals,otherside).each do |num|%>
+            <% otherside = Otherside.find(num)%>
+            <tr><td colspan="3">サブのつもり</td></tr>
+            <tr>
+                <td><span class="glyphicon glyphicon-resize-horizontal"></span></td>
+                <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>
+                <td></td>
+            </tr>
+            <% end %>
         <% end %>
       </tbody>
     </table>
-  </div>
+  <% end %>
+
+</div>

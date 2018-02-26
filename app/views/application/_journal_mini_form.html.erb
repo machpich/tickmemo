@@ -4,7 +4,7 @@
     <ul class="submit_form">
     <li>
       <%= f.label :trade_date,"取引日" %>
-      <%= f.date_field :trade_date %>
+      <%= f.date_field :trade_date, value: Time.now.strftime("%Y-%m-%d") %>
     </li>
     <li>
       <%= f.label :figure,"金額" %>

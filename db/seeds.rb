@@ -6,6 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+# 関係者ファイルの初期設定
+    Otherside.create(otherside_name:"anonymous")
 
 # 科目ファイルの初期値作成
     account0 = %w(現金 チケット)
@@ -25,7 +27,7 @@
     # 立替金：4
 
 # 取引ファイルの初期設定
-     trades = %w(購入 掛精算 支払 キャンセル 返金 譲渡 立替決済 立替返金 借金購入 借金掛精算) #購入者の立場
+     trades = %w(現金購入 [債務+]未精算購入 [債務-]未精算支払 [債務-]購入キャンセル [債務-]キャンセル分返金 [立替+]譲渡 [立替+]立替決済 [立替-]立替返金 [立替+]借金購入 [債務-/立替-]借金掛精算) #購入者の立場
      # trades1 = %w(譲渡) #売却者の立場
 
      trades.each do |key|
@@ -37,7 +39,7 @@
       dictionaries << Array.new(1,num)
     end
 
-    dictionaries[0]<<[2,1]#購入（支払済）：　　チケット／現金 キャンセルは購入自体削除想定
+    dictionaries[0]<<[2,1]#現金購入（支払済）：　　チケット／現金 キャンセルは購入自体削除想定
     dictionaries[1]<<[2,3]#掛精算（未払）：　チケット／債務
     dictionaries[2]<<[3,1]#支払（未払決済）： 　 債務／現金
     dictionaries[3]<<[3,2]#キャンセル：　債務／チケット

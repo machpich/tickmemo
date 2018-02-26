@@ -1,9 +1,7 @@
-<h1>schedule</h1>
 <% if schedules.present? %>
-
-      <% schedules.each do |schedule| %>
+      <% schedules.includes(:event,:location,:otherside,:memo).each do |schedule| %>
       <% event = schedule.event %>
-      <table class="list_table　w-75">
+      <table class="table_list">
         <tbody>
           <tr>
             <td>[c]</td>
@@ -29,7 +27,9 @@
           </tr>
           <tr>
             <td></td>
-            <td colspan="4" class="schedule/memo"><%= "memo: #{schedule.memo.body}" unless schedule.memo.body == nil? %></td>
+            <% if memo_exist?(obj:@schedule) %>
+            <td colspan="4" class="schedule/memo"><%= "memo: #{schedule.memo.body}" %></td>
+            <% end %>
           </tr>
         </tbody>
       </table>

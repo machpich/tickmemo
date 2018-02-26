@@ -7,7 +7,7 @@
 class Detail < ApplicationRecord
   belongs_to :account
   belongs_to :otherside
-  belongs_to :journal
+  belongs_to :journal, inverse_of: :details
 
   enum position_status: { debit: 0, credit: 1 }
 end

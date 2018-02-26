@@ -4,22 +4,22 @@
     <ul class="submit_form">
     <li>
       <%= f.label :schedule_id,"関連予定" %>
-      <%= f.collection_select :schedule_id, @schedules, :id, :start_datetime %>
+      <%= f.collection_select :schedule_id, schedules, :id, :start_datetime %>
     </li>
     <li>
       <%= f.label :trade_date,"取引日" %>
-      <%= f.date_field :trade_date %>
+      <%= f.date_field :trade_date, value: Time.now.strftime("%Y-%m-%d") %>
     </li>
     <li>
       <%= f.label :figure,"金額" %>
-      <%= f.text_field :figure %>
+      <%= f.text_field :figure, id:"figure" %>
     </li>
     <li>
       <%= f.label :trade_type_id,"取引種類" %>
       <%= f.collection_select :trade_type_id, TradeType.all, :id, :trade_name %>
     </li>
     <li>
-      <%= fields_for Otherside.new do |ot| %>
+      <%= fields_for otherside do |ot| %>
       <%= ot.label :立替者 %>
       <%= ot.text_field :otherside_name %>
       <% end %>
@@ -35,3 +35,12 @@
     </div>
   <%end%>
 </div>
+<script>
+  $(function(){
+    $( "#figure" ).autocomplete({
+      autoFocus: true,
+      source: ["8300","8800"],
+      minLength: 0,
+    });
+  });
+</script>
