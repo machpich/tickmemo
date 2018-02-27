@@ -6,9 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# 関係者ファイルの初期設定
-    Otherside.create(otherside_name:"anonymous")
-
 # 科目ファイルの初期値作成
     account0 = %w(現金 チケット)
     account1 = %w(債務 立替金)

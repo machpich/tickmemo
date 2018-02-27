@@ -9,10 +9,10 @@
             <th>金額</th>
             <th>借方科目<br>(立替者)</th>
             <th>貸方科目<br>(立替者)</th>
-            <%# if otherside %><th>借方金額</th><%# end %>
+            <% if display_price %><th>借方金額</th><% end %>
             <th>バランス</th>
-            <%#if otherside %><th>貸方金額</th><%# end %>
-            <%#if othersides %><th>演目</th><%# end %>
+            <%if display_price %><th>貸方金額</th><% end %>
+            <%if display_event %><th>演目</th><% end %>
             <th></th>
           </tr>
         </thead>
@@ -52,9 +52,9 @@
               <%end %></td>
 
             <!-- 借方金額 -->
-            <%# if otherside%>
+            <% if display_price%>
             <td><%= credit(journal,sub_or_others)==0? nil : credit(journal,sub_or_others).to_s(:delimited) %></td>
-            <%# end %>
+            <% end %>
 
             <!-- バランス -->
             <td>
@@ -64,19 +64,19 @@
 
 
             <!-- 貸方金額 -->
-            <%# if otherside %>
+            <% if display_price %>
             <td><%= debit(journal,sub_or_others)==0? nil : debit(journal,sub_or_others).to_s(:delimited) %></td>
-            <%# end %>
+            <% end %>
 
             <!-- 演目 -->
-            <%# if othersides %>
+            <% if display_event %>
             <td>
               <%= link_to schedule_path(journal.schedule) do%>
                 <%= journal.schedule.start_datetime.strftime("%y/%m/%d") %><i class="<%= "#{matisowa_icon(journal.schedule)}"%>"></i>
               <% end %>
               <br>
               <%=link_to journal.schedule.event.program, event_path(journal.schedule.event) %></td>
-            <%# end %>
+            <% end %>
 
             <!-- 編集 -->
 

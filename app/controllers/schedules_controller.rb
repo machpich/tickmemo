@@ -13,7 +13,7 @@ class SchedulesController < ApplicationController
     today = Date.today
     from = today - 1.month
     to = today + 5.month
-    @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).includes([:event,:otherside,:memo,:location]).order(:start_datetime)
+    @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).includes([:event,:otherside,:location]).order(:start_datetime)
   end
 
   def create
@@ -26,9 +26,12 @@ class SchedulesController < ApplicationController
 
     #相手先情報の登録
     @otherside = Otherside.find_or_initialize_by(params_otherside)
-    if @otherside.persisted?
-    else
+    if @otherside.persisted? #すでにある場合
+    else #新規保存の場合
     @otherside.user = current_user
+      if @otherside.otherside_name==""
+        @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown")
+      end
     end
 
     # 場所の登録
@@ -50,7 +53,7 @@ class SchedulesController < ApplicationController
   end
 
   def show
-    # total_loan (otherside: @sub_or_others ? nil : @schedule.otherside, othersides: nil, details: @details)
+    # total_loan (otherside: @sub_or_others ? nil : @schedule.otherside, othersides: nil, details: @details, sub_or_others: false, display_event: false, display_price: true)
     # journal_mini_form (schedule:@schedule, journal:@journal)
     # schedule_detail ( schedule: @schedule )
     # journal_list (journals: @schedule.journals,sub_or_others: false)
@@ -60,6 +63,10 @@ class SchedulesController < ApplicationController
     @journal = Journal.new
     @journal.build_memo
     @otherside = Otherside.new
+
+    # total_loan
+    @journals = @schedule.journals
+    @journals = nil if @journals.blank?
   end
 
   def edit
@@ -69,6 +76,10 @@ class SchedulesController < ApplicationController
     @event = @schedule.event
     @otherside = @schedule.otherside
     @location = @schedule.location
+
+    # total_loan
+    @journals = @schedule.journals
+    @journals = nil if @journals.blank?
   end
 
   def update
@@ -115,6 +126,18 @@ class SchedulesController < ApplicationController
   end
 
   private
+
+  def method_name
+    #相手先情報の登録
+    @otherside = Otherside.find_or_initialize_by(params_otherside)
+    if @otherside.persisted? #すでにある場合
+    else #新規保存の場合
+    @otherside.user = current_user
+      if @otherside.otherside_name==""
+        @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown")
+      end
+    end
+  end
 
   def params_schedule
     params.require(:schedule).permit(:start_datetime,:end_datetime,:seat_type,:fix,:check,

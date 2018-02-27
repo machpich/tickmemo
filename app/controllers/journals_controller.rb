@@ -2,8 +2,14 @@ class JournalsController < ApplicationController
   # before_action :authenticate_user!
 
   def index
+   # 'application/total_loan', otherside: nil, othersides: @othersides, journals: nil
+   # 'application/journal_list', journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others, display_event: true, display_price: true
+
     user = current_user
     @othersides = user.othersides
+
+    # journal_list
+    @journals = user.journals
   end
 
   def create

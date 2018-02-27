@@ -12,4 +12,6 @@
 <div class="col-md-8">
 <!-- 取引履歴一覧 -->
 <%#= render 'application/journal_list'%>
+<%= render 'application/journal_list', journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others, display_event: true, display_price: true %>
+
 </div>

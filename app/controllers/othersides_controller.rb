@@ -19,15 +19,17 @@ class OthersidesController < ApplicationController
     @journal = Journal.new
     @journal.build_memo
     # フォームのschedule一覧
-    if @sub_or_others
+    if @sub_or_others #サブの場合
       @user = current_user
       @schedules = @user.schedules
-    else
+    else #メインの場合
       @schedules = @otherside.schedules
     end
 
+    @related_schedules = @schedules
+
     # 関連スケジュール一覧
-    @related_schedules = Schedule.joins(journals: :details).where(details: {otherside_id: params[:id]}).distinct
+    # @related_schedules = Schedule.joins(journals: :details).where(details: {otherside_id: params[:id]}).distinct
   end
 
 

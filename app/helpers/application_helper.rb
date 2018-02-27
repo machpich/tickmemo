@@ -79,14 +79,16 @@ module ApplicationHelper
   end
 
   def otherside_list(journals,otherside)
-    if otherside #画面の取引者だけか、それ以外のものがあるか
+    if otherside
+    #画面の取引者だけか、それ以外のものがあるか
       if create_otherside_list(journals).size == 1 #関連先が1つしかない
         false
       else
         create_otherside_list(journals).reject{|e| e == otherside.id}
       end
-    else #取引先情報が皆無
-      false
+    else
+    #取引先情報が皆無
+      create_otherside_list(journals)
     end
   end
 
