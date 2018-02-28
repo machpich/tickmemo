@@ -88,7 +88,7 @@
 
             <% if journals_page %>
             journals用
-            <%= link_to "[e]","/journals/?journal=#{journal.id}" %>
+            <%= link_to "[e]",journals_path(journal: journal.id) %>
             <% end %>
 
             <% if schedule_page %>
@@ -96,7 +96,7 @@
             <%= link_to "[e]","/schedules/#{params[:id]}?journal=#{journal.id}" %>
             <% end %>
 
-            <%= link_to "[d]",journal_path(journal),method: :delete %>
+            <%= link_to "[d]",journal_path(id: journal.id),method: :delete %>
             <%= "▼" if memo_exist?(obj:journal) %>
             </td>
 

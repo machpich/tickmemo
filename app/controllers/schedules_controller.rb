@@ -60,12 +60,16 @@ class SchedulesController < ApplicationController
     # journal_list (journals: @schedule.journals,sub_or_others: false)
 
     # フォーム用
-    @schedule = Schedule.find(params[:id])
-    @journal = Journal.new
-    @journal.build_memo
+    if params[:journal].present? && Journal.where(id: params[:journal]).present?
+      @journal = Journal.find(params[:journal])
+    else
+      @journal = Journal.new
+    end
+    @journal.memo || @journal.build_memo
     @otherside = Otherside.new
 
     # total_loan
+    @schedule = Schedule.find(params[:id])
     @journals = @schedule.journals
     @journals = nil if @journals.blank?
   end

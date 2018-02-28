@@ -17,7 +17,7 @@ class OthersidesController < ApplicationController
     @sub_or_others = judge_sub_or_others(@journals)
 
     # journal_form
-    if params[:journal].present?
+    if params[:journal].present? && Journal.where(id: params[:journal]).present?
       @journal = Journal.find(params[:journal])
       @journal.build_memo
       if @sub_or_others #サブの場合

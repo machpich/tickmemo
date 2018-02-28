@@ -3,10 +3,14 @@
   <%#= link_to "仕訳登録フォーム",schedule_path(journal.schedule)%>
   <%= form_for journal do |f|%>
     <ul class="submit_form">
+    <%if schedules.present?%>
     <li>
       <%= f.label :schedule_id,"関連予定" %>
       <%= f.collection_select :schedule_id, schedules, :id, :start_datetime %>
     </li>
+    <% else %>
+      <%= f.hidden_field :schedule_id, value:params[:id] %>
+    <% end %>
     <li>
       <%= f.label :trade_date,"取引日" %>
       <%= f.date_field :trade_date, value: Time.now.strftime("%Y-%m-%d") %>

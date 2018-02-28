@@ -8,7 +8,7 @@
 
 <!-- 仕訳登録フォーム -->
 <%#= render 'application/journal_form'%>
-<%if @journals.any? %>
+<%if @schedules.any? %>
 <%= render 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @sub_or_others ? Otherside.find(params[:id]) : Otherside.new %>
 <%end%>
 
