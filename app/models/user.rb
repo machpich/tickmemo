@@ -10,4 +10,5 @@ class User < ApplicationRecord
   has_many :events
   has_many :schedules
   has_many :othersides
+  has_many :journals
 end

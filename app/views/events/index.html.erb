@@ -1,0 +1,92 @@
+<!-- <h1>events#edit</h1>
+    t.string "program"
+    t.string "performer"
+    t.date "date_start"
+    t.date "date_end"
+    t.string "image"
+    t.integer "user_id"
+イベント一覧 -->
+  <div class="col-md-4">
+  <%= render '/application/setting_menu'%>
+
+<!-- イベント登録・編集フォーム -->
+<div class="form">
+  <%= form_for :event do |f|%>
+
+  <div class="form_field">
+    <%= f.label :active_status,"利用フラグ" %>
+    <%= f.text_field :active_status %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :program,"演目" %>
+    <%= f.text_field :program %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :performer,"演者" %>
+    <%= f.text_field :program %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :date_start, "会期" %>
+    <%= f.text_field :date_start %>
+    <%= f.text_field :date_end %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :image, "画像" %>
+  </div>
+
+  <div class="form_field">
+    <%= f.label :memo, "メモ" %>
+    <%= f.text_area :memo %>
+  </div>
+
+  <div class="form_field">
+    <%= f.submit %>
+  </div>
+  <%end%>
+</div>
+  </div>
+
+  <div class="col-md-8">
+    <h1>events#index</h1>
+<div class="nav_list hidden">
+  <ul>
+    <li>half_year</li>
+    <li>past</li>
+    <li>feature</li>
+    <li>all</li>
+  </ul>
+</div>
+<div>
+    <% @events = Event.where(user_id: current_user.id)%>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>IMG</th>
+          <th>演目</th>
+          <th>演者</th>
+          <th>開催期間</th>
+          <th>F</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @events.each do |event|%>
+        <tr>
+          <td rowspan="2">edit <br> del</td>
+          <td rowspan="2">no<br>IMG</td>
+          <td><%= link_to event.program, event_path(event) %></td>
+          <td><%= event.performer %></td>
+          <td rowspan="2"><%= "#{event.date_start}〜#{event.date_end}" if event.date_start.present?%></td>
+          <td rowspan="2"></td>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+</div>

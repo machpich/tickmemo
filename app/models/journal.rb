@@ -7,6 +7,7 @@ class Journal < ApplicationRecord
   belongs_to :trade_type
   belongs_to :schedule
   belongs_to :otherside
+  belongs_to :user
   has_one :memo, as: :memoable, inverse_of: :memoable, dependent: :destroy
   has_many :details, dependent: :destroy, inverse_of: :journal
 

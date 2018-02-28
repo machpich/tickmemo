@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   # application_helperを全体に反映
   helper :all
-
   # 遷移元を保存する
   # before_action :set_request_from
 
@@ -13,6 +12,22 @@ class ApplicationController < ActionController::Base
   # ログイン後のリダイレクト先
   def after_sign_in_path_for(resource_or_scope)
     index_path
+  end
+
+  # 紐付けのないothersideを削除
+  def clean_otherside
+    user = current_user
+    user.othersides.includes(:schedules,:journals,:details).each do |otherside|
+      if otherside.schedules.empty? && otherside.journals.empty? && otherside.details.empty?
+        otherside.destroy
+      end
+    end
+  end
+
+  # 紐付けのないmemoを削除
+  def crean_memo
+    memos = Memo.where(body:"")
+    memos.delete_all
   end
 
   # サブ取引先(true)orその他(false) ジャッジメソッド
@@ -31,9 +46,6 @@ class ApplicationController < ActionController::Base
         return false
       end
     end
-
-
   end
-
 
 end

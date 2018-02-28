@@ -1,6 +1,6 @@
-<h1>journals#index</h1>
+<!-- <h1>journals#index</h1>
 <h2>全明細時系列</h2>
-
+ -->
 <div class="col-md-4">
 <!-- 貸借管理 -->
 <%= render 'application/total_loan', otherside: nil, othersides: @othersides, journals: nil %>
@@ -8,10 +8,17 @@
 
 <!-- 仕訳登録フォーム -->
 <%#= render 'application/journal_form'%>
+<%if @journals.any? %>
+<%= render 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @sub_or_others ? Otherside.find(params[:id]) : Otherside.new %>
+<%end%>
+
+<h4>関連スケジュール</h4>
 </div>
 <div class="col-md-8">
 <!-- 取引履歴一覧 -->
-<%#= render 'application/journal_list'%>
-<%= render 'application/journal_list', journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others, display_event: true, display_price: true %>
+
+
+<%= render 'application/journal_list', journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others, display_event: true, display_price: false, otherside_page:false, schedule_page:false, journals_page:true %>
+
 
 </div>

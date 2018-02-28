@@ -1,6 +1,7 @@
 <div>
   <h3>仕訳登録フォーム</h3>
-  <%= form_for journal, url:journals_path do |f|%>
+  <%#= link_to "仕訳登録フォーム",schedule_path(journal.schedule)%>
+  <%= form_for journal do |f|%>
     <ul class="submit_form">
     <li>
       <%= f.label :schedule_id,"関連予定" %>

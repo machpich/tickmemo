@@ -1,4 +1,6 @@
-<h2>Othersides#show</h2>
+いらなくなるかもしれない
+
+<h2>Othersides#editdetail</h2>
 <div class="col-md-4">
 <!-- 貸借管理 -->
 <%= render 'application/total_loan', otherside: @otherside, othersides: nil, journals: @journals %>
@@ -10,8 +12,6 @@
 
 <div class="col-md-8">
 <h1><%= @otherside.otherside_name %></h1>
-
-journal:<%= params[:journal]%>
 
 <h4>関連予定</h4>
 <ul>
@@ -28,7 +28,7 @@ journal:<%= params[:journal]%>
 
 
 <!-- 仕訳詳細 -->
-<%= render 'application/journal_list', journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false %>
+<%= render 'application/journal_list', journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others, display_event: true, display_price: false,otherside_page:true, schedule_page:false %>
 <!-- othersideがある場合は貸借表記を行う -->
 
 </div>

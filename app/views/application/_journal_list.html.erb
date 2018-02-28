@@ -18,7 +18,8 @@
         </thead>
         <tbody>
           <% array = []%>
-          <% journals.includes(:trade_type,:memo,schedule: [:event],details: [:otherside, :account]).each do |journal|%>
+          <%# journals.includes(:trade_type,:memo,details: [:otherside, :account]).each do |journal|%>
+          <% journals.includes(:trade_type,:memo,:otherside, schedule: [:event],details: [:otherside, :account]).each do |journal|%>
           <tr>
             <!-- 日付 -->
             <td><%= journal.trade_date %></td>
@@ -34,8 +35,7 @@
       <%= first.object_id %>
       <%= last = journal.details.last%>
       <%= last.object_id%>
-
-            <br>
+      <br>
 
             <!-- 借方科目 -->
             <td><%= first.account.account_name %><br>
@@ -81,8 +81,22 @@
             <!-- 編集 -->
 
             <td>
-            [e]
-            <%= link_to "[d]",schedule_journal_path(journal.schedule,journal),method: :delete %>
+            <% if otherside_page %>
+            otherside用
+            <%= link_to "[e]","/othersides/#{params[:id]}?journal=#{journal.id}" %>
+            <% end %>
+
+            <% if journals_page %>
+            journals用
+            <%= link_to "[e]","/journals/?journal=#{journal.id}" %>
+            <% end %>
+
+            <% if schedule_page %>
+            schedule用
+            <%= link_to "[e]","/schedules/#{params[:id]}?journal=#{journal.id}" %>
+            <% end %>
+
+            <%= link_to "[d]",journal_path(journal),method: :delete %>
             <%= "▼" if memo_exist?(obj:journal) %>
             </td>
 

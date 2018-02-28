@@ -1,5 +1,6 @@
 class SchedulesController < ApplicationController
   # before_action :authenticate_user!
+  after_action :crean_memo, only:[:update]
 
   def index
     @event = Event.new
@@ -125,19 +126,22 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def edit_detail
+  end
+
   private
 
-  def method_name
-    #相手先情報の登録
-    @otherside = Otherside.find_or_initialize_by(params_otherside)
-    if @otherside.persisted? #すでにある場合
-    else #新規保存の場合
-    @otherside.user = current_user
-      if @otherside.otherside_name==""
-        @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown")
-      end
-    end
-  end
+  # def method_name
+  #   #相手先情報の登録
+  #   @otherside = Otherside.find_or_initialize_by(params_otherside)
+  #   if @otherside.persisted? #すでにある場合
+  #   else #新規保存の場合
+  #   @otherside.user = current_user
+  #     if @otherside.otherside_name==""
+  #       @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown")
+  #     end
+  #   end
+  # end
 
   def params_schedule
     params.require(:schedule).permit(:start_datetime,:end_datetime,:seat_type,:fix,:check,

@@ -4,7 +4,7 @@
           <tr>
             <td>[c]</td>
             <td colspan="3" class="schedule_title"><%= link_to "#{@schedule.event.program}", event_path(@schedule.event) %></td>
-            <td>[edit]
+            <td><%= link_to "[edit]", edit_schedule_path(schedule)%>
               <%= link_to "[x]", schedule_path(@schedule), method: :delete%></td>
           </tr>
           <tr>
