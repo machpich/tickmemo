@@ -1,6 +1,8 @@
 class JournalsController < ApplicationController
   # before_action :authenticate_user!
   before_action :clean_otherside, only:[:index]
+  after_action :clean_memo, only:[:update]
+
 
   def index
    # 'application/total_loan', otherside: nil, othersides: @othersides, journals: nil
@@ -16,14 +18,14 @@ class JournalsController < ApplicationController
     # journal_form
     if params[:journal].present? && Journal.where(id: params[:journal]).present?
       @journal = Journal.find(params[:journal])
-      if detail = @journal.details.find_by(account_id: 4)
+      if detail = @journal.details.find_by(account_id:4)
         @otherside = detail.otherside
       end
     else
       @journal = Journal.new
       @otherside = Otherside.new
-      @journal.build_memo
     end
+    @journal.memo || @journal.build_memo
 
     # journal_list
     @journals = @user.journals.order(trade_date: :asc,id: :asc)
@@ -33,7 +35,7 @@ class JournalsController < ApplicationController
   def create
     @user = current_user
     @journal = Journal.new(journal_params)
-    @journal.build_memo
+    # @journal.build_memo
     @journal.otherside = @journal.schedule.otherside
     @journal.user_id = @user.id
 

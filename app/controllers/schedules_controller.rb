@@ -126,10 +126,10 @@ class SchedulesController < ApplicationController
   def destroy
     @schedule = Schedule.find(params[:id])
     if @schedule.destroy
-      flash[:notice] = "削除しました"
+      # flash[:notice] = "削除しました"
       redirect_to schedules_path
     else
-      flash[:alert] = "削除に失敗しました"
+      # flash[:alert] = "削除に失敗しました"
     end
   end
 
