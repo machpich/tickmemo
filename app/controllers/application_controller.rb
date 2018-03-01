@@ -30,21 +30,25 @@ class ApplicationController < ActionController::Base
     memos.delete_all
   end
 
-  # サブ取引先(true)orその他(false) ジャッジメソッド
-  def judge_sub_or_others(journals)
-    if journals
-      @otherside = Otherside.find(params[:id])
-      if journals.first.details.where(otherside_id: @otherside.id).count ==1 # 履歴が持つ明細のうち、履歴のotherside_idと明細のotherside_idが一致するものが1つかどうか(1つ＝サブ)
-        return true
-      else
-        return false
+  def crean_details #未検証要確認
+    user = current_user
+    user.othersides.includes(:details).each do |otherside|
+      if otherside.details.first.journal.nil?
+        otherside.details.first.destroy
       end
-    else #journals=nilの場合
-      if @otherside.schedules.empty? #scheduleは空か？（空＝サブ取引先）
-        return true
-      else
-        return false
+      if otherside.details.last.journal.nil?
+        otherside.details.last.destroy
       end
+    end
+  end
+
+  def judge_sub_or_others(otherside)
+    if Detail.where(otherside_id: otherside.id).any? && Journal.where(otherside_id: otherside.id).empty?
+      true
+    elsif Detail.where(otherside_id: otherside.id).empty? && Journal.where(otherside_id: otherside.id).empty? && Schedule.where(otherside_id: otherside.id).any?
+      false
+    else
+      false
     end
   end
 

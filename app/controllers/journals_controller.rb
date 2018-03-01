@@ -11,25 +11,28 @@ class JournalsController < ApplicationController
    # total_loan
     @user = current_user
     @othersides = @user.othersides
-    @otherside = Otherside.new
     @schedules = @user.schedules
 
     # journal_form
     if params[:journal].present? && Journal.where(id: params[:journal]).present?
       @journal = Journal.find(params[:journal])
+      if detail = @journal.details.find_by(account_id: 4)
+        @otherside = detail.otherside
+      end
     else
       @journal = Journal.new
+      @otherside = Otherside.new
     end
     @journal.build_memo
 
     # journal_list
-    @journals = @user.journals
+    @journals = @user.journals.order(trade_date: :asc,id: :asc)
+    @related_schedules = @user.schedules
   end
 
   def create
     @user = current_user
     @journal = Journal.new(journal_params)
-    # @journal.schedule_id = params[:schedule_id].to_i
     @journal.otherside = @journal.schedule.otherside
     @journal.user_id = @user.id
 
@@ -49,7 +52,6 @@ class JournalsController < ApplicationController
     @schedule = Schedule.find(params[:schedule_id])
     @journal = Journal.find(params[:id])
     @journal.build_memo
-    # @otherside = Otherside.new
 
     # total_loan
     @journals = @schedule.journals
@@ -75,43 +77,6 @@ class JournalsController < ApplicationController
     end
   end
 
-  # from otherside#show CUD===============================================
-
-  # def multicreate
-  #   # schedule経由じゃない登録
-  #   # journalを作成　othersideをセット　schedule_idがないため、下部で補填
-  #   @journal = Journal.new(journal_params)
-  #   @journal.otherside = @journal.schedule.otherside
-
-  #   # 辞書から仕訳セットメソッド
-  #   set_dict
-
-  #   @journal.save
-  #   redirect_to otherside_path(@journal.otherside)
-  # end
-
-  # def multiupdate
-  #   @journal = Journal.find(params[journal:[:id]])
-  #   @journal.update(journal_params)
-
-  #   @journal.details.delete_all
-  #   set_dict
-  #   @journal.save
-  #   redirect_to otherside_path(@journal.otherside)
-  # end
-
-  # from schedule#index CUD===============================================
-
-
-  def multidestroy
-    @journal = Journal.find(params[:id])
-    if @journal.destroy
-      redirect_back(fallback_location: root_path)
-    else
-      render 'othersides/show'
-    end
-  end
-
   private
 
   def set_dict
@@ -122,7 +87,15 @@ class JournalsController < ApplicationController
       #立替金がある場合は関係者を新規作成
       if @detail.account_id == 4
         @otherside = Otherside.find_or_initialize_by(otherside_params)
-        @otherside.user_id = current_user.id
+
+        if @otherside.persisted? #すでにある場合
+        else #新規保存の場合
+          if @otherside.otherside_name==""
+            @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown") || Otherside.new(otherside_name:"unknown")
+          end
+        @otherside.user = current_user
+        end
+
         @otherside.save
         @detail.otherside = @otherside
       else

@@ -27,13 +27,7 @@ class SchedulesController < ApplicationController
 
     #相手先情報の登録
     @otherside = Otherside.find_or_initialize_by(params_otherside)
-    if @otherside.persisted? #すでにある場合
-    else #新規保存の場合
-    @otherside.user = current_user
-      if @otherside.otherside_name==""
-        @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown")
-      end
-    end
+    otherside_create
 
     # 場所の登録
     @location = Location.find_or_initialize_by(params_location)
@@ -62,11 +56,14 @@ class SchedulesController < ApplicationController
     # フォーム用
     if params[:journal].present? && Journal.where(id: params[:journal]).present?
       @journal = Journal.find(params[:journal])
+      if detail = @journal.details.find_by(account_id:4)
+        @otherside = detail.otherside
+      end
     else
       @journal = Journal.new
+      @otherside = Otherside.new
     end
     @journal.memo || @journal.build_memo
-    @otherside = Otherside.new
 
     # total_loan
     @schedule = Schedule.find(params[:id])
@@ -75,7 +72,7 @@ class SchedulesController < ApplicationController
   end
 
   def edit
-    # フォーム用
+    # scheduleフォーム用
     @schedule = Schedule.find(params[:id])
     @schedule.memo || @schedule.build_memo
     @event = @schedule.event
@@ -88,6 +85,7 @@ class SchedulesController < ApplicationController
   end
 
   def update
+    # scheduleupdate
     @schedule = Schedule.find(params[:id])
     @schedule.update(params_schedule)
 
@@ -96,13 +94,10 @@ class SchedulesController < ApplicationController
     else
     @event.user = current_user
     end
-    # create or new　を実施
 
+    # create or new　を実施
     @otherside = Otherside.find_or_initialize_by(params_otherside)
-    if @otherside.persisted?
-    else
-    @otherside.user = current_user
-    end
+    otherside_create
 
     @location = Location.find_or_initialize_by(params_location)
     if @location.persisted?
@@ -114,6 +109,14 @@ class SchedulesController < ApplicationController
     @schedule.location = @location
     @schedule.otherside = @otherside
     @schedule.user = current_user
+
+    if @schedule.otherside_id_changed?
+      journals = @schedule.journals
+      journals.update_all(otherside_id: @schedule.otherside_id)
+      journals.each do |journal|
+        journal.details.where(account_id: 1...3).update(otherside_id: @schedule.otherside_id)
+      end
+    end
     @schedule.save
 
     @event.save && @otherside.save && @location.save
@@ -146,6 +149,16 @@ class SchedulesController < ApplicationController
   #     end
   #   end
   # end
+
+  def otherside_create
+    if @otherside.persisted? #すでにある場合
+    else #新規保存の場合
+      if @otherside.otherside_name==""
+        @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown") || Otherside.new(otherside_name:"unknown")
+      end
+    @otherside.user = current_user
+    end
+  end
 
   def params_schedule
     params.require(:schedule).permit(:start_datetime,:end_datetime,:seat_type,:fix,:check,

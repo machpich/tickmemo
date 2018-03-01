@@ -10,7 +10,7 @@
   <%= render '/application/setting_menu'%>
 
 <!-- イベント登録・編集フォーム -->
-<div class="form">
+<div class="submit_form">
   <%= form_for :event do |f|%>
 
   <div class="form_field">
@@ -43,7 +43,7 @@
     <%= f.text_area :memo %>
   </div>
 
-  <div class="form_field">
+  <div class="form_field btn">
     <%= f.submit %>
   </div>
   <%end%>
@@ -69,8 +69,8 @@
           <th>IMG</th>
           <th>演目</th>
           <th>演者</th>
-          <th>開催期間</th>
-          <th>F</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>

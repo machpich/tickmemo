@@ -13,5 +13,5 @@
 <%= render 'application/schedule_detail', schedule: @schedule %>
 
 <!-- 仕訳詳細 -->
-<%= render 'application/journal_list', journals: @schedule.journals, sub_or_others: false, display_event: false, display_price: true, otherside_page: false,schedule_page: true, journals_page:false %>
+<%= render 'application/journal_list', journals: @schedule.journals, otherside: nil, display_event: false, display_price: true, otherside_page: false,schedule_page: true, journals_page:false %>
 </div>

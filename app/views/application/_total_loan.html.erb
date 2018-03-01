@@ -1,5 +1,5 @@
+<h3>関係者</h3>
 <div class="loan_field">
-  <h4>関係者</h4>
     <table>
       <tbody>
 <!-- 複数のothersideがある場合　journal#index -->
@@ -14,7 +14,6 @@
 
 <!-- othersideのみある場合 -->
         <% if otherside %>
-            <tr><td colspan="3">メインのつもり</td></tr>
             <tr>
                 <td><span class="glyphicon glyphicon-resize-vertical"></span></td>
                 <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
@@ -32,7 +31,6 @@
         <% if otherside_list(journals,otherside) %>
             <% otherside_list(journals,otherside).each do |num|%>
             <% otherside = Otherside.find(num)%>
-            <tr><td colspan="3">サブのつもり</td></tr>
             <tr>
                 <td><span class="glyphicon glyphicon-resize-horizontal"></span></td>
                 <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>

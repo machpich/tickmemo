@@ -4,8 +4,14 @@
           <tr>
             <td>[c]</td>
             <td colspan="3" class="schedule_title"><%= link_to "#{@schedule.event.program}", event_path(@schedule.event) %></td>
-            <td><%= link_to "[edit]", edit_schedule_path(schedule)%>
-              <%= link_to "[x]", schedule_path(@schedule), method: :delete%></td>
+            <td>
+              <%= link_to edit_schedule_path(schedule) do %>
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              <%end%>
+              <%= link_to schedule_path(@schedule), method: :delete do%>
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              <% end %>
+            </td>
           </tr>
           <tr>
             <td></td>
@@ -22,7 +28,12 @@
           </tr>
           <tr>
             <td></td>
-            <td colspan="4" class="schedule/memo"><%= "memo: #{@schedule.memo.body}" if memo_exist?(obj:@schedule) %></td>
+            <td colspan="4" class="schedule/memo">
+              <% if memo_exist?(obj:@schedule) %>
+              <span class="label label-default">MEMO</span>
+              <%= @schedule.memo.body %>
+              <% end %>
+            </td>
           </tr>
         </tbody>
       </table>

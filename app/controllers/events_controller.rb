@@ -31,13 +31,13 @@ class EventsController < ApplicationController
   #   redirect_to index_path
   # end
 
+  def index
+    @schedules = Schedule.where(user_id:current_user.id,event_id:params[:id]).order(:start_datetime)
+  end
 
   def show
     @schedules = Schedule.where(user_id:current_user.id,event_id:params[:id]).order(:start_datetime)
   end
 
-  def edit
-    render layout: 'settings'
-  end
 
 end

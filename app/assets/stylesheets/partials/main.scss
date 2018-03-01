@@ -1,0 +1,97 @@
+
+$main-gray-color: #F3F3F3;
+$main-yellow-color: #e1d333;
+
+/* =========================bootstrap打ち消し用========================= */
+.no-border td {
+  border-top : none;
+}
+
+/* =========================material design======================= */
+
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+}
+
+h1 {
+    width: 100%;
+    border: 1px solid #979797;
+    padding: 10px 30px;
+    font-size: 28px;
+    font-weight: 200;
+    margin: 0 0 30px;
+}
+
+.non-active {
+  display: none;
+}
+/* =========================layout======================= */
+
+header {
+  background-color: $main-gray-color;
+  height: 50px;
+  line-height: 50px;
+  margin-bottom: 50px;
+}
+
+.header-left {
+  float: left;
+}
+
+.header-right {
+  float: right;
+}
+
+.header-right li {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+/* ===============schedule_form,journal_form======================== */
+
+.submit_form label {
+    width: 80px;
+    vertical-align: top;
+    height: 2em;
+    font-weight: normal;
+}
+
+.submit_form input,.submit_form textarea,.submit_form select {
+    width: 180px;
+    padding: 5px;
+    margin: 5px;
+    font-size: 13px;
+    border: 1px solid #A9A9A9;
+    border-radius: 2px;
+}
+
+input.btn {
+    background-color: $main-yellow-color;
+    height: 40px;
+    width: 100px;
+    text-align: center;
+    border: none;
+}
+
+.submit_form_btn {
+    text-align: center;
+}
+
+.submit_form_sub {
+    padding-left: 15px;
+}
+
+.submit_form_sub input,.submit_form textarea {
+   width: 165px;
+}
+
+.table_list {
+  width: 100%;
+}

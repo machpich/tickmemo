@@ -10,7 +10,7 @@
             <th>借方科目<br>(立替者)</th>
             <th>貸方科目<br>(立替者)</th>
             <% if display_price %><th>借方金額</th><% end %>
-            <th>バランス</th>
+            <th><span data-toggle="tooltip" data-placement="top" title="マイナスが支払必要のある金額">バランス</span></th>
             <%if display_price %><th>貸方金額</th><% end %>
             <%if display_event %><th>演目</th><% end %>
             <th></th>
@@ -28,14 +28,11 @@
             <td><%= journal.trade_type.trade_name %></td>
 
             <!-- 金額 -->
-            <td><%= journal.figure.to_s(:delimited) %></td>
+            <td><%= journal.figure.to_s(:delimited) unless journal.figure.nil?%></td>
 
             <!-- あとで消す -->
-      <%= first = journal.details.first %>
-      <%= first.object_id %>
-      <%= last = journal.details.last%>
-      <%= last.object_id%>
-      <br>
+      <% first = journal.details.first %>
+      <% last = journal.details.last%>
 
             <!-- 借方科目 -->
             <td><%= first.account.account_name %><br>
@@ -53,19 +50,19 @@
 
             <!-- 借方金額 -->
             <% if display_price%>
-            <td><%= credit(journal,sub_or_others)==0? nil : credit(journal,sub_or_others).to_s(:delimited) %></td>
+            <td><%= credit(journal,otherside)==0? nil : credit(journal,otherside).to_s(:delimited) %></td>
             <% end %>
 
             <!-- バランス -->
             <td>
-              <% array << balance(journal,sub_or_others) unless balance(journal,sub_or_others)==nil%>
+              <% array << balance(journal,otherside) unless balance(journal,otherside)==nil%>
               <%= total = array.sum.to_s(:delimited) %>
             </td>
 
 
             <!-- 貸方金額 -->
             <% if display_price %>
-            <td><%= debit(journal,sub_or_others)==0? nil : debit(journal,sub_or_others).to_s(:delimited) %></td>
+            <td><%= debit(journal,otherside) == 0 ? nil : debit(journal,otherside).to_s(:delimited) %></td>
             <% end %>
 
             <!-- 演目 -->
@@ -82,33 +79,41 @@
 
             <td>
             <% if otherside_page %>
-            otherside用
-            <%= link_to "[e]","/othersides/#{params[:id]}?journal=#{journal.id}" %>
+              <%= link_to "/othersides/#{params[:id]}?journal=#{journal.id}" do %>
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              <%end%>
             <% end %>
 
             <% if journals_page %>
-            journals用
-            <%= link_to "[e]",journals_path(journal: journal.id) %>
+              <%= link_to journals_path(journal: journal.id) do %>
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              <% end %>
             <% end %>
 
             <% if schedule_page %>
-            schedule用
-            <%= link_to "[e]","/schedules/#{params[:id]}?journal=#{journal.id}" %>
+              <%= link_to "/schedules/#{params[:id]}?journal=#{journal.id}" do %>
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              <%end%>
             <% end %>
 
-            <%= link_to "[d]",journal_path(id: journal.id),method: :delete %>
-            <%= "▼" if memo_exist?(obj:journal) %>
+            <%= link_to journal_path(id: journal.id),method: :delete do %>
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            <%end %>
+            <% if memo_exist?(obj:journal) %>
+            <span id="memo_btn" class="glyphicon glyphicon-comment active_btn" aria-hidden="true"></span>
+            <% end %>
             </td>
-
           </tr>
 
           <% if memo_exist?(obj:journal) %>
-          <tr>
+          <tr id="memo" class="no-border hidden">
             <td></td>
-            <td colspan="7" class="memo"><%= "memo: #{journal.memo.body}" if memo_exist?(obj:journal) %></td>
+            <td colspan="6"><div  class="memo">
+              <%= "#{journal.memo.body}" if memo_exist?(obj:journal) %>
+            </div></td>
             <td></td>
           </tr>
-            <% end %>
+          <% end %>
           <% end %>
         </tbody>
       </table>
@@ -116,3 +121,11 @@
 <% else %>
   <p>明細登録がありません</p>
 <% end %>
+<script>
+  $(function(){
+    $('#memo_btn').click(function(){
+      $('#memo').toggleClass('hidden');
+    });
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

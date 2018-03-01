@@ -1,52 +1,46 @@
 module ApplicationHelper
 
-# 借方金額表示
-  def credit(journal,sub_or_others)
-
-    # サブ取引先の場合 otherside_id ≠ schedule.otherside_id
-    if sub_or_others
-      if journal.details.first.account_id == 4
-        return journal.figure
+  # 借方金額表示
+  def credit(journal,otherside)
+    if otherside.present?
+      if journal.details.first.account_id == 4 || journal.details.first.account_id == 3
+        journal.details.first.otherside_id == otherside.id ? journal.figure : 0
       else
-        return 0
+        0
       end
-
-    else #その他の場合
-      if journal.details.first.account_id == 3
-        return journal.figure
+    else
+      if journal.details.first.account_id == 4 || journal.details.first.account_id == 3
+        journal.figure
       else
-        return 0
+        0
       end
     end
-
   end
 
-# 貸方金額表示
-  def debit(journal,sub_or_others)
-
-    # サブ取引先の場合 otherside_id ≠ schedule.otherside_id
-    if sub_or_others
-      if journal.details.last.account_id == 4
-        return journal.figure
+  # 貸方金額表示
+  def debit(journal,otherside)
+    if otherside.present?
+      if journal.details.last.account_id == 4 || journal.details.last.account_id == 3
+        journal.details.last.otherside_id == otherside.id ? journal.figure : 0
       else
-        return 0
+        0
       end
-
-    else #その他の場合
-      if journal.details.last.account_id == 3
-        return journal.figure
+    else
+      if journal.details.last.account_id == 4 || journal.details.last.account_id == 3
+        journal.figure
       else
-        return 0
+        0
       end
     end
   end
 
 # 貸方と借方の合計
-  def balance(journal,sub_or_others)
-    if debit(journal,sub_or_others) ==0 and credit(journal,sub_or_others) ==0
-      return 0
+  def balance(journal,otherside)
+    if debit(journal,otherside) ==0 and credit(journal,otherside) ==0
+      0
     else
-      return debit(journal,sub_or_others) - credit(journal,sub_or_others)
+      # return credit(journal,otherside) - debit(journal,otherside)
+      return credit(journal,otherside) - debit(journal,otherside)
     end
   end
 
