@@ -11,13 +11,12 @@
 class Schedule < ApplicationRecord
   belongs_to :location
   belongs_to :event
-  # belongs_to :event, inverse_of: :schedules
   # belongs_to :otherside, inverse_of: :schedules
   # なんでinverse_ofつけたか忘れた…
   belongs_to :otherside
   belongs_to :user
   has_many :journals, dependent: :destroy
-  has_many :details, dependent: :destroy
+  has_many :details
   # has_many :details, through: :journals
   has_one :memo, as: :memoable, inverse_of: :memoable,dependent: :destroy
 

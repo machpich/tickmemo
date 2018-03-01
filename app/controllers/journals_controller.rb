@@ -22,8 +22,8 @@ class JournalsController < ApplicationController
     else
       @journal = Journal.new
       @otherside = Otherside.new
+      @journal.build_memo
     end
-    @journal.build_memo
 
     # journal_list
     @journals = @user.journals.order(trade_date: :asc,id: :asc)
@@ -33,6 +33,7 @@ class JournalsController < ApplicationController
   def create
     @user = current_user
     @journal = Journal.new(journal_params)
+    @journal.build_memo
     @journal.otherside = @journal.schedule.otherside
     @journal.user_id = @user.id
 

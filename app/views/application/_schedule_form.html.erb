@@ -13,28 +13,29 @@
     <li>
       <%= fields_for :location do |lo| %>
       <%= lo.label :place_name,"場所*" %>
-      <%= lo.text_field :place_name %>
+      <%= lo.text_field :place_name ,id: :place_name%>
+      <%= lo.hidden_field :event_id, value:event.id%>
       <% end %>
     </li>
     <li>
       <%= fields_for event do |ev| %>
       <%= ev.label :program,"演目" %>
-      <%= ev.text_field :program %>
+      <%= ev.text_field :program ,id: :program%>
     </li>
     <li>
       <%= ev.label :performer,"出演者" %>
-      <%= ev.text_field :performer %>
+      <%= ev.text_field :performer, id: :performer %>
       <% end %>
     </li>
     <div class="submit_form_sub">
       <li>
         <%= sc.label :seat_type,"席種" %>
-        <%= sc.text_field :seat_type %>
+        <%= sc.text_field :seat_type, id: :seat_type %>
       </li>
       <li>
         <%= fields_for :otherside do |ot|%>
         <%= ot.label :otherside_name,"購入先" %>
-        <%= ot.text_field :otherside_name %>
+        <%= ot.text_field :otherside_name, id: :otherside_name %>
         <% end %>
       </li>
       <li>
@@ -50,3 +51,32 @@
   </div>
   <!-- scの終了タグ -->
   <% end %>
+<script>
+  $(function(){
+    $( "#place_name" ).autocomplete({
+      autoFocus: true,
+      source: "/schedules/autocomplete_place_name.json",
+      minLength: 0,
+    });
+    $( "#program" ).autocomplete({
+      autoFocus: true,
+      source: "/schedules/autocomplete_program",
+      minLength: 0,
+    });
+    $( "#performer" ).autocomplete({
+      autoFocus: true,
+      source: "/schedules/autocomplete_performer",
+      minLength: 0,
+    });
+    $( "#seat_type" ).autocomplete({
+      autoFocus: true,
+      source: ["SS","S","A","B"],
+      minLength: 0,
+    });
+    $( "#otherside_name" ).autocomplete({
+      autoFocus: true,
+      source: "/schedules/autocomplete_otherside_name",
+      minLength: 0,
+    });
+  });
+</script>

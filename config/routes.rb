@@ -4,15 +4,17 @@ Rails.application.routes.draw do
   get '/search' => 'home#search'
   get '/setting' => 'home#setting'
 
-  resources :schedules, except: [:new]
+  resources :schedules, except: [:new] do
+    collection do
+      get 'autocomplete_place_name'
+      get 'autocomplete_program'
+      get 'autocomplete_performer'
+      get 'autocomplete_seat_type'
+      get 'autocomplete_otherside_name'
+    end
+  end
   resources :journals, except: [:new]
-
-  # post '/journals' => 'journals#multicreate'
-  # patch '/journals' => 'journals#multiupdate'
-  # get '/journals' => 'journals#index'
-
   resources :othersides, except:[:new]
-
   resources :events,except: [:new]
   resources :trade_account_dicts
 

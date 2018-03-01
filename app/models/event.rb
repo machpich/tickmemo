@@ -6,10 +6,10 @@
     # t.integer "user_id"            #関連ユーザー
 class Event < ApplicationRecord
   belongs_to :user
-  has_many :schedules
+  has_many :schedules, dependent: :destroy
   # has_many :schedules, inverse_of: :event
   has_many :locations
-  has_one :memo, as: :memoable, inverse_of: :memoable
+  has_one :memo, as: :memoable, inverse_of: :memoable, dependent: :destroy
 
   accepts_nested_attributes_for :schedules
   accepts_nested_attributes_for :locations

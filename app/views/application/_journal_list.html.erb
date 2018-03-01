@@ -100,15 +100,15 @@
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             <%end %>
             <% if memo_exist?(obj:journal) %>
-            <span id="memo_btn" class="glyphicon glyphicon-comment active_btn" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-comment active_btn memo_btn" aria-hidden="true"></span>
             <% end %>
             </td>
           </tr>
 
           <% if memo_exist?(obj:journal) %>
-          <tr id="memo" class="no-border hidden">
+          <tr class="no-border hidden">
             <td></td>
-            <td colspan="6"><div  class="memo">
+            <td colspan="6"><div class="memo">
               <%= "#{journal.memo.body}" if memo_exist?(obj:journal) %>
             </div></td>
             <td></td>
@@ -123,9 +123,13 @@
 <% end %>
 <script>
   $(function(){
-    $('#memo_btn').click(function(){
-      $('#memo').toggleClass('hidden');
+    // $('.memo_btn').click(function(){
+    //   $(this)..toggleClass('hidden');
+    // });
+    $('.memo_btn').click(function(){
+      $(this).parent().parent().next('tr').toggleClass('hidden');
     });
+
     $('[data-toggle="tooltip"]').tooltip();
   });
 </script>

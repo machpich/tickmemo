@@ -1,6 +1,6 @@
 class SchedulesController < ApplicationController
   # before_action :authenticate_user!
-  after_action :crean_memo, only:[:update]
+  after_action :clean_memo, only:[:update]
 
   def index
     @event = Event.new
@@ -133,22 +133,33 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def edit_detail
+# =========================================create json field=========================================
+
+  def autocomplete_place_name
+    locations = Location.select(:place_name).where("place_name like '%" + params[:term] + "%'").order(:place_name).distinct
+    locations = locations.map(&:place_name)
+    render json: locations.to_json
+  end
+
+  def autocomplete_program
+    programs = Event.select(:program).where(user_id:current_user.id).where("program like '%" + params[:term] + "%'").order(:program).distinct
+    programs = programs.map(&:program)
+    render json: programs.to_json
+  end
+
+  def autocomplete_performer
+    performers = Event.select(:performer).where(user_id:current_user.id).where("performer like '%" + params[:term] + "%'").order(:performer).distinct
+    performers = performers.map(&:performer)
+    render json: performers.to_json
+  end
+
+  def autocomplete_otherside_name
+    othersides = Otherside.select(:otherside_name).where(user_id:current_user.id).where("otherside_name like '%" + params[:term] + "%'").order(:otherside_name).limitdistinct
+    othersides = othersides.map(&:otherside_name)
+    render json: othersides.to_json
   end
 
   private
-
-  # def method_name
-  #   #相手先情報の登録
-  #   @otherside = Otherside.find_or_initialize_by(params_otherside)
-  #   if @otherside.persisted? #すでにある場合
-  #   else #新規保存の場合
-  #   @otherside.user = current_user
-  #     if @otherside.otherside_name==""
-  #       @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown")
-  #     end
-  #   end
-  # end
 
   def otherside_create
     if @otherside.persisted? #すでにある場合
@@ -175,6 +186,6 @@ class SchedulesController < ApplicationController
   end
 
   def params_location
-    params.require(:location).permit(:place_name,:event_id)
+    params.require(:location).permit(:place_name,:event_id,:user_id)
   end
 end

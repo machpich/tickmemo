@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   # 紐付けのないmemoを削除
-  def crean_memo
+  def clean_memo
     memos = Memo.where(body:"")
     memos.delete_all
   end
@@ -40,6 +40,9 @@ class ApplicationController < ActionController::Base
         otherside.details.last.destroy
       end
     end
+  end
+
+  def clean_schedule_parts
   end
 
   def judge_sub_or_others(otherside)
