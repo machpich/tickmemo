@@ -6,14 +6,15 @@
           <tr>
             <th>日付</th>
             <th>取引種類</th>
+            <%if display_event %><th>相手</th><%end%>
             <th>金額</th>
             <th>借方科目<br>(立替者)</th>
             <th>貸方科目<br>(立替者)</th>
-            <% if display_price %><th>借方金額</th><% end %>
+            <%if display_price %><th>借方金額</th><% end %>
             <th><span data-toggle="tooltip" data-placement="top" title="マイナスが支払必要のある金額">バランス</span></th>
             <%if display_price %><th>貸方金額</th><% end %>
             <%if display_event %><th>演目</th><% end %>
-            <th></th>
+            <th><span id="memo_btn" class="glyphicon glyphicon-comment active_btn" aria-hidden="true"></span></th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +27,11 @@
 
             <!-- 取引種類 -->
             <td><%= journal.trade_type.trade_name %></td>
+
+            <!-- 相手 -->
+            <% if display_event %>
+            <td><%= link_to journal.otherside.otherside_name, otherside_path(journal.otherside) %></td>
+            <% end %>
 
             <!-- 金額 -->
             <td><%= journal.figure.to_s(:delimited) unless journal.figure.nil?%></td>
@@ -108,7 +114,7 @@
           <% if memo_exist?(obj:journal) %>
           <tr class="no-border hidden">
             <td></td>
-            <td colspan="6"><div class="memo">
+            <td colspan="7"><div class="memo">
               <%= "#{journal.memo.body}" if memo_exist?(obj:journal) %>
             </div></td>
             <td></td>

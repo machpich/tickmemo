@@ -14,7 +14,6 @@
       <%= fields_for :location do |lo| %>
       <%= lo.label :place_name,"場所*" %>
       <%= lo.text_field :place_name ,id: :place_name%>
-      <%= lo.hidden_field :event_id, value:event.id%>
       <% end %>
     </li>
     <li>

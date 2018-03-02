@@ -17,11 +17,12 @@ class Schedule < ApplicationRecord
   belongs_to :user
   has_many :journals, dependent: :destroy
   has_many :details
-  # has_many :details, through: :journals
   has_one :memo, as: :memoable, inverse_of: :memoable,dependent: :destroy
 
   accepts_nested_attributes_for :location
   accepts_nested_attributes_for :event
   accepts_nested_attributes_for :otherside
   accepts_nested_attributes_for :memo, reject_if: :all_blank
+
+  validates :start_datetime, presence: true
 end

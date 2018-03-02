@@ -1,5 +1,4 @@
 class OthersidesController < ApplicationController
-    before_action :clean_otherside, only:[:index]
 
   # before_action :authenticate_user!
   def show

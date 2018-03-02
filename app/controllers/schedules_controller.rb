@@ -1,6 +1,7 @@
 class SchedulesController < ApplicationController
   # before_action :authenticate_user!
   after_action :clean_memo, only:[:update]
+  after_action :clean_parts, only:[:update]
 
   def index
     @event = Event.new
@@ -33,7 +34,7 @@ class SchedulesController < ApplicationController
     @location = Location.find_or_initialize_by(params_location)
     if @location.persisted?
     else
-    @location.event = @event
+    @location.user = current_user
     end
 
     #スケジュールの登録
@@ -44,6 +45,7 @@ class SchedulesController < ApplicationController
       @schedule.save
 
     @event.save && @otherside.save && @location.save
+    @event.locations << @location
     redirect_to index_path
   end
 
@@ -95,14 +97,13 @@ class SchedulesController < ApplicationController
     @event.user = current_user
     end
 
-    # create or new　を実施
     @otherside = Otherside.find_or_initialize_by(params_otherside)
     otherside_create
 
     @location = Location.find_or_initialize_by(params_location)
     if @location.persisted?
     else
-    @location.event = @event
+    @location.user = current_user
     end
 
     @schedule.event = @event
@@ -120,16 +121,15 @@ class SchedulesController < ApplicationController
     @schedule.save
 
     @event.save && @otherside.save && @location.save
+    @event.locations << @location
     redirect_to index_path
   end
 
   def destroy
     @schedule = Schedule.find(params[:id])
     if @schedule.destroy
-      # flash[:notice] = "削除しました"
-      redirect_to schedules_path
+      redirect_back(fallback_location: root_path)
     else
-      # flash[:alert] = "削除に失敗しました"
     end
   end
 
@@ -154,7 +154,7 @@ class SchedulesController < ApplicationController
   end
 
   def autocomplete_otherside_name
-    othersides = Otherside.select(:otherside_name).where(user_id:current_user.id).where("otherside_name like '%" + params[:term] + "%'").order(:otherside_name).limitdistinct
+    othersides = Otherside.select(:otherside_name).where(user_id:current_user.id).where("otherside_name like '%" + params[:term] + "%'").order(:otherside_name).distinct
     othersides = othersides.map(&:otherside_name)
     render json: othersides.to_json
   end
@@ -186,6 +186,6 @@ class SchedulesController < ApplicationController
   end
 
   def params_location
-    params.require(:location).permit(:place_name,:event_id,:user_id)
+    params.require(:location).permit(:place_name,:user_id)
   end
 end

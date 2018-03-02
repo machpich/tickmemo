@@ -11,4 +11,5 @@ class User < ApplicationRecord
   has_many :schedules, dependent: :delete_all
   has_many :othersides, dependent: :delete_all
   has_many :journals, dependent: :delete_all
+  has_many :locations, dependent: :delete_all
 end

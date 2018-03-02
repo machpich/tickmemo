@@ -14,7 +14,9 @@
                 <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
                 <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
     <%end%>
-    <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>
+    </li>
+    <li>
+      <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>
     </li>
     <li class="pd-b-10">
       <%= schedule.event.performer %>
@@ -29,13 +31,10 @@
 <%= render 'application/total_loan', otherside: nil, othersides: @othersides, journals: nil %>
 
 <!-- 仕訳登録フォーム -->
-<h3 id="toggle_btn" class="active_btn pd-t-20"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>仕訳登録</h3>
-<div id="journal_form_hidden" class="hidden">
+<h3 class="pd-t-20"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>仕訳登録</h3>
   <%if @schedules.any? %>
   <%= render 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @otherside %>
-  <%end%>
-</div>
-
+  <% end %>
 </div>
 <div class="col-md-8">
 <!-- 取引履歴一覧 -->
@@ -43,11 +42,3 @@
 
 <%= render 'application/journal_list', journals: @journals, otherside: nil , display_event: true, display_price: false, otherside_page:false, schedule_page:false, journals_page:true %>
 </div>
-
-<script>
-  $(function(){
-    $('#toggle_btn').click(function(){
-      $('#journal_form_hidden').toggleClass('hidden');
-    });
-  });
-</script>

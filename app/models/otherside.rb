@@ -7,7 +7,6 @@ class Otherside < ApplicationRecord
   has_many :schedules, inverse_of: :otherside
   has_many :journals
   has_many :details
-  # , through: :journals
   has_one :memo, as: :memoable, inverse_of: :memoable
 
   accepts_nested_attributes_for :schedules

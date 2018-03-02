@@ -1,8 +1,7 @@
 class JournalsController < ApplicationController
   # before_action :authenticate_user!
-  before_action :clean_otherside, only:[:index]
   after_action :clean_memo, only:[:update]
-
+  after_action :clean_parts, only:[:update]
 
   def index
    # 'application/total_loan', otherside: nil, othersides: @othersides, journals: nil

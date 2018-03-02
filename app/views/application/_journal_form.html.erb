@@ -27,7 +27,7 @@
     <li>
       <%= fields_for otherside do |ot| %>
       <%= ot.label :立替者 %>
-      <%= ot.text_field :otherside_name ,id: :otherside_name%>
+      <%= ot.text_field :otherside_name ,id: :otherside_name %>
       <% end %>
     </li>
     <li>
@@ -45,7 +45,7 @@
   $(function(){
     $( "#otherside_name" ).autocomplete({
       autoFocus: true,
-      source: ["山田","佐藤","下田"],
+      source: "/schedules/autocomplete_otherside_name",
       minLength: 0,
     });
   });

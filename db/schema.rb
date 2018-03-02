@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227005939) do
+ActiveRecord::Schema.define(version: 20180302072715) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "account_name"
@@ -43,6 +43,13 @@ ActiveRecord::Schema.define(version: 20180227005939) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "events_locations", id: false, force: :cascade do |t|
+    t.integer "event_id", null: false
+    t.integer "location_id", null: false
+    t.index ["event_id"], name: "index_events_locations_on_event_id"
+    t.index ["location_id"], name: "index_events_locations_on_location_id"
+  end
+
   create_table "journals", force: :cascade do |t|
     t.date "trade_date"
     t.integer "figure"
@@ -60,10 +67,10 @@ ActiveRecord::Schema.define(version: 20180227005939) do
 
   create_table "locations", force: :cascade do |t|
     t.string "place_name"
-    t.integer "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["event_id"], name: "index_locations_on_event_id"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_locations_on_user_id"
   end
 
   create_table "memos", force: :cascade do |t|
