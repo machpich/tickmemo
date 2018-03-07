@@ -17,16 +17,17 @@
     </li>
     <li>
       <%= f.label :figure,"金額" %>
-      <%= f.text_field :figure, id:"figure" %>
+      <%= f.text_field :figure %>
     </li>
     <li>
       <%= f.label :trade_type_id,"取引種類" %>
-      <%= f.collection_select :trade_type_id, TradeType.all, :id, :trade_name %>
+      <% @tradetypes = TradeType.all%>
+      <%= f.collection_select :trade_type_id, @tradetypes, :id, :trade_name %>
     </li>
     <li>
       <%= fields_for otherside do |ot| %>
       <%= ot.label :立替者 %>
-      <%= ot.text_field :otherside_name %>
+      <%= ot.text_field :otherside_name ,id: :otherside_name %>
       <% end %>
     </li>
     <li>
@@ -42,9 +43,9 @@
 </div>
 <script>
   $(function(){
-    $( "#figure" ).autocomplete({
+    $( "#otherside_name" ).autocomplete({
       autoFocus: true,
-      source: ["8300","8800"],
+      source: "/schedules/autocomplete_otherside_name",
       minLength: 0,
     });
   });

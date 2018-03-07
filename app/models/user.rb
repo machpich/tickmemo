@@ -7,8 +7,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :events
-  has_many :schedules
-  has_many :othersides
-  has_many :journals
+  has_many :events, dependent: :delete_all
+  has_many :schedules, dependent: :delete_all
+  has_many :othersides, dependent: :delete_all
+  has_many :journals, dependent: :delete_all
+  has_many :locations, dependent: :delete_all
 end

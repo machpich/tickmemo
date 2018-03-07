@@ -15,29 +15,68 @@ class ApplicationController < ActionController::Base
   end
 
   # 紐付けのないothersideを削除
-  def clean_otherside
+  # def clean_otherside
+  #   # user = current_user
+  #   # user.othersides.includes(:schedules,:journals,:details).each do |otherside|
+  #   #   if otherside.schedules.empty? && otherside.journals.empty? && otherside.details.empty?
+  #   #     otherside.destroy
+  #   #   end
+  #   # end
+  # end
+
+  # 紐付けのないmemoを削除
+  def clean_memo
+    memos = Memo.where(body:"")
+    memos.delete_all
+  end
+
+  # def crean_details #未検証要確認
+  #   # user = current_user
+  #   # user.othersides.includes(:details).each do |otherside|
+  #   #   if otherside.details.first.journal.nil?
+  #   #     otherside.details.first.destroy
+  #   #   end
+  #   #   if otherside.details.last.journal.nil?
+  #   #     otherside.details.last.destroy
+  #   #   end
+  #   # end
+  # end
+
+  def clean_parts
     user = current_user
+    # otherside_clear
     user.othersides.includes(:schedules,:journals,:details).each do |otherside|
       if otherside.schedules.empty? && otherside.journals.empty? && otherside.details.empty?
         otherside.destroy
       end
     end
-  end
-
-  # 紐付けのないmemoを削除
-  def crean_memo
-    memos = Memo.where(body:"")
-    memos.delete_all
-  end
-
-  def crean_details #未検証要確認
-    user = current_user
-    user.othersides.includes(:details).each do |otherside|
-      if otherside.details.first.journal.nil?
-        otherside.details.first.destroy
+    # detail_clear 親(journals)の居ないdetailsを削除
+    user.othersides.each do |otherside|
+      if otherside.details.present?
+        if otherside.details.first.journal.nil?
+          otherside.details.first.destroy
+        end
+        if otherside.details.last.journal.nil?
+          otherside.details.last.destroy
+        end
       end
-      if otherside.details.last.journal.nil?
-        otherside.details.last.destroy
+    end
+    # journal_clear
+    user.journals.each do |journal|
+      if journal.schedule.nil?
+        journal.destroy
+      end
+    end
+    # event_clear
+    user.events.each do |event|
+      if event.schedules.empty?
+        event.destroy
+      end
+    end
+    # location_clear
+    user.locations.each do |location|
+      if location.schedules.empty?
+        location.destroy
       end
     end
   end

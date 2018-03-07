@@ -5,13 +5,12 @@
     # t.string "image"               #画像
     # t.integer "user_id"            #関連ユーザー
 class Event < ApplicationRecord
-  belongs_to :user
-  has_many :schedules
-  # has_many :schedules, inverse_of: :event
-  has_many :locations
-  has_one :memo, as: :memoable, inverse_of: :memoable
+  attachment :image
 
-  accepts_nested_attributes_for :schedules
-  accepts_nested_attributes_for :locations
+  belongs_to :user
+  has_many :schedules, dependent: :destroy
+  has_one :memo, as: :memoable, inverse_of: :memoable, dependent: :destroy
+  has_and_belongs_to_many :locations
+
   accepts_nested_attributes_for :memo, reject_if: :all_blank
 end

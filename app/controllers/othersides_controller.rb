@@ -1,5 +1,4 @@
 class OthersidesController < ApplicationController
-    before_action :clean_otherside, only:[:index]
 
   # before_action :authenticate_user!
   def show
@@ -30,7 +29,7 @@ class OthersidesController < ApplicationController
       @form_otherside = @sub_or_others ? Otherside.find(params[:id]) : Otherside.new
     end
 
-      @journal.build_memo
+      @journal.memo || @journal.build_memo
       # フォームのschedule一覧
       if @sub_or_others
         @user = current_user
