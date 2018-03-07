@@ -1,20 +1,49 @@
-<h1>schedule</h1>
-<div>
-  予定
-    <ul>
-      <%= link_to schedule_path(1) do%>
-      <li>日付</li>
-      <li>時間</li>
-      <li>場所</li>
-      <li>席種</li>
-      <li>メモ</li>
+<% if schedules.present? %>
+      <% schedules.includes(:event,:location,:otherside,:memo).each do |schedule| %>
+      <% event = schedule.event %>
+      <table class="table_list">
+        <tbody>
+          <tr>
+            <td class="w-50p">[c]</td>
+            <td class="w-300p"><%= link_to schedule_path(schedule) do%>
+              <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)")%>
+              <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
+              <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
+              <%end%>
+            </td>
+            <td class="w-200p left"><i class="fas fa-map-marker-alt"></i> <%= "#{schedule.location.place_name}" %></td>
+            <td class="w-100p"><%= "#{schedule.seat_type}席" unless schedule.seat_type.blank? %></td>
+            <td class="w-50p right">
+              <%= link_to edit_schedule_path(schedule) do %>
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              <% end %>
+              <%= link_to schedule_path(schedule), method: :delete do %>
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="3" class="schedule_title"><%= link_to "#{schedule.event.program}", event_path(schedule.event) %></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4"><%= schedule.event.performer %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td colspan="4">購入先: <%= link_to "#{schedule.otherside.otherside_name}",otherside_path(schedule.otherside) %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <% if memo_exist?(obj:schedule) %>
+            <td colspan="5" class="schedule/memo"><span class="label label-default">MEMO</span> <%= schedule.memo.body %></td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+      <hr>
       <% end %>
-    </ul>
-  演目
-    <ul>
-      <%= link_to event_path(1) do%>
-      <li>タイトル</li>
-      <li>演者</li>
-      <% end %>
-    </ul>
-</div>
+
+  <%end%>

@@ -1,19 +1,44 @@
 <div class="loan_field">
-  <h4>貸借管理</h4>
-  <table>
-    <tbody>
-      <tr>
-        <td><%= link_to 'Aさん', otherside_path(1) %></td>
-        <td>まるまる円</td>
-      </tr>
-      <tr>
-        <td><%= link_to 'Aさん', otherside_path(1) %></td>
-        <td>まるまる円</td>
-      </tr>
-      <tr>
-        <td><%= link_to 'Aさん', otherside_path(1) %></td>
-        <td>まるまる円</td>
-      </tr>
-    </tbody>
-  </table>
+    <table>
+      <tbody>
+<!-- 複数のothersideがある場合　journal#index -->
+        <% if othersides %>
+            <% othersides.each do |otherside| %>
+            <tr>
+                <td><span class="glyphicon glyphicon-resize-vertical"></span></td>
+                <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
+            </tr>
+            <% end %>
+        <% end %>
+
+<!-- othersideのみある場合 -->
+        <% if otherside %>
+            <tr>
+                <td><span class="glyphicon glyphicon-resize-vertical"></span></td>
+                <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
+            </tr>
+        <% end %>
+
+      </tbody>
+    </table>
+
+<!-- 立替金関係者(otherside)がある場合 -->
+<% if journals %>
+    <table>
+      <tbody>
+        <!-- otherside_list 相手先に関連のある立替者のリストアップメソッド -->
+        <% if otherside_list(journals,otherside) %>
+            <% otherside_list(journals,otherside).each do |num|%>
+            <% otherside = Otherside.find(num)%>
+            <tr>
+                <td><span class="glyphicon glyphicon-resize-horizontal"></span></td>
+                <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>
+                <td></td>
+            </tr>
+            <% end %>
+        <% end %>
+      </tbody>
+    </table>
+<% end %>
+
 </div>

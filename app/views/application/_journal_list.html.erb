@@ -1,19 +1,153 @@
-<h3>取引一覧</h3>
-<div>
-  取引履歴
-    <ul>
-      <li>取引日時</li>
-      <li>取引内容</li>
-      <li>金額</li>
-      <li>関連イベント</li>
-      <li>イベント日時</li>
-    </ul>
-    詳細
-    <ul>
-      <li>借方</li>
-      <li>貸方</li>
-      <li>債権債務：借方発生</li>
-      <li>債権債務：残高</li>
-      <li>債権債務：貸方発生</li>
-    </ul>
-</div>
+<% if journals.present? %>
+      <div class="journals">
+      <table class="table">
+        <caption>個別明細</caption>
+        <thead>
+          <tr>
+            <th class="w-80p">日付</th>
+            <th class="w-125p">取引種類</th>
+            <%if display_event %><th class="w-80p">相手</th><%end%>
+            <th class="w-80p">金額</th>
+            <th class="w-80p font-11">借方科目<br>(立替者)</th>
+            <th class="w-80p font-11">貸方科目<br>(立替者)</th>
+            <%if display_price %><th class="font-11">借方金額</th><% end %>
+            <th class="font-11"><span data-toggle="tooltip" data-placement="top" title="マイナスが支払必要のある金額">バランス</span></th>
+            <%if display_price %><th class="font-11">貸方金額</th><% end %>
+            <%if display_event %><th class="w-200p font-11">演目</th><% end %>
+            <th><span class="glyphicon glyphicon-comment active_btn" aria-hidden="true"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% array = []%>
+          <%# journals.includes(:trade_type,:memo,details: [:otherside, :account]).each do |journal|%>
+          <% journals.includes(:trade_type,:memo,:otherside, schedule: [:event],details: [:otherside, :account]).each do |journal|%>
+          <tr>
+            <!-- 日付 -->
+            <td><%= journal.trade_date %></td>
+
+            <!-- 取引種類 -->
+            <td><%= journal.trade_type.trade_name %></td>
+
+            <!-- 相手 -->
+            <% if display_event %>
+            <td><%= link_to journal.otherside.otherside_name, otherside_path(journal.otherside) %></td>
+            <% end %>
+
+            <!-- 金額 -->
+            <td><%= journal.figure.to_s(:delimited) unless journal.figure.nil?%></td>
+
+      <% first = journal.details.first %>
+      <% last = journal.details.last%>
+
+            <!-- 借方科目 -->
+            <td class="font-12"><%= first.account.account_name %><br>
+              <%= link_to otherside_path(first.otherside) do %>
+                <!-- # journalの借方detailのアカウントIDが3か4の場合　ヘルパーメソッド -->
+                <%= first.otherside.otherside_name.truncate(10) if journal_credit_is_liability?(journal) %>
+              <%end%></td>
+
+            <!-- 貸方科目 -->
+            <td class="font-12"><%= last.account.account_name %><br>
+              <%= link_to otherside_path(last.otherside) do %>
+                <!-- # journalの借方detailのアカウントIDが3か4の場合　ヘルパーメソッド -->
+                <%= last.otherside.otherside_name.truncate(10) if journal_debit_is_liability?(journal) %>
+              <%end %></td>
+
+            <!-- 借方金額 -->
+            <% if display_price%>
+            <td class="font-12"><%= credit(journal,otherside)==0? nil : credit(journal,otherside).to_s(:delimited) %></td>
+            <% end %>
+
+            <!-- バランス -->
+            <td class="font-12">
+              <% array << balance(journal,otherside) unless balance(journal,otherside)==nil%>
+              <%= total = array.sum.to_s(:delimited) %>
+            </td>
+
+
+            <!-- 貸方金額 -->
+            <% if display_price %>
+            <td class="font-12"><%= debit(journal,otherside) == 0 ? nil : debit(journal,otherside).to_s(:delimited) %></td>
+            <% end %>
+
+            <!-- 演目 -->
+            <% if display_event %>
+            <td class="font-12">
+              <%= link_to schedule_path(journal.schedule) do%>
+                <%= "(#{journal.schedule.id}) #{journal.schedule.start_datetime.strftime("%y/%m/%d")}" %><i class="<%= "#{matisowa_icon(journal.schedule)}"%>"></i>
+              <% end %>
+              <br>
+              <%=link_to journal.schedule.event.program, event_path(journal.schedule.event) %></td>
+            <% end %>
+
+            <!-- 編集 -->
+
+            <td class="font-12">
+            <% if otherside_page %>
+              <%= link_to "/othersides/#{params[:id]}?journal=#{journal.id}" do %>
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              <%end%>
+            <% end %>
+
+            <% if journals_page %>
+              <%= link_to journals_path(journal: journal.id) do %>
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              <% end %>
+            <% end %>
+
+            <% if schedule_page %>
+              <%= link_to "/schedules/#{params[:id]}?journal=#{journal.id}" do %>
+              <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+              <%end%>
+            <% end %>
+
+            <%= link_to journal_path(id: journal.id),method: :delete do %>
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            <%end %>
+            <% if memo_exist?(obj:journal) %>
+            <span class="glyphicon glyphicon-comment active_btn memo_btn" aria-hidden="true"></span>
+            <% end %>
+            </td>
+          </tr>
+
+          <% if memo_exist?(obj:journal) %>
+          <tr class="no-border hidden">
+            <td></td>
+            <td colspan="7"><div class="memo">
+              <%= "#{journal.memo.body}" if memo_exist?(obj:journal) %>
+            </div></td>
+            <td></td>
+          </tr>
+          <% end %>
+
+          <% end %>
+          <tr>
+            <td></td>
+            <td></td>
+            <%if display_event %><td></td><%end%>
+            <td></td>
+            <td></td>
+            <td></td>
+            <%if display_price %><td></td><% end %>
+            <td><span data-toggle="tooltip" data-placement="top" title="マイナスが支払必要のある金額"><%=  total = array.sum.to_s(:delimited) %></span></td>
+            <%if display_price %><td></td><% end %>
+            <%if display_event %><td></td><% end %>
+            <th></th>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+<% else %>
+  <p>明細登録がありません</p>
+<% end %>
+<script>
+  $(function(){
+    // $('.memo_btn').click(function(){
+    //   $(this)..toggleClass('hidden');
+    // });
+    $('.memo_btn').click(function(){
+      $(this).parent().parent().next('tr').toggleClass('hidden');
+    });
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

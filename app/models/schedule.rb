@@ -11,14 +11,18 @@
 class Schedule < ApplicationRecord
   belongs_to :location
   belongs_to :event
-  # belongs_to :event, inverse_of: :schedules
-  belongs_to :otherside, inverse_of: :schedules
+  # belongs_to :otherside, inverse_of: :schedules
+  # なんでinverse_ofつけたか忘れた…
+  belongs_to :otherside
   belongs_to :user
-  has_many :journal
-  has_one :memo, as: :memoable, inverse_of: :memoable
+  has_many :journals, dependent: :destroy
+  has_many :details
+  has_one :memo, as: :memoable, inverse_of: :memoable,dependent: :destroy
 
   accepts_nested_attributes_for :location
   accepts_nested_attributes_for :event
   accepts_nested_attributes_for :otherside
-  accepts_nested_attributes_for :memo
+  accepts_nested_attributes_for :memo, reject_if: :all_blank
+
+  validates :start_datetime, presence: true
 end

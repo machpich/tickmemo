@@ -1,10 +1,52 @@
 <div>
   <h3>仕訳登録フォーム</h3>
-  <ul>
-    <li>演目</li>
-    <li>金額</li>
-    <li>日時</li>
-    <li>取引内容</li>
-    <li>立替者</li>
-  </ul>
+  <%#= link_to "仕訳登録フォーム",schedule_path(journal.schedule)%>
+  <%= form_for journal do |f|%>
+    <ul class="submit_form">
+    <%if schedules.present?%>
+    <li>
+      <%= f.label :schedule_id,"関連予定" %>
+      <%= f.collection_select :schedule_id, schedules, :id, :start_datetime %>
+    </li>
+    <% else %>
+      <%= f.hidden_field :schedule_id, value:params[:id] %>
+    <% end %>
+    <li>
+      <%= f.label :trade_date,"取引日" %>
+      <%= f.date_field :trade_date %>
+    </li>
+    <li>
+      <%= f.label :figure,"金額" %>
+      <%= f.text_field :figure %>
+    </li>
+    <li>
+      <%= f.label :trade_type_id,"取引種類" %>
+      <% @tradetypes = TradeType.all%>
+      <%= f.collection_select :trade_type_id, @tradetypes, :id, :trade_name %>
+    </li>
+    <li>
+      <%= fields_for otherside do |ot| %>
+      <%= ot.label :立替者 %>
+      <%= ot.text_field :otherside_name ,id: :otherside_name %>
+      <% end %>
+    </li>
+    <li>
+      <%= f.fields_for :memo do |me| %>
+      <%= me.label :body,"メモ" %>
+      <%= me.text_area :body %>
+      <% end %>
+    </li>
+    <div class="submit_form_btn">
+      <%= f.submit "登録",class:"btn"%>
+    </div>
+  <%end%>
 </div>
+<script>
+  $(function(){
+    $( "#otherside_name" ).autocomplete({
+      autoFocus: true,
+      source: "/schedules/autocomplete_otherside_name",
+      minLength: 0,
+    });
+  });
+</script>

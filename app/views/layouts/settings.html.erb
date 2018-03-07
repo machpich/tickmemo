@@ -7,31 +7,36 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
   </head>
 
   <body>
-    <div class="header">
-      <p><%= link_to 'TICKMEMO', index_path%></p>
+    <header>
+      <div class="container clearfix">
+        <div class="header-left">
+          <%= link_to 'TICKMEMO', index_path%>
+        </div>
 
-      <div>
-        <% if current_user %>
-        <ul>
-          <li>
-            <%= link_to "#{current_user.email}",journals_path%>
-          </li>
-          <li>
-            <%= link_to '検索',search_path%>
-          </li>
-          <li>
-            <%= link_to '設定',setting_path%>
-          </li>
-          <li>
-            <%= link_to 'ログアウト',destroy_user_session_path,method: :delete%>
-          </li>
-        </ul>
-        <% end %>
+        <div class="header-right">
+          <% if current_user %>
+          <ul>
+            <li>
+              <%= "#{current_user.email}"%>
+            </li>
+            <li>
+              <%= link_to '検索',search_path%>
+            </li>
+            <li>
+              <%= link_to '設定',setting_path%>
+            </li>
+            <li>
+              <%= link_to 'ログアウト',destroy_user_session_path,method: :delete%>
+            </li>
+          </ul>
+          <% end %>
+        </div>
       </div>
-    </div>
+    </header>
 
 
     <div class="container">
@@ -40,8 +45,9 @@
         <div>
           <ul>
             <li><%= link_to 'ユーザー情報変更', edit_user_registration_path %></li>
-            <li><%= link_to 'イベント情報変更', edit_event_path(1) %></li>
-            <li><%= link_to '取引先情報変更', edit_otherside_path(1) %></li>
+            <li><%= link_to 'イベント情報変更', events_path %></li>
+            <li><%= link_to '取引先情報変更', othersides_path %></li>
+            <li><%= link_to '仕訳辞書一覧', trade_account_dicts_path %></li>
           </ul>
         </div>
       </div>

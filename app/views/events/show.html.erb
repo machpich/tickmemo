@@ -1,7 +1,33 @@
-<h1>Events#show</h1>
+<h1><%= link_to "#{@event.program} # #{@event.performer}", event_path(@event) %></h1>
+<div class="col-md-4">
 <div>
-  <h3>イベント詳細</h3>
+    <% unless @event.image.nil?%>
+    <%= attachment_image_tag @event, :image, :fill, 280, 300, format: 'jpeg'%>
+    <% else %>
+    <div class="event_img mg-b-20">NO IMG</div>
+  <% end %>
+  <%= link_to edit_event_path(@event) do %>
+    <h6><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> edit</h6>
+  <% end %>
+  <div class="event_detail">
+    <ul>
+      <li class="mg-t-20 mg-b-10"><span class="label label-default">イベント開催期間</span></li>
+      <li><%= "#{@event.date_start.strftime("%Y/%m/%d (%a)")} 〜 " unless @event.date_start.nil? %><%= @event.date_end.strftime("%Y/%m/%d (%a)") unless @event.date_end.nil? %></li>
+      <li class="mg-t-20 mg-b-10"><span class="label label-default">参加会場</span></li>
+      <% @event.locations.distinct.each do |location|%>
+        <li><%= location.place_name%></li>
+      <% end %>
+      <% if @event.try(:memo)%>
+      <li class="mg-t-20 mg-b-10"><span class="label label-default">MEMO</span></li>
+      <li class="font-13"><%= simple_format(@event.memo.body)%> </li>
+      <% end %>
+    </ul>
+  </div>
 </div>
 
+</div>
+<div class="col-md-8">
 <h3>予定一覧</h3>
-<%= render 'application/schedule_list'%>
+<%= render 'application/schedule_list', schedules: @schedules %>
+</div>
+

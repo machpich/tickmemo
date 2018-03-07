@@ -2,13 +2,22 @@ Rails.application.routes.draw do
   root 'home#top'
   get '/index' => 'schedules#index'
   get '/search' => 'home#search'
-
-  resources :schedules, only: [:index,:show,:create,:update,:destroy]
-  resources :journals, only: [:index,:create,:update,:destroy]
-  resources :othersides, except:[:index,:new]
-  resources :events,except: [:index,:new]
-
   get '/setting' => 'home#setting'
+
+  resources :schedules, except: [:new] do
+    collection do
+      get 'autocomplete_place_name'
+      get 'autocomplete_program'
+      get 'autocomplete_performer'
+      get 'autocomplete_seat_type'
+      get 'autocomplete_otherside_name'
+    end
+  end
+  resources :journals, except: [:new]
+  resources :othersides, except:[:new]
+  resources :events,except: [:new]
+  resources :trade_account_dicts
+
   resource :settings, only: [:index] do
     resources :users, only:[:index]
   end

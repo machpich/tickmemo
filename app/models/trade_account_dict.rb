@@ -5,4 +5,6 @@
 class TradeAccountDict < ApplicationRecord
   belongs_to :trade_type
   belongs_to :account
+
+  enum position_status: { debit: 0, credit: 1 }
 end

@@ -11,6 +11,7 @@ class HomeController < ApplicationController
   end
 
   def search
+    @schedules = Schedule.where(user_id:current_user.id)
   end
 
   def mypage

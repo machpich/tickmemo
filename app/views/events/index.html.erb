@@ -1,0 +1,57 @@
+<!-- <h1>events#edit</h1>
+    t.string "program"
+    t.string "performer"
+    t.date "date_start"
+    t.date "date_end"
+    t.string "image"
+    t.integer "user_id"
+イベント一覧 -->
+  <div class="col-md-4">
+  <%= render '/application/setting_menu'%>
+  </div>
+
+  <div class="col-md-8">
+    <h1>events#index</h1>
+<div class="nav_list hidden">
+  <ul>
+    <li>half_year</li>
+    <li>past</li>
+    <li>feature</li>
+    <li>all</li>
+  </ul>
+</div>
+<div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>IMG</th>
+          <th class="w-250p">演目</th>
+          <th>演者</th>
+          <th>期間</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @events.includes(:memo).each do |event|%>
+        <tr>
+          <td rowspan="2">
+            <%= link_to edit_event_path(event) do %>
+            　<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+           <% end %>
+          </td>
+          <td rowspan="2">
+            <%= attachment_image_tag event, :image, :fill, 60, 80, format: 'jpeg'%>
+          </td>
+          <td><%= link_to event.program, event_path(event) %></td>
+          <td><%= event.performer %></td>
+          <td><%= "#{event.date_start.strftime("%Y/%m/%d (%a)")}" unless event.date_start.nil?%> <%= "〜 #{event.date_end}" unless event.date_start.nil? %></td>
+          <td></td>
+        </tr>
+        <tr class="no-border pd-t-20">
+          <td colspan="3" class="notes_font"><%= event.memo.body unless event.memo.nil? %></td>
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+</div>

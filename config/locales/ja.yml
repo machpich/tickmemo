@@ -1,0 +1,6 @@
+ja:
+  enums:
+    trade_account_dict:
+      position_status:
+        debit: 借方（左）
+        credit: 貸方（右）

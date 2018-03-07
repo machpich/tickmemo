@@ -1,0 +1,54 @@
+<!-- t.string "otherside_name"
+t.integer "type"
+t.integer "user_id"
+t.datetime "created_at", null: false
+t.datetime "updated_at", null: false -->
+
+<div class="col-md-4">
+<!-- 設定メニュー -->
+<%= render '/application/setting_menu'%>
+
+<hr>
+<div>
+  form
+</div>
+
+</div>
+
+<div class="col-md-8">
+
+<!-- 関係者一覧 -->
+  <div >
+    <h1>othersides#index</h1>
+    <table class="table">
+      <caption>関係者一覧</caption>
+      <thead>
+        <tr>
+          <th></th>
+          <th>名前</th>
+          <th></th>
+          <th>取引有無</th>
+          <th>明細有無</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% othersides = Otherside.where(user_id:current_user.id)%>
+        <% othersides.each.with_index(1) do |otherside, index|%>
+
+        <tr>
+          <td><%= index %>.</td>
+          <td><%= link_to otherside.otherside_name, otherside_path(otherside) %>　<span class="glyphicon glyphicon-edit" aria-hidden="true"></span></td>
+          <td><%= otherside.type %></td>
+          <td>あり</td>
+          <td>あり</td>
+          <td>memo</td>
+          <td><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>

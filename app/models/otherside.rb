@@ -5,9 +5,15 @@
 class Otherside < ApplicationRecord
   belongs_to :user
   has_many :schedules, inverse_of: :otherside
-  has_many :accounts
+  has_many :journals
+  has_many :details
   has_one :memo, as: :memoable, inverse_of: :memoable
 
   accepts_nested_attributes_for :schedules
   accepts_nested_attributes_for :memo
+
+  validates :otherside_name, presence: true
+
+  # enum type: { none:0 ,cooporation: 1, friend: 2 }
+
 end

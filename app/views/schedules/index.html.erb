@@ -1,12 +1,28 @@
+<div class="web_desc">
+  <p>おかねとチケットを一元管理！ 楽しみな予定をもっと簡単に！</p>
+</div>
+<div class="img-field">
+  <% @images.each do |image|%>
+    <%= link_to event_path(image) do %>
+    <%= attachment_image_tag image, :image, :fill, 200, 230, format: 'jpeg'%>
+    <% end %>
+  <%end%>
+</div>
+
 <div class="col-md-4">
 
-<h3>カレンダー</h3>
 <!-- 仕訳登録フォーム -->
+<div class="right">
 <%= render 'application/schedule_form', event: @event, schedule: @schedule %>
+</div>
 
 
 </div>
 <div class="col-md-8">
-
-<%= render 'application/schedule_list'%>
+<ol class="breadcrumb right">
+  <li><a href="#">全件</a></li>
+  <li><a href="#">フラグA</a></li>
+  <li class="active">フラグ無</li>
+</ol>
+<%= render 'application/schedule_list', schedules: @schedules%>
 </div>

@@ -1,1 +1,31 @@
+<!-- t.string "otherside_name"
+t.integer "type"
+t.integer "user_id"
+t.datetime "created_at", null: false
+t.datetime "updated_at", null: false -->
+
 <h1>othersides#edit</h1>
+<table class="table">
+  <caption>関係者一覧</caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th>名前</th>
+      <th></th>
+      <th>取引有無</th>
+      <th>明細有無</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% othersides = Otherside.where(user_id:current_user.id)%>
+    <% othersides.each do |otherside|%>
+    <tr>
+      <td>edit <br> delete </td>
+      <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>
+      <td><%= otherside.type %></td>
+      <td>あり</td>
+      <td>あり</td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

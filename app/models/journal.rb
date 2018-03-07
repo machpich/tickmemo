@@ -6,8 +6,10 @@
 class Journal < ApplicationRecord
   belongs_to :trade_type
   belongs_to :schedule
-  has_one :memo, as: :memoable, inverse_of: :memoable
-  has_and_belongs_to_many :details
+  belongs_to :otherside
+  belongs_to :user
+  has_one :memo, as: :memoable, inverse_of: :memoable, dependent: :destroy
+  has_many :details, dependent: :destroy, inverse_of: :journal
 
-  accepts_nested_attributes_for :memo
+  accepts_nested_attributes_for :memo, reject_if: :all_blank
 end

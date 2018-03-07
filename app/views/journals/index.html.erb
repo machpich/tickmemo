@@ -1,14 +1,57 @@
-<h1>journals#index</h1>
+<!-- <h1>journals#index</h1>
 <h2>全明細時系列</h2>
-
+ -->
 <div class="col-md-4">
+
+<!-- 関連予定 -->
+<% if @related_schedules.present? %>
+<h3 class="pd-t-20 active_btn" id="related_schedule"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> 関連予定</h3>
+<div class="w-90 hidden">
+  <ul>
+    <% @related_schedules.includes(:event).each do |schedule| %>
+    <li><%= link_to schedule_path(schedule) do%>
+                <%= "(#{schedule.id}) #{schedule.start_datetime.strftime("%Y/%m/%d (%a)")}" %>
+                <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
+                <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
+    <%end%>
+    </li>
+    <li>
+      <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>
+    </li>
+    <li class="pd-b-10">
+      <%= schedule.event.performer %>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
 <!-- 貸借管理 -->
-<%= render 'application/total_loan'%>
+<h3 id="total_loan" class="active_btn"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 関係者</h3>
+<div class="hidden">
+<%= render 'application/total_loan', otherside: nil, othersides: @othersides, journals: nil %>
+</div>
 
 <!-- 仕訳登録フォーム -->
-<%= render 'application/journal_form'%>
+<h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 仕訳登録</h3>
+  <%if @schedules.any? %>
+  <%= render 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @otherside %>
+  <% end %>
 </div>
 <div class="col-md-8">
 <!-- 取引履歴一覧 -->
-<%= render 'application/journal_list'%>
+
+
+<%= render 'application/journal_list', journals: @journals, otherside: nil , display_event: true, display_price: false, otherside_page:false, schedule_page:false, journals_page:true %>
 </div>
+
+<script>
+  $(function(){
+    $('#related_schedule').click(function(){
+      $(this).next().toggleClass('hidden');
+    });
+    $('#total_loan').click(function(){
+      $(this).next().toggleClass('hidden');
+    });
+  });
+</script>
