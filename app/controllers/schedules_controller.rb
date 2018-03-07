@@ -1,9 +1,11 @@
 class SchedulesController < ApplicationController
   # before_action :authenticate_user!
   after_action :clean_memo, only:[:update]
-  after_action :clean_parts, only:[:update]
+  after_action :clean_parts, only:[:update,:destroy]
 
   def index
+    @images = Event.where(user_id:1).where.not(image_id:nil).order(created_at: :desc).distinct.limit(4)
+
     @event = Event.new
     @event.locations.build
     @schedule = @event.schedules.build

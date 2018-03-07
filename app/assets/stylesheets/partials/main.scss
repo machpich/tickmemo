@@ -36,13 +36,16 @@ h1 {
 
 header {
   background-color: $main-gray-color;
-  height: 50px;
-  line-height: 50px;
+  height: 60px;
+  line-height: 60px;
   margin-bottom: 50px;
 }
 
 .header-left {
-  float: left;
+  font-family: 'Krona One', sans-serif;
+  font-size: 70px;
+  position: absolute;
+  top: 4px;
 }
 
 .header-right {
@@ -52,6 +55,23 @@ header {
 .header-right li {
     display: inline-block;
     padding: 0 20px;
+}
+.web_desc {
+    top: 70px;
+    position: absolute;
+    font-size: 12px;
+    color: #9d9d9d;
+    font-weight: 200;
+}
+
+/* ===============schedule#index======================== */
+
+.img-field {
+    height: 280px;
+    text-align: center;
+    img {
+      padding: 10px;
+    }
 }
 
 /* ===============schedule_form,journal_form======================== */
@@ -63,8 +83,7 @@ header {
     font-weight: normal;
 }
 
-.submit_form input,.submit_form textarea,.submit_form select {
-    width: 180px;
+.submit_form input,.submit_form textarea,.submit_form select{
     padding: 5px;
     margin: 5px;
     font-size: 13px;
@@ -95,3 +114,29 @@ input.btn {
 .table_list {
   width: 100%;
 }
+
+input#event_image {
+    position: relative;
+    top: -30px;
+    left: 84px;
+}
+
+td.notes_font {
+    font-size: 12px;
+    color: #ccc;
+}
+
+/* ===============event======================== */
+
+
+div.event_img {
+    background: lightgray;
+    width: 250px;
+    height: 320px;
+    color: #fff;
+    text-align: center;
+    line-height: 320px;
+    font-family: 'arial black';
+    border: 1px solid #999;
+    border-radius: 4px;
+    }

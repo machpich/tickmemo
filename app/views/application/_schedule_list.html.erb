@@ -4,16 +4,16 @@
       <table class="table_list">
         <tbody>
           <tr>
-            <td>[c]</td>
+            <td class="w-50p">[c]</td>
             <td class="w-300p"><%= link_to schedule_path(schedule) do%>
               <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)")%>
               <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
               <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
               <%end%>
             </td>
-            <td class="w-200p"><i class="fas fa-map-marker-alt"></i> <%= "#{schedule.location.place_name}" %></td>
-            <td><%= "#{schedule.seat_type}席" %></td>
-            <td class="right">
+            <td class="w-200p left"><i class="fas fa-map-marker-alt"></i> <%= "#{schedule.location.place_name}" %></td>
+            <td class="w-100p"><%= "#{schedule.seat_type}席" unless schedule.seat_type.blank? %></td>
+            <td class="w-50p right">
               <%= link_to edit_schedule_path(schedule) do %>
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
               <% end %>

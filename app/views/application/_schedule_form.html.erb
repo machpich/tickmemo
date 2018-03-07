@@ -1,4 +1,5 @@
-  <h3>予定登録フォーム</h3>
+<div class="right_form_field">
+<h3>予定登録フォーム</h3>
   <!-- form_for部分 -->
   <%= form_for schedule do |sc|%>
   <ul class="submit_form">
@@ -26,17 +27,22 @@
       <%= ev.text_field :performer, id: :performer %>
       <% end %>
     </li>
+    <li>
+      <%= fields_for :otherside do |ot|%>
+      <%= ot.label :otherside_name,"購入先" %>
+      <%= ot.text_field :otherside_name, id: :otherside_name %>
+      <% end %>
+    </li>
     <div class="submit_form_sub">
       <li>
         <%= sc.label :seat_type,"席種" %>
         <%= sc.text_field :seat_type, id: :seat_type %>
       </li>
-      <li>
-        <%= fields_for :otherside do |ot|%>
-        <%= ot.label :otherside_name,"購入先" %>
-        <%= ot.text_field :otherside_name, id: :otherside_name %>
-        <% end %>
+<!--       <li>
+        <%#= sc.label :check,"付箋" %>
+        <%#= sc.check_box :check, checked_value = "0" %>
       </li>
+ -->
       <li>
         <%= sc.fields_for :memo||schedule.build_memo do |me| %>
         <%= me.label :メモ %>
@@ -50,6 +56,7 @@
   </div>
   <!-- scの終了タグ -->
   <% end %>
+</div>
 <script>
   $(function(){
     $( "#place_name" ).autocomplete({
