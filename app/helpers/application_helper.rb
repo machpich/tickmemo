@@ -88,21 +88,40 @@ module ApplicationHelper
 
 # ========================= _journal_list.html.erb  ===========================
 # journalの借方detailのaccount_idが3（債務）か4（立替金）の場合。liability:負債科目
-def journal_credit_is_liability?(journal)
-  journal.details.first.account.character_status == 1
-end
+  def journal_credit_is_liability?(journal)
+    journal.details.first.account.character_status == 1
+  end
 
 # journalの借方detailのaccount_idが3（債務）か4（立替金）の場合。liability:負債科目
-def journal_debit_is_liability?(journal)
-  journal.details.last.account.character_status == 1
-end
-
-def memo_exist?(obj:)
-  if obj.memo.blank? || obj.memo.body.blank?
-    return false
-  else
-    return true
+  def journal_debit_is_liability?(journal)
+    journal.details.last.account.character_status == 1
   end
-end
 
+  def memo_exist?(obj)
+    if obj.memo.blank? || obj.memo.body.blank?
+      return false
+    else
+      return true
+    end
+  end
+
+# sub取引先かmain取引先か
+  def judge_sub_or_others(otherside)
+    if Detail.where(otherside_id: otherside.id).any? && Journal.where(otherside_id: otherside.id).empty?
+      true
+    elsif Detail.where(otherside_id: otherside.id).empty? && Journal.where(otherside_id: otherside.id).empty? && Schedule.where(otherside_id: otherside.id).any?
+      false
+    else
+      false
+    end
+  end
+
+# 取引先種類によってアイコンを変える
+  def sub_or_others_icon(otherside)
+    if judge_sub_or_others(otherside)
+      return "far fa-address-card"
+    else
+      return "fas fa-address-card"
+    end
+  end
 end

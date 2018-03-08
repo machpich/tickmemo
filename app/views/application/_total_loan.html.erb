@@ -5,7 +5,7 @@
         <% if othersides %>
             <% othersides.each do |otherside| %>
             <tr>
-                <td><span class="glyphicon glyphicon-resize-vertical"></span></td>
+                <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i></td>
                 <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
             </tr>
             <% end %>
@@ -14,7 +14,7 @@
 <!-- othersideのみある場合 -->
         <% if otherside %>
             <tr>
-                <td><span class="glyphicon glyphicon-resize-vertical"></span></td>
+                <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i></td>
                 <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
             </tr>
         <% end %>
@@ -31,7 +31,7 @@
             <% otherside_list(journals,otherside).each do |num|%>
             <% otherside = Otherside.find(num)%>
             <tr>
-                <td><span class="glyphicon glyphicon-resize-horizontal"></span></td>
+                <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i></td>
                 <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>
                 <td></td>
             </tr>

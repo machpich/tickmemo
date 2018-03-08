@@ -24,12 +24,10 @@ t.datetime "updated_at", null: false -->
       <caption>関係者一覧</caption>
       <thead>
         <tr>
+          <th>no</th>
+          <th>NAME</th>
           <th></th>
-          <th>名前</th>
-          <th></th>
-          <th>取引有無</th>
-          <th>明細有無</th>
-          <th></th>
+          <th>memo</th>
           <th></th>
         </tr>
       </thead>
@@ -38,12 +36,16 @@ t.datetime "updated_at", null: false -->
         <% othersides.each.with_index(1) do |otherside, index|%>
 
         <tr>
+          <!-- no -->
           <td><%= index %>.</td>
-          <td><%= link_to otherside.otherside_name, otherside_path(otherside) %>　<span class="glyphicon glyphicon-edit" aria-hidden="true"></span></td>
+          <!-- name -->
+          <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i> <%= link_to otherside.otherside_name, otherside_path(otherside) %>
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></td>
+          <!-- type -->
           <td><%= otherside.type %></td>
-          <td>あり</td>
-          <td>あり</td>
+          <!-- memo -->
           <td>memo</td>
+          <!-- trash -->
           <td><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </td>
         </tr>
         <% end %>

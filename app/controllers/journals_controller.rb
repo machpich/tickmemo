@@ -33,7 +33,7 @@ class JournalsController < ApplicationController
 
   def create
     @user = current_user
-    @journal = Journal.new(journal_params)
+    @journal = Journal.new(params_journal)
     # @journal.build_memo
     @journal.otherside = @journal.schedule.otherside
     @journal.user_id = @user.id
@@ -62,7 +62,7 @@ class JournalsController < ApplicationController
 
   def update
     @journal = Journal.find(params[:id])
-    @journal.update(journal_params)
+    @journal.update(params_journal)
 
     @journal.details.delete_all
     set_dict
@@ -82,35 +82,37 @@ class JournalsController < ApplicationController
   private
 
   def set_dict
-    @journal.trade_type.trade_account_dicts.each do |tads|
-      attributes = tads.attributes.slice("position_status", "account_id")
-      @detail = @journal.details.build(attributes)
+    if @journal.trade_type.trade_account_dicts.present?
+      @journal.trade_type.trade_account_dicts.each do |tads|
+        attributes = tads.attributes.slice("position_status", "account_id")
+        @detail = @journal.details.build(attributes)
 
-      #立替金がある場合は関係者を新規作成
-      if @detail.account_id == 4
-        @otherside = Otherside.find_or_initialize_by(otherside_params)
+        #立替金がある場合は関係者を新規作成
+        if @detail.account_id == 4
+          @otherside = Otherside.find_or_initialize_by(params_otherside)
 
-        if @otherside.persisted? #すでにある場合
-        else #新規保存の場合
-          if @otherside.otherside_name==""
-            @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown") || Otherside.new(otherside_name:"unknown")
+          if @otherside.persisted? #すでにある場合
+          else #新規保存の場合
+            if @otherside.otherside_name==""
+              @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown") || Otherside.new(otherside_name:"unknown")
+            end
+          @otherside.user = current_user
           end
-        @otherside.user = current_user
-        end
 
-        @otherside.save
-        @detail.otherside = @otherside
-      else
-        @detail.otherside = @journal.schedule.otherside
+          @otherside.save
+          @detail.otherside = @otherside
+        else
+          @detail.otherside = @journal.schedule.otherside
+        end
       end
     end
   end
 
-  def otherside_params
+  def params_otherside
     params.require(:otherside).permit(:otherside_name)
   end
 
-  def journal_params
+  def params_journal
     params.require(:journal).permit(:id,:schedule_id,:trade_date,:figure,:trade_type_id,memo_attributes:[:body,:id,:_destroy])
   end
 end

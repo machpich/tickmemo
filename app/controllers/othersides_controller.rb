@@ -49,7 +49,32 @@ class OthersidesController < ApplicationController
 
 
   def edit
-    render layout: 'settings'
+    @otherside = Otherside.find(params[:id])
+    @otherside.memo || @otherside.build_memo
+
+    # journal_list
+    @journals = Journal.joins(:details).where(details: {otherside_id: params[:id]}).order(trade_date: :asc,id: :asc).distinct
+    @journals = nil if @journals.blank?
+    @sub_or_others = judge_sub_or_others(@otherside)
+
+    # 関連スケジュール一覧
+    if @sub_or_others
+      @related_schedules = Schedule.joins(journals:[:details]).where(details:{otherside_id: @otherside.id}).order("start_datetime").distinct
+    else
+      otherside = Otherside.find(params[:id])
+      @related_schedules = otherside.schedules
+    end
   end
 
+  def update
+    @otherside = Otherside.find(params[:id])
+    @otherside.update(params_otherside)
+    redirect_to otherside_path(@otherside)
+  end
+
+  private
+
+  def params_otherside
+    params.require(:otherside).permit(:otherside_name,memo_attributes:[:body,:id,:_destroy])
+  end
 end

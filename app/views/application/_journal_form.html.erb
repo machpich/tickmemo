@@ -6,7 +6,7 @@
     <%if schedules.present?%>
     <li>
       <%= f.label :schedule_id,"関連予定" %>
-      <%= f.collection_select :schedule_id, schedules, :id, :start_datetime %>
+      <%= f.collection_select :schedule_id, schedules, :id, :start_datetime, id: :schedule_id %>
     </li>
     <% else %>
       <%= f.hidden_field :schedule_id, value:params[:id] %>
@@ -16,15 +16,15 @@
       <%= f.date_field :trade_date %>
     </li>
     <li>
-      <%= f.label :figure,"金額" %>
-      <%= f.text_field :figure %>
-    </li>
-    <li>
       <%= f.label :trade_type_id,"取引種類" %>
       <% @tradetypes = TradeType.all%>
       <%= f.collection_select :trade_type_id, @tradetypes, :id, :trade_name %>
     </li>
     <li>
+      <%= f.label :figure,"金額" %>
+      <%= f.text_field :figure %>
+    </li>
+    <li id="otherside_field">
       <%= fields_for otherside do |ot| %>
       <%= ot.label :立替者 %>
       <%= ot.text_field :otherside_name ,id: :otherside_name %>
@@ -48,5 +48,6 @@
       source: "/schedules/autocomplete_otherside_name",
       minLength: 0,
     });
+
   });
 </script>

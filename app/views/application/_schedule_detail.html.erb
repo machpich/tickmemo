@@ -29,7 +29,7 @@
           <tr>
             <td></td>
             <td colspan="4" class="schedule/memo">
-              <% if memo_exist?(obj:@schedule) %>
+              <% if memo_exist?(@schedule) %>
               <span class="label label-default">MEMO</span>
               <%= @schedule.memo.body %>
               <% end %>

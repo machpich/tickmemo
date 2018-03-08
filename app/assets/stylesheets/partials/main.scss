@@ -1,6 +1,8 @@
 
-$main-gray-color: #F3F3F3;
 $main-yellow-color: #e1d333;
+$gray0: #F3F3F3;
+$gray1: #A9A9A9;
+$gray2: #767676;
 
 /* =========================bootstrap打ち消し用========================= */
 .no-border td {
@@ -35,7 +37,7 @@ h1 {
 /* =========================layout======================= */
 
 header {
-  background-color: $main-gray-color;
+  background-color: $gray0;
   height: 60px;
   line-height: 60px;
   margin-bottom: 50px;
@@ -128,7 +130,6 @@ td.notes_font {
 
 /* ===============event======================== */
 
-
 div.event_img {
     background: lightgray;
     width: 250px;
@@ -140,3 +141,15 @@ div.event_img {
     border: 1px solid #999;
     border-radius: 4px;
     }
+
+/* =====================setting===================== */
+.setting_menu > li {
+  padding: 5px;
+}
+
+/* =====================otherside#show===================== */
+.otherside-memo-content {
+    word-wrap: break-word;
+    color: $gray2;
+    font-size:13px;
+}
