@@ -50,7 +50,7 @@ module ApplicationHelper
   def matisowa_icon(schedule)
     hour = schedule.start_datetime.hour
     if hour.between?(6,14)
-      return "fas fa-sun"
+      return "far fa-sun"
     else
       return "fas fa-moon"
     end
