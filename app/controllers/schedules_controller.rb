@@ -73,6 +73,9 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.find(params[:id])
     @journals = @schedule.journals
     @journals = nil if @journals.blank?
+
+    # journal_list
+    @list_journals = @schedule.journals.order('trade_date')
   end
 
   def edit
@@ -86,6 +89,9 @@ class SchedulesController < ApplicationController
     # total_loan
     @journals = @schedule.journals
     @journals = nil if @journals.blank?
+
+    # journal_list
+    @list_journals = @schedule.journals.order('trade_date')
   end
 
   def update

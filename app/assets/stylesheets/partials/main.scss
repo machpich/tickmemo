@@ -20,6 +20,7 @@ $gray2: #767676;
   padding: 0;
   box-sizing: border-box;
   list-style-type: none;
+  //font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体";
 }
 
 h1 {
@@ -87,10 +88,11 @@ header {
 
 .submit_form input,.submit_form textarea,.submit_form select{
     padding: 5px;
-    margin: 5px;
+    margin: 4px;
     font-size: 13px;
     border: 1px solid #A9A9A9;
-    border-radius: 2px;
+    border-radius: 3px;
+    width: 165px;
 }
 
 input.btn {
@@ -109,12 +111,15 @@ input.btn {
     padding-left: 15px;
 }
 
-.submit_form_sub input,.submit_form textarea {
-   width: 165px;
-}
-
-.table_list {
+table.table_list {
   width: 100%;
+  td{
+  padding: 1px;
+  }
+  td.schedule_title > a{
+  font-weight: bold;
+  font-size: 15px;
+  }
 }
 
 input#event_image {
@@ -126,6 +131,10 @@ input#event_image {
 td.notes_font {
     font-size: 12px;
     color: #ccc;
+}
+
+input#schedule_check,input#schedule_fix {
+  width: 30px;
 }
 
 /* ===============event======================== */

@@ -26,8 +26,7 @@ t.datetime "updated_at", null: false -->
         <tr>
           <th>no</th>
           <th>NAME</th>
-          <th></th>
-          <th>memo</th>
+          <th class="w-500p">memo</th>
           <th></th>
         </tr>
       </thead>
@@ -41,10 +40,8 @@ t.datetime "updated_at", null: false -->
           <!-- name -->
           <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i> <%= link_to otherside.otherside_name, otherside_path(otherside) %>
             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></td>
-          <!-- type -->
-          <td><%= otherside.type %></td>
           <!-- memo -->
-          <td>memo</td>
+          <td><%= simple_format(otherside.memo.body) unless otherside.memo.nil?%></td>
           <!-- trash -->
           <td><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </td>
         </tr>

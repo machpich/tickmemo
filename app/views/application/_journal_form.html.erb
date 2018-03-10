@@ -1,12 +1,12 @@
 <div>
   <h3>仕訳登録フォーム</h3>
-  <%#= link_to "仕訳登録フォーム",schedule_path(journal.schedule)%>
   <%= form_for journal do |f|%>
     <ul class="submit_form">
     <%if schedules.present?%>
     <li>
       <%= f.label :schedule_id,"関連予定" %>
-      <%= f.collection_select :schedule_id, schedules, :id, :start_datetime, id: :schedule_id %>
+      <%= f.select :schedule_id, schedules.order("start_datetime").includes(:event,:otherside).map{|t| ["#{t.start_datetime.strftime("%y/%m/%d(%a)")} #{t.start_datetime.strftime("%H")}時 #{t.event.program} (#{t.otherside.otherside_name})", t.id]} %>
+      <%#= f.collection_select :schedule_id, schedules, :id, :start_datetime, id: :schedule_id %>
     </li>
     <% else %>
       <%= f.hidden_field :schedule_id, value:params[:id] %>
@@ -24,7 +24,7 @@
       <%= f.label :figure,"金額" %>
       <%= f.text_field :figure %>
     </li>
-    <li id="otherside_field">
+    <li id="otherside_field" class="hidden">
       <%= fields_for otherside do |ot| %>
       <%= ot.label :立替者 %>
       <%= ot.text_field :otherside_name ,id: :otherside_name %>
@@ -36,12 +36,19 @@
       <%= me.text_area :body %>
       <% end %>
     </li>
+    <li>
+      <%= fields_for journal.schedule do |sc| %>
+      <%= sc.label :check,"清算完了" %>
+      <%= sc.check_box :check %>
+      <% end %>
+    </li>
     <div class="submit_form_btn">
       <%= f.submit "登録",class:"btn"%>
     </div>
   <%end%>
 </div>
 <script>
+// othersideフィールドのオートコンプリート
   $(function(){
     $( "#otherside_name" ).autocomplete({
       autoFocus: true,
@@ -49,5 +56,28 @@
       minLength: 0,
     });
 
+// 立替関係の取引を選んだときだけ立替が表示
+    $('#journal_trade_type_id').on('change',function(){
+      var selectVal = $("#journal_trade_type_id option:selected").val();
+      var othersideVal = $('#otherside_name').val();
+      console.log(othersideVal);
+
+      if (othersideVal == ""){
+        if (selectVal>=6){
+          $('#otherside_field').removeClass('hidden')
+        } else {
+          $('#otherside_field').addClass('hidden')
+        };
+      };
+    });
+
+//今日の日付を自動でフォームに入力
+    $('#journal_trade_date').focus(function(){
+    var date = new Date();
+        var yyyy = date.getFullYear();
+        var mm = ("0"+(date.getMonth()+1)).slice(-2);
+        var dd = ("0"+date.getDate()).slice(-2);
+      $(this).val(yyyy+'-'+mm+'-'+dd);
+    });
   });
 </script>

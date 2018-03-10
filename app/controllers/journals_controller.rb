@@ -28,15 +28,16 @@ class JournalsController < ApplicationController
 
     # journal_list
     @journals = @user.journals.order(trade_date: :asc,id: :asc)
-    @related_schedules = @user.schedules
+    @related_schedules = @user.schedules.order(:start_datetime)
   end
 
   def create
     @user = current_user
     @journal = Journal.new(params_journal)
-    # @journal.build_memo
     @journal.otherside = @journal.schedule.otherside
     @journal.user_id = @user.id
+
+    @schedule = @journal.schedule.update(params_schedule)
 
     # 辞書から仕訳セットメソッド
     set_dict
@@ -62,7 +63,14 @@ class JournalsController < ApplicationController
 
   def update
     @journal = Journal.find(params[:id])
+
+    # schedule_idが変更された場合、othersideもscheduleに合わせる
+    if params[:journal][:schedule_id].to_i != @journal.schedule_id
+      @journal.otherside_id = @journal.schedule.otherside_id
+    end
+
     @journal.update(params_journal)
+    @schedule = @journal.schedule.update(params_schedule) #fix更新
 
     @journal.details.delete_all
     set_dict
@@ -82,7 +90,8 @@ class JournalsController < ApplicationController
   private
 
   def set_dict
-    if @journal.trade_type.trade_account_dicts.present?
+    if @journal.trade_type.trade_account_dicts.present? #メモ以外の取引を選んだ場合
+
       @journal.trade_type.trade_account_dicts.each do |tads|
         attributes = tads.attributes.slice("position_status", "account_id")
         @detail = @journal.details.build(attributes)
@@ -91,7 +100,7 @@ class JournalsController < ApplicationController
         if @detail.account_id == 4
           @otherside = Otherside.find_or_initialize_by(params_otherside)
 
-          if @otherside.persisted? #すでにある場合
+          if @otherside.persisted? #立替関係者がすでに存在する場合　なにもしない
           else #新規保存の場合
             if @otherside.otherside_name==""
               @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown") || Otherside.new(otherside_name:"unknown")
@@ -104,8 +113,12 @@ class JournalsController < ApplicationController
         else
           @detail.otherside = @journal.schedule.otherside
         end
-      end
+      end #each終わり
     end
+  end
+
+  def params_schedule
+    params.require(:schedule).permit(:check)
   end
 
   def params_otherside

@@ -5,7 +5,7 @@
         <thead>
           <tr>
             <th class="w-50p">日付</th>
-            <th>取引</th>
+            <th class="w-50p">取引</th>
             <%if display_event %><th class="w-80p">相手</th><%end%>
             <th>金額</th>
             <th class="w-80p font-11 center">借方<br>(立替者)</th>
@@ -13,7 +13,7 @@
             <%if display_price %><th class="center w-40p font-11">借方<br>金額</th><% end %>
             <th class="center w-40p font-11"><span data-toggle="tooltip" data-placement="top" title="マイナスが支払必要のある金額">差引</span></th>
             <%if display_price %><th class="center w-40p font-11">貸方<br>金額</th><% end %>
-            <%if display_event %><th class="w-200p font-11">演目</th><% end %>
+            <%if display_event %><th class="font-11">演目</th><% end %>
             <th><a href="#"><span id="memo_btn" class="far fa-file-alt active_btn" aria-hidden="true"></span></a></th>
           </tr>
         </thead>
@@ -25,7 +25,7 @@
             <!-- 日付 -->
             <td class="center">
               <% unless journal.trade_date.nil?%>
-              <span style="font-size:20px"><%= journal.trade_date.strftime("%y") %></span><br>
+              <span style="font-weight:600;font-size:20px;color:#ccc;"><%= journal.trade_date.strftime("%y") %></span><br>
               <%= journal.trade_date.strftime("%m/%d") %>
               <%end%>
             </td>
@@ -98,15 +98,17 @@
             <% if display_event %>
             <td class="font-12">
               <%= link_to schedule_path(journal.schedule) do%>
+              <i class="<%= check_fix_smicon(journal.schedule)%>"></i>
                 <%= "(#{journal.schedule.id}) #{journal.schedule.start_datetime.strftime("%y/%m/%d")}" %><i class="<%= "#{matisowa_icon(journal.schedule)}"%>"></i>
               <% end %>
               <br>
-              <%=link_to journal.schedule.event.program, event_path(journal.schedule.event) %></td>
+              <%=link_to truncate(journal.schedule.event.program,  length: 24), event_path(journal.schedule.event) %></td>
             <% end %>
 
             <!-- 編集 -->
 
-            <td class="font-12 center">
+            <td class="font-12">
+              <!-- 編集リンク -->
             <% if otherside_page %>
               <%= link_to "/othersides/#{params[:id]}?journal=#{journal.id}" do %>
               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -125,10 +127,12 @@
               <%end%>
             <% end %>
 
-            <%= link_to journal_path(id: journal.id),method: :delete do %>
+            <!-- 削除 -->
+            <%= link_to journal_path(id: journal.id), data: { confirm: "削除しますか?" },data: { confirm: "削除しますか?" },method: :delete do %>
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             <%end %>
-
+            <!-- メモアイコン -->
+            <br>
             <% if memo_exist?(journal) %>
             <span class="far fa-file-alt"></span>
             <%end%>

@@ -2,8 +2,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   # application_helperを全体に反映
   helper :all
-  # 遷移元を保存する
-  # before_action :set_request_from
 
   # before_action :authenticate_user!
 
@@ -14,33 +12,11 @@ class ApplicationController < ActionController::Base
     index_path
   end
 
-  # 紐付けのないothersideを削除
-  # def clean_otherside
-  #   # user = current_user
-  #   # user.othersides.includes(:schedules,:journals,:details).each do |otherside|
-  #   #   if otherside.schedules.empty? && otherside.journals.empty? && otherside.details.empty?
-  #   #     otherside.destroy
-  #   #   end
-  #   # end
-  # end
-
   # 紐付けのないmemoを削除
   def clean_memo
     memos = Memo.where(body:"")
     memos.delete_all
   end
-
-  # def crean_details #未検証要確認
-  #   # user = current_user
-  #   # user.othersides.includes(:details).each do |otherside|
-  #   #   if otherside.details.first.journal.nil?
-  #   #     otherside.details.first.destroy
-  #   #   end
-  #   #   if otherside.details.last.journal.nil?
-  #   #     otherside.details.last.destroy
-  #   #   end
-  #   # end
-  # end
 
   def clean_parts
     user = current_user

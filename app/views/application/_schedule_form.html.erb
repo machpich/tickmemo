@@ -33,21 +33,24 @@
       <%= ot.text_field :otherside_name, id: :otherside_name %>
       <% end %>
     </li>
-    <div class="submit_form_sub">
+    <div id="plus_form" class="btn"><p>+</p></div>
+    <div class="plus_form hidden">
       <li>
         <%= sc.label :seat_type,"席種" %>
         <%= sc.text_field :seat_type, id: :seat_type %>
       </li>
-<!--       <li>
-        <%#= sc.label :check,"付箋" %>
-        <%#= sc.check_box :check, checked_value = "0" %>
-      </li>
- -->
+
       <li>
         <%= sc.fields_for :memo||schedule.build_memo do |me| %>
         <%= me.label :メモ %>
         <%= me.text_area :body %>
         <% end %>
+      </li>
+     <li>
+        <%= sc.label :fix,"確定" ,class:"short_label"%>
+        <%= sc.check_box :fix %>
+        <%= sc.label :check,"清算済",class:"short_label" %>
+        <%= sc.check_box :check %>
       </li>
     </div>
   </ul>
@@ -59,6 +62,19 @@
 </div>
 <script>
   $(function(){
+    // 追加項目の表示
+    $('#plus_form').on('click',function(){
+      var icon = $('#plus_form').text();
+      $('.plus_form').toggleClass('hidden');
+        if(icon=="+"){
+          $(this).text("-");
+      } else {
+          $(this).text("+");
+      };
+    });
+
+
+    // オートコンプリート
     $( "#place_name" ).autocomplete({
       autoFocus: true,
       source: "/schedules/autocomplete_place_name.json",

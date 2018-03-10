@@ -5,16 +5,27 @@
 //#A9A9A9 : 濃い目のグレー
 //#767676 : もっと濃い目のグレー
 //#f5f1f1
-//$main-yellow-color: #F8E71C;
+$main-yellow-color: #F8E71C;
 $main-gray-color: #F3F3F3;
 $gray-color0: #F3F3F3;
 $gray-color1: #A9A9A9;
 $gray-color2: #767676;
-$main-yellow-color: #e1d333;
+$main-yellow-color2: #e1d333;
 
 //　color
 .font-red {
   color: #F00;
+}
+.font-white {
+  color: #FFF;
+}
+
+.font-yellow1 {
+  color: $main-yellow-color;
+}
+
+.font-yellow2 {
+  color: $main-yellow-color2;
 }
 
 .font-gray1 {
@@ -173,6 +184,9 @@ $main-yellow-color: #e1d333;
 .mg-r-5 {
   margin-right: 5px;
 }
+.mg-r-8 {
+  margin-right: 8px;
+}
 .mg-r-10 {
   margin-right: 10px;
 }
@@ -252,28 +266,28 @@ $main-yellow-color: #e1d333;
 //囲い
 
 .md-5 {
-  margin:　5px;
+  margin: 5px;
 }
 .md-10 {
-  margin:　10px;
+  margin: 10px;
 }
 .md-15 {
-  margin:　15px;
+  margin: 15px;
 }
 .md-20 {
-  margin:　20px;
+  margin: 20px;
 }
 .pd-5 {
-  padding:　5px;
+  padding: 5px;
 }
 .pd-10 {
-  padding:　10px;
+  padding: 10px;
 }
 .pd-15 {
-  padding:　15px;
+  padding: 15px;
 }
 .pd-20 {
-  padding:　20px;
+  padding: 20px;
 }
 
 //width
@@ -294,6 +308,9 @@ $main-yellow-color: #e1d333;
 }
 
 
+.w-25p {
+  width: 25px;
+}
 .w-40p {
   width: 40px;
 }
