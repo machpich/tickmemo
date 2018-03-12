@@ -1,5 +1,5 @@
 class JournalsController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   after_action :clean_memo, only:[:update]
   after_action :clean_parts, only:[:update,:destroy]
 
@@ -32,12 +32,12 @@ class JournalsController < ApplicationController
   end
 
   def create
-    @user = current_user
     @journal = Journal.new(params_journal)
     @journal.otherside = @journal.schedule.otherside
-    @journal.user_id = @user.id
+    @journal.user_id = current_user.id
 
-    @schedule = @journal.schedule.update(params_schedule)
+    # @schedule = @journal.schedule.update(params_schedule) #fix更新
+
 
     # 辞書から仕訳セットメソッド
     set_dict
@@ -70,7 +70,7 @@ class JournalsController < ApplicationController
     end
 
     @journal.update(params_journal)
-    @schedule = @journal.schedule.update(params_schedule) #fix更新
+    # @schedule = @journal.schedule.update(params_schedule) #fix更新
 
     @journal.details.delete_all
     set_dict
@@ -117,9 +117,9 @@ class JournalsController < ApplicationController
     end
   end
 
-  def params_schedule
-    params.require(:schedule).permit(:check)
-  end
+  # def params_schedule
+  #   params.require(:schedule).permit(:fix)
+  # end
 
   def params_otherside
     params.require(:otherside).permit(:otherside_name)

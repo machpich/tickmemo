@@ -8,23 +8,23 @@
       <%= attachment_image_tag image, :image, :fill, 200, 230, format: 'jpeg'%>
       <% end %>
     <%end%>
+  </div>
 <%end %>
-</div>
 
 <div class="col-md-4">
 
 <!-- 仕訳登録フォーム -->
-<div class="right">
 <%= render 'application/schedule_form', event: @event, schedule: @schedule %>
-</div>
-
 
 </div>
+
 <div class="col-md-8">
-<ol class="breadcrumb right">
-  <li><a href="#">全件</a></li>
-  <li><a href="#">フラグA</a></li>
-  <li class="active">フラグ無</li>
-</ol>
-<%= render 'application/schedule_list', schedules: @schedules%>
+  <ol class="breadcrumb right">
+    <li><a href="#">all</a></li>
+    <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',result_schedules_path(c:true),remote:true%></li>
+    <li><a href="#"><i class=""></i><%= link_to '未処理',result_schedules_path(c:false),remote:true%></a></li>
+  </ol>
+  <div id="result">
+    <%= render 'application/schedule_list', schedules: @schedules%>
+  </div>
 </div>

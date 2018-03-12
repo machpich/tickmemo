@@ -1,10 +1,10 @@
 class SchedulesController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   after_action :clean_memo, only:[:update]
   after_action :clean_parts, only:[:update,:destroy]
 
   def index
-    @images = Event.where(user_id:1).where.not(image_id:nil).order(created_at: :desc).distinct.limit(4)
+    @images = Event.where(user_id:current_user.id).where.not(image_id:nil).order(created_at: :desc).distinct.limit(4)
 
     @event = Event.new
     @event.locations.build
@@ -23,10 +23,6 @@ class SchedulesController < ApplicationController
   def create
     # イベントと場所の登録
     @event = Event.find_or_initialize_by(params_event)
-    if @event.persisted?
-    else
-    @event.user = current_user
-    end
 
     #相手先情報の登録
     @otherside = Otherside.find_or_initialize_by(params_otherside)
@@ -34,16 +30,11 @@ class SchedulesController < ApplicationController
 
     # 場所の登録
     @location = Location.find_or_initialize_by(params_location)
-    if @location.persisted?
-    else
-    @location.user = current_user
-    end
 
     #スケジュールの登録
     @schedule = @event.schedules.build(params_schedule)
       @schedule.location = @location
       @schedule.otherside = @otherside
-      @schedule.user = current_user
       @schedule.save
 
     @event.save && @otherside.save && @location.save
@@ -100,24 +91,15 @@ class SchedulesController < ApplicationController
     @schedule.update(params_schedule)
 
     @event = Event.find_or_initialize_by(params_event)
-    if @event.persisted?
-    else
-    @event.user = current_user
-    end
 
     @otherside = Otherside.find_or_initialize_by(params_otherside)
     otherside_create
 
     @location = Location.find_or_initialize_by(params_location)
-    if @location.persisted?
-    else
-    @location.user = current_user
-    end
 
     @schedule.event = @event
     @schedule.location = @location
     @schedule.otherside = @otherside
-    @schedule.user = current_user
 
     if @schedule.otherside_id_changed?
       journals = @schedule.journals
@@ -141,10 +123,11 @@ class SchedulesController < ApplicationController
     end
   end
 
+
 # =========================================create json field=========================================
 
   def autocomplete_place_name
-    locations = Location.select(:place_name).where("place_name like '%" + params[:term] + "%'").order(:place_name).distinct
+    locations = Location.select(:place_name).where(user_id:current_user.id).where("place_name like '%" + params[:term] + "%'").order(:place_name).distinct
     locations = locations.map(&:place_name)
     render json: locations.to_json
   end
@@ -165,6 +148,20 @@ class SchedulesController < ApplicationController
     othersides = Otherside.select(:otherside_name).where(user_id:current_user.id).where("otherside_name like '%" + params[:term] + "%'").order(:otherside_name).distinct
     othersides = othersides.map(&:otherside_name)
     render json: othersides.to_json
+  end
+
+# =========================================ajax result=========================================
+
+  def result
+    if params[:c] == "true"
+      check = true
+    else
+      check = false
+    end
+    today = Date.today
+    from = today - 1.month
+    to = today + 5.month
+    @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).where(check: check).order(:start_datetime)
   end
 
   private

@@ -36,12 +36,12 @@
       <%= me.text_area :body %>
       <% end %>
     </li>
-    <li>
-      <%= fields_for journal.schedule do |sc| %>
-      <%= sc.label :check,"清算完了" %>
-      <%= sc.check_box :check %>
-      <% end %>
-    </li>
+<!--     <li>
+      <%#= fields_for journal.schedule do |sc| %>
+      <%#= sc.label :check,"清算完了" %>
+      <%#= sc.check_box :check %>
+      <%# end %>
+    </li> -->
     <div class="submit_form_btn">
       <%= f.submit "登録",class:"btn"%>
     </div>

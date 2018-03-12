@@ -12,4 +12,7 @@ class User < ApplicationRecord
   has_many :othersides, dependent: :delete_all
   has_many :journals, dependent: :delete_all
   has_many :locations, dependent: :delete_all
+
+  attachment :profile_image
+
 end

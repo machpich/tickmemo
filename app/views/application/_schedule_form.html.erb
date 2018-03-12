@@ -1,4 +1,4 @@
-<div class="right_form_field">
+<div class="right_form_field center">
 <h3>予定登録フォーム</h3>
   <!-- form_for部分 -->
   <%= form_for schedule do |sc|%>
@@ -15,6 +15,7 @@
       <%= fields_for :location do |lo| %>
       <%= lo.label :place_name,"場所*" %>
       <%= lo.text_field :place_name ,id: :place_name%>
+      <%= lo.hidden_field :user_id, value:current_user.id%>
       <% end %>
     </li>
     <li>
@@ -25,16 +26,35 @@
     <li>
       <%= ev.label :performer,"出演者" %>
       <%= ev.text_field :performer, id: :performer %>
+      <%= ev.hidden_field :user_id, value:current_user.id%>
       <% end %>
     </li>
     <li>
       <%= fields_for :otherside do |ot|%>
       <%= ot.label :otherside_name,"購入先" %>
       <%= ot.text_field :otherside_name, id: :otherside_name %>
+      <%= ot.hidden_field :user_id, value:current_user.id%>
       <% end %>
     </li>
-    <div id="plus_form" class="btn"><p>+</p></div>
-    <div class="plus_form hidden">
+     <li>
+ <!--     <div class="pretty p-default p-curve p-toggle">
+        <input type="checkbox" />
+        <div class="state p-success p-on">
+            <label>確定</label>
+        </div>
+        <div class="state p-danger p-off">
+            <label>未定 </label>
+        </div>
+    </div>
+  -->
+        <%= sc.label :fix,"確定" ,class:"short_label"%>
+        <%= sc.check_box :fix %>
+
+        <%= sc.label :check,"清算済",class:"short_label" %>
+        <%= sc.check_box :check %>
+        <%= sc.hidden_field :user_id, value:current_user.id%>
+      </li>
+    <div class="plus_form">
       <li>
         <%= sc.label :seat_type,"席種" %>
         <%= sc.text_field :seat_type, id: :seat_type %>
@@ -45,12 +65,6 @@
         <%= me.label :メモ %>
         <%= me.text_area :body %>
         <% end %>
-      </li>
-     <li>
-        <%= sc.label :fix,"確定" ,class:"short_label"%>
-        <%= sc.check_box :fix %>
-        <%= sc.label :check,"清算済",class:"short_label" %>
-        <%= sc.check_box :check %>
       </li>
     </div>
   </ul>
@@ -63,15 +77,15 @@
 <script>
   $(function(){
     // 追加項目の表示
-    $('#plus_form').on('click',function(){
-      var icon = $('#plus_form').text();
-      $('.plus_form').toggleClass('hidden');
-        if(icon=="+"){
-          $(this).text("-");
-      } else {
-          $(this).text("+");
-      };
-    });
+    // $('#plus_form').on('click',function(){
+    //   var icon = $('#plus_form').text();
+    //   $('.plus_form').toggleClass('hidden');
+    //     if(icon=="+"){
+    //       $(this).text("-");
+    //   } else {
+    //       $(this).text("+");
+    //   };
+    // });
 
 
     // オートコンプリート

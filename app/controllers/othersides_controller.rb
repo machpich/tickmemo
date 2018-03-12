@@ -1,6 +1,6 @@
 class OthersidesController < ApplicationController
+  before_action :authenticate_user!
 
-  # before_action :authenticate_user!
   def show
     # total_loan (otherside: @sub_or_others ? nil : @schedule.otherside, othersides: nil, details: @details)
     # journal_list (journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others)

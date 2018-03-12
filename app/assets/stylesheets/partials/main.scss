@@ -9,6 +9,10 @@ $gray2: #767676;
   border-top : none;
 }
 
+.breadcrumb {
+  background-color: transparent;
+}
+
 /* =========================material design======================= */
 
 .ui-helper-hidden-accessible {
@@ -67,6 +71,12 @@ header {
     font-weight: 200;
 }
 
+.header_user_icon {
+    border-radius: 50%;
+    position: relative;
+    top: -10px;
+}
+
 /* ===============schedule#index======================== */
 
 .img-field {
@@ -82,7 +92,7 @@ header {
 .submit_form label {
     width: 80px;
     vertical-align: top;
-    height: 2em;
+    //height: 2em;
     font-weight: normal;
 }
 
@@ -126,6 +136,7 @@ input#event_image {
     position: relative;
     top: -30px;
     left: 84px;
+    width: 300px;
 }
 
 td.notes_font {

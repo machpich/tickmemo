@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!, except:[:top]
   # skip_before_action :authenticate_user!,only:[:top]
 
 
@@ -7,11 +8,10 @@ class HomeController < ApplicationController
   end
 
   def setting
-    render layout: 'settings'
   end
 
   def search
-    @schedules = Schedule.where(user_id:current_user.id)
+    @schedules = Schedule.where(user_id:current_user.id).order("start_datetime desc")
   end
 
   def mypage

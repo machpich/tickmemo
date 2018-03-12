@@ -45,11 +45,18 @@
     <li>
       <%= f.label :date_end,"終了" %>
       <%= f.date_field :date_end %>
-      <%= f.hidden_field :user, value:current_user.id %>
+      <%= f.hidden_field :user_id, value:current_user.id %>
     </li>
     <li>
       <%= f.label :image ,"画像" %>
-      <%= f.attachment_field :image %>
+      <%= f.attachment_field :image, style:"width:320px;" %>
+      <div class="pretty p-default" style="position: relative; top: -4.5em; left: 440px;">
+      <%#= f.label :remove_image do %>
+      <%= f.check_box :remove_image %>
+        <div class="state">
+            <label style="height:auto;">画像削除</label>
+        </div>
+      </div>
     </li>
     <li>
         <%= f.fields_for :memo||schedule.build_memo do |me| %>
