@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get 'autocomplete_performer'
       get 'autocomplete_seat_type'
       get 'autocomplete_otherside_name'
+      get 'result'
     end
   end
   resources :journals, except: [:new]

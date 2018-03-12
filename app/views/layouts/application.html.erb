@@ -4,12 +4,10 @@
     <title>TICKMEMO</title>
     <meta http-equiv="Content-Language" content="ja">
     <link href="https://fonts.googleapis.com/css?family=Krona+One" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 
   </head>
 
@@ -17,20 +15,25 @@
     <header>
       <div class="container clearfix">
         <div class="header-left">
-          <%= link_to 'TICKMEMO', index_path%>
+           <%= attachment_image_tag current_user, :profile_image, :fill,50,50, class:"header_user_icon", format: 'jpeg',fallback: "no_user.png" %>
+          <% if user_signed_in?%>
+           <%= link_to 'TICKMEMO', index_path%>
+          <% else %>
+           <%= link_to 'TICKMEMO', root_path%>
+          <% end %>
         </div>
 
         <div class="header-right">
           <% if current_user %>
           <ul>
             <li>
-              <%= link_to "#{current_user.email}",journals_path%>
+              <%= link_to "#{current_user.email}さんの全仕訳",journals_path%>
             </li>
             <li>
               <%= link_to '検索',search_path%>
             </li>
             <li>
-              <%= link_to '設定',setting_path%>
+              <%= link_to 'マイページ',setting_path%>
             </li>
             <li>
               <%= link_to 'ログアウト',destroy_user_session_path,method: :delete%>

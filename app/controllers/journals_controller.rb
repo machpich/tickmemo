@@ -1,5 +1,5 @@
 class JournalsController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   after_action :clean_memo, only:[:update]
   after_action :clean_parts, only:[:update,:destroy]
 
@@ -28,15 +28,16 @@ class JournalsController < ApplicationController
 
     # journal_list
     @journals = @user.journals.order(trade_date: :asc,id: :asc)
-    @related_schedules = @user.schedules
+    @related_schedules = @user.schedules.order(:start_datetime)
   end
 
   def create
-    @user = current_user
-    @journal = Journal.new(journal_params)
-    # @journal.build_memo
+    @journal = Journal.new(params_journal)
     @journal.otherside = @journal.schedule.otherside
-    @journal.user_id = @user.id
+    @journal.user_id = current_user.id
+
+    # @schedule = @journal.schedule.update(params_schedule) #fix更新
+
 
     # 辞書から仕訳セットメソッド
     set_dict
@@ -62,7 +63,14 @@ class JournalsController < ApplicationController
 
   def update
     @journal = Journal.find(params[:id])
-    @journal.update(journal_params)
+
+    # schedule_idが変更された場合、othersideもscheduleに合わせる
+    if params[:journal][:schedule_id].to_i != @journal.schedule_id
+      @journal.otherside_id = @journal.schedule.otherside_id
+    end
+
+    @journal.update(params_journal)
+    # @schedule = @journal.schedule.update(params_schedule) #fix更新
 
     @journal.details.delete_all
     set_dict
@@ -82,35 +90,42 @@ class JournalsController < ApplicationController
   private
 
   def set_dict
-    @journal.trade_type.trade_account_dicts.each do |tads|
-      attributes = tads.attributes.slice("position_status", "account_id")
-      @detail = @journal.details.build(attributes)
+    if @journal.trade_type.trade_account_dicts.present? #メモ以外の取引を選んだ場合
 
-      #立替金がある場合は関係者を新規作成
-      if @detail.account_id == 4
-        @otherside = Otherside.find_or_initialize_by(otherside_params)
+      @journal.trade_type.trade_account_dicts.each do |tads|
+        attributes = tads.attributes.slice("position_status", "account_id")
+        @detail = @journal.details.build(attributes)
 
-        if @otherside.persisted? #すでにある場合
-        else #新規保存の場合
-          if @otherside.otherside_name==""
-            @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown") || Otherside.new(otherside_name:"unknown")
+        #立替金がある場合は関係者を新規作成
+        if @detail.account_id == 4
+          @otherside = Otherside.find_or_initialize_by(params_otherside)
+
+          if @otherside.persisted? #立替関係者がすでに存在する場合　なにもしない
+          else #新規保存の場合
+            if @otherside.otherside_name==""
+              @otherside = Otherside.where(user_id:current_user.id).find_by(otherside_name:"unknown") || Otherside.new(otherside_name:"unknown")
+            end
+          @otherside.user = current_user
           end
-        @otherside.user = current_user
-        end
 
-        @otherside.save
-        @detail.otherside = @otherside
-      else
-        @detail.otherside = @journal.schedule.otherside
-      end
+          @otherside.save
+          @detail.otherside = @otherside
+        else
+          @detail.otherside = @journal.schedule.otherside
+        end
+      end #each終わり
     end
   end
 
-  def otherside_params
+  # def params_schedule
+  #   params.require(:schedule).permit(:fix)
+  # end
+
+  def params_otherside
     params.require(:otherside).permit(:otherside_name)
   end
 
-  def journal_params
+  def params_journal
     params.require(:journal).permit(:id,:schedule_id,:trade_date,:figure,:trade_type_id,memo_attributes:[:body,:id,:_destroy])
   end
 end

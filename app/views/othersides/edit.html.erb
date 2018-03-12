@@ -1,31 +1,68 @@
-<!-- t.string "otherside_name"
-t.integer "type"
-t.integer "user_id"
-t.datetime "created_at", null: false
-t.datetime "updated_at", null: false -->
+<h1><i class="<%= "#{sub_or_others_icon(@otherside)}"%>"></i> <%=link_to @otherside.otherside_name,otherside_path(@otherside) %></h1>
+<div class="col-md-4">
 
-<h1>othersides#edit</h1>
-<table class="table">
-  <caption>関係者一覧</caption>
-  <thead>
-    <tr>
-      <th></th>
-      <th>名前</th>
-      <th></th>
-      <th>取引有無</th>
-      <th>明細有無</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% othersides = Otherside.where(user_id:current_user.id)%>
-    <% othersides.each do |otherside|%>
-    <tr>
-      <td>edit <br> delete </td>
-      <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>
-      <td><%= otherside.type %></td>
-      <td>あり</td>
-      <td>あり</td>
-    </tr>
+  <div class="form_field">
+    <h3 class="pd-b-15">関係者情報</h3>
+      <%= form_for @otherside, url:otherside_path(@otherside), method: :patch do |f|%>
+      <ul class="submit_form">
+        <li>
+          <%= f.label :otherside_name,"関係者名" %>
+          <%= f.text_field :otherside_name,id: :otherside_name %>
+        </li>
+        <li>
+            <%= f.fields_for :memo||@otherside.build_memo do |me| %>
+            <%= me.label :メモ %>
+            <%= me.text_area :body,style:"margin: 5px; width: 180px; height: 140px;" %>
+            <% end %>
+        </li>
+      </ul>
+      <div class="submit_form_btn">
+        <%= f.submit "登録",class:"btn btn-default"%>
+      </div>
+      <!-- fの終了タグ -->
+      <% end %>
+    </div>
+
+</div>
+
+<div class="col-md-8">
+  <div class="row">
+    <div class="col-md-8">
+    <% if @related_schedules.present? %>
+    <h4>関連予定</h4>
+    <ul>
+      <% @related_schedules.includes(:event).each do |schedule| %>
+      <li><i class="<%= check_fix_icon(schedule)%>"></i>
+        <%= link_to schedule_path(schedule) do%>
+                  <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)") %>
+                  <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
+                  <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
+      <%end%>
+      <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>  <%= schedule.event.performer %>
+      </li>
+      <% end %>
+    </ul>
     <% end %>
-  </tbody>
-</table>
+    </div>
+
+    <div class="col-md-4">
+      <div class="right">
+        <%= link_to edit_otherside_path(@otherside) do %>
+        <h6><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> edit</h6>
+        <% end %>
+      </div>
+      <div class="otherside-memo-content">
+        <% unless @otherside.memo.nil? %>
+          <span class="label label-default">MEMO</span>
+          <br><br>
+          <%= simple_format(@otherside.memo.body) %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
+<!-- 仕訳詳細 -->
+<%= render 'application/journal_list', journals: @journals, otherside: @otherside, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false %>
+
+</div>

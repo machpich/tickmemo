@@ -1,9 +1,21 @@
 <span class="label label-info">設定メニュー</span>
 <div>
-  <ul>
-    <li><%= link_to 'ユーザー情報変更', edit_user_registration_path %></li>
-    <li><%= link_to 'イベント情報変更', events_path %></li>
-    <li><%= link_to '取引先情報変更', othersides_path %></li>
-    <li><%= link_to '仕訳辞書一覧', trade_account_dicts_path %></li>
+  <ul class="pd-tb-10 setting_menu font-15">
+    <li>
+      <%= link_to edit_user_registration_path do%>
+      <span class="glyphicon glyphicon-user mg-r-10"></span>会員情報編集
+      <%end%>
+    </li>
+    <li>
+      <%= link_to events_path do%>
+      <span class="glyphicon glyphicon-list-alt mg-r-10"></span>登録イベント一覧
+      <% end %>
+    </li>
+    <li>
+      <%= link_to othersides_path do %>
+      <span class="glyphicon glyphicon-list-alt mg-r-10"></span>取引先情報一覧
+      <% end %>
+    </li>
+    <li><%#= link_to '仕訳辞書一覧', trade_account_dicts_path %></li>
   </ul>
 </div>

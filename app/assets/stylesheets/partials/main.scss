@@ -1,10 +1,16 @@
 
-$main-gray-color: #F3F3F3;
 $main-yellow-color: #e1d333;
+$gray0: #F3F3F3;
+$gray1: #A9A9A9;
+$gray2: #767676;
 
 /* =========================bootstrap打ち消し用========================= */
 .no-border td {
   border-top : none;
+}
+
+.breadcrumb {
+  background-color: transparent;
 }
 
 /* =========================material design======================= */
@@ -18,6 +24,7 @@ $main-yellow-color: #e1d333;
   padding: 0;
   box-sizing: border-box;
   list-style-type: none;
+  //font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体";
 }
 
 h1 {
@@ -35,7 +42,7 @@ h1 {
 /* =========================layout======================= */
 
 header {
-  background-color: $main-gray-color;
+  background-color: $gray0;
   height: 60px;
   line-height: 60px;
   margin-bottom: 50px;
@@ -64,6 +71,12 @@ header {
     font-weight: 200;
 }
 
+.header_user_icon {
+    border-radius: 50%;
+    position: relative;
+    top: -10px;
+}
+
 /* ===============schedule#index======================== */
 
 .img-field {
@@ -79,16 +92,17 @@ header {
 .submit_form label {
     width: 80px;
     vertical-align: top;
-    height: 2em;
+    //height: 2em;
     font-weight: normal;
 }
 
 .submit_form input,.submit_form textarea,.submit_form select{
     padding: 5px;
-    margin: 5px;
+    margin: 4px;
     font-size: 13px;
     border: 1px solid #A9A9A9;
-    border-radius: 2px;
+    border-radius: 3px;
+    width: 165px;
 }
 
 input.btn {
@@ -107,18 +121,22 @@ input.btn {
     padding-left: 15px;
 }
 
-.submit_form_sub input,.submit_form textarea {
-   width: 165px;
-}
-
-.table_list {
+table.table_list {
   width: 100%;
+  td{
+  padding: 1px;
+  }
+  td.schedule_title > a{
+  font-weight: bold;
+  font-size: 15px;
+  }
 }
 
 input#event_image {
     position: relative;
     top: -30px;
     left: 84px;
+    width: 300px;
 }
 
 td.notes_font {
@@ -126,8 +144,11 @@ td.notes_font {
     color: #ccc;
 }
 
-/* ===============event======================== */
+input#schedule_check,input#schedule_fix {
+  width: 30px;
+}
 
+/* ===============event======================== */
 
 div.event_img {
     background: lightgray;
@@ -140,3 +161,15 @@ div.event_img {
     border: 1px solid #999;
     border-radius: 4px;
     }
+
+/* =====================setting===================== */
+.setting_menu > li {
+  padding: 5px;
+}
+
+/* =====================otherside#show===================== */
+.otherside-memo-content {
+    word-wrap: break-word;
+    color: $gray2;
+    font-size:13px;
+}

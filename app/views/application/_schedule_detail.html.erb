@@ -2,34 +2,56 @@
       <table class="list_table">
         <tbody>
           <tr>
-            <td>[c]</td>
-            <td colspan="3" class="schedule_title"><%= link_to "#{@schedule.event.program}", event_path(@schedule.event) %></td>
             <td>
+              <!-- 未確定フラグ -->
+              <i class="<%= check_fix_icon(@schedule) %>"></i>
+            </td>
+            <td colspan="3" class="schedule_title">
+              <!-- イベントタイトル -->
+              <%= link_to "#{@schedule.event.program}", event_path(@schedule.event) %></td>
+            <td>
+              <!-- 編集／削除ボタン -->
               <%= link_to edit_schedule_path(schedule) do %>
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
               <%end%>
-              <%= link_to schedule_path(@schedule), method: :delete do%>
+              <%= link_to schedule_path(@schedule), data: { confirm: "削除しますか?" },method: :delete do%>
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               <% end %>
             </td>
           </tr>
           <tr>
             <td></td>
-            <td><%= @schedule.event.performer %></td>
-              <!-- 時間によってアイコンを変える -->
-            <td><i class="<%= "#{matisowa_icon(@schedule)}"%>"></i>
-              <%= @schedule.start_datetime.strftime("%H:%M")%><%= "-#{@schedule.end_datetime.strftime("%H:%M")}" if @schedule.end_datetime.present? %></td>
-            <td><i class="fas fa-map-marker-alt"></i> <%= "#{@schedule.location.place_name}" %></td>
-            <td><%= "#{@schedule.seat_type}席" %></td>
+            <td>
+            <!-- イベント演者 -->
+              <%= @schedule.event.performer %>
+            </td>
+
+            <td>
+            <!-- イベント開始時刻〜終了時刻 -->
+              <!-- matisowa_ison 時間によってアイコンを変える -->
+              <i class="<%= "#{matisowa_icon(@schedule)}"%>"></i>
+              <%= @schedule.start_datetime.strftime("%H:%M")%><%= "-#{@schedule.end_datetime.strftime("%H:%M")}" if @schedule.end_datetime.present? %>
+            </td>
+            <td>
+            <!-- イベント会場 -->
+              <i class="fas fa-map-marker-alt"></i> <%= "#{@schedule.location.place_name}" %>
+            </td>
+            <td>
+            <!-- 席種 -->
+              <%= "#{@schedule.seat_type}席" if @schedule.seat_type.present?%>
+            </td>
           </tr>
           <tr>
             <td></td>
-            <td colspan="4">購入先: <%= link_to "#{@schedule.otherside.otherside_name}",otherside_path(@schedule.otherside) %></td>
+            <td colspan="4">
+            <!-- 購入先 -->
+              購入先: <%= link_to "#{@schedule.otherside.otherside_name}",otherside_path(@schedule.otherside) %>
+            </td>
           </tr>
           <tr>
             <td></td>
             <td colspan="4" class="schedule/memo">
-              <% if memo_exist?(obj:@schedule) %>
+              <% if memo_exist?(@schedule) %>
               <span class="label label-default">MEMO</span>
               <%= @schedule.memo.body %>
               <% end %>

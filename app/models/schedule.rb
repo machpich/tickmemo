@@ -25,4 +25,5 @@ class Schedule < ApplicationRecord
   accepts_nested_attributes_for :memo, reject_if: :all_blank
 
   validates :start_datetime, presence: true
+
 end

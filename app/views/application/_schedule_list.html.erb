@@ -4,7 +4,9 @@
       <table class="table_list">
         <tbody>
           <tr>
-            <td class="w-50p">[c]</td>
+            <td class="w-25p">
+              <i class="<%= check_fix_icon(schedule) %>"></i>
+            </td>
             <td class="w-300p"><%= link_to schedule_path(schedule) do%>
               <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)")%>
               <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
@@ -17,7 +19,7 @@
               <%= link_to edit_schedule_path(schedule) do %>
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
               <% end %>
-              <%= link_to schedule_path(schedule), method: :delete do %>
+              <%= link_to schedule_path(schedule), data: { confirm: "削除しますか?" },method: :delete do %>
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
               <% end %>
             </td>
@@ -37,13 +39,14 @@
           </tr>
           <tr>
             <td></td>
-            <% if memo_exist?(obj:schedule) %>
-            <td colspan="5" class="schedule/memo"><span class="label label-default">MEMO</span> <%= schedule.memo.body %></td>
+            <% if memo_exist?(schedule) %>
+            <td colspan="5" class="schedule/memo font-13 font-gray2"><span class="label label-default">MEMO</span> <%= schedule.memo.body %></td>
             <% end %>
           </tr>
         </tbody>
       </table>
       <hr>
       <% end %>
+
 
   <%end%>

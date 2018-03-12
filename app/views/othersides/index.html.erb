@@ -5,46 +5,38 @@ t.datetime "created_at", null: false
 t.datetime "updated_at", null: false -->
 
 <div class="col-md-4">
+<h2>取引先情報一覧</h2>
 <!-- 設定メニュー -->
 <%= render '/application/setting_menu'%>
-
-<hr>
-<div>
-  form
-</div>
-
 </div>
 
 <div class="col-md-8">
-
 <!-- 関係者一覧 -->
   <div >
-    <h1>othersides#index</h1>
     <table class="table">
       <caption>関係者一覧</caption>
       <thead>
         <tr>
-          <th></th>
-          <th>名前</th>
-          <th></th>
-          <th>取引有無</th>
-          <th>明細有無</th>
-          <th></th>
+          <th>no</th>
+          <th class="w-150p">NAME</th>
+          <th class="w-500p">memo</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <% othersides = Otherside.where(user_id:current_user.id)%>
-        <% othersides.each.with_index(1) do |otherside, index|%>
+        <% othersides.includes(:memo).each.with_index(1) do |otherside, index|%>
 
         <tr>
+          <!-- no -->
           <td><%= index %>.</td>
-          <td><%= link_to otherside.otherside_name, otherside_path(otherside) %>　<span class="glyphicon glyphicon-edit" aria-hidden="true"></span></td>
-          <td><%= otherside.type %></td>
-          <td>あり</td>
-          <td>あり</td>
-          <td>memo</td>
-          <td><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </td>
+          <!-- name -->
+          <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i> <%= link_to otherside.otherside_name, otherside_path(otherside) %>
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></td>
+          <!-- memo -->
+          <td class="font-12"><%= simple_format(otherside.memo.body) unless otherside.memo.nil?%></td>
+          <!-- url -->
+          <td><span class="glyphicon glyphicon-globe"></span></td>
         </tr>
         <% end %>
       </tbody>

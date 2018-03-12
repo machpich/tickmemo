@@ -62,6 +62,7 @@ gem 'bootstrap-sass'
 gem 'jquery-rails'
 gem 'enum_help'
 gem 'jquery-ui-rails'
+gem 'font-awesome-sass', '~> 5.0.6'
 
 group :development, :test do
   gem 'hirb'         # モデルの出力結果を表形式で表示するGem

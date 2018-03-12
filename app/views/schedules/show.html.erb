@@ -1,4 +1,3 @@
-<h1>Schedules#show</h1>
 <div class="col-md-4">
 <!-- 貸借管理 -->
   <%= render 'application/total_loan', otherside: @schedule.otherside, othersides: nil, journals: @journals %>
@@ -13,5 +12,5 @@
 <%= render 'application/schedule_detail', schedule: @schedule %>
 
 <!-- 仕訳詳細 -->
-<%= render 'application/journal_list', journals: @schedule.journals, otherside: nil, display_event: false, display_price: true, otherside_page: false,schedule_page: true, journals_page:false %>
+<%= render 'application/journal_list', journals: @list_journals, otherside: nil, display_event: false, display_price: true, otherside_page: false,schedule_page: true, journals_page:false %>
 </div>
