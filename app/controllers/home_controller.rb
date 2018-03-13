@@ -12,7 +12,7 @@ class HomeController < ApplicationController
 
   def search
     @q = Schedule.where(user_id:current_user.id).search(params[:q])
-    @schedules = @q.result(distinct: true)
+    @schedules = @q.result.joins(:event)
   end
 
   def mypage

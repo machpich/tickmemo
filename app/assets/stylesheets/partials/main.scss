@@ -105,6 +105,15 @@ header {
     width: 165px;
 }
 
+select {
+    width: 200px;
+    background: #fff;
+    height: 2em;
+    margin-bottom: 3px;
+    border: 1px solid #ccc;
+}
+
+
 input.btn {
     background-color: $main-yellow-color;
     height: 40px;

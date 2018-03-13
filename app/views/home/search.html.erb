@@ -2,58 +2,54 @@
 <p>Find me in app/views/home/search.html.erb</p>
 
 <div class="col-md-4">
-  <h3>検索フォーム</h3>
-<!--   <div>
-  検索
-  <ul>
-    <li>開始期間</li>
-    <li>終了期間</li>
-    <li>演目</li>
-    <li>場所</li>
-    <li>相手先</li>
-    <li>確定済み</li>
-    <li>支払い済み</li>
-  </ul>
+  <div class="sarch_form_field">
+    <h3>検索フォーム</h3>
+    <%= search_form_for @q, url:search_path do |f|%>
+    <div class="form-group">
+      <!-- 予定の期間 -->
+      <%= f.label :start_datetime,"期間" %>
+      <%= f.date_field :start_datetime_gteq, class:"form-control" %>
+      <br>
+      <%= f.label :start_datetime,"〜" %>
+      <%= f.date_field :start_datetime_lteq_end_of_day, class:"form-control" %>
+
+      <br>
+      <%= f.label :otherside_id,"関係者" %>
+      <%= f.collection_select :otherside_id_eq, Otherside.where(user_id:current_user.id),:id,:otherside_name,:prompt => "選択してください" ,class:"form-control" %>
+
+      <br>
+      <%= f.label :location_id,"場所" %>
+      <%= f.collection_select :location_id_eq, Location.where(user_id:current_user.id),:id,:place_name,:prompt => "選択してください" ,class:"form-control" %>
+
+      <br>
+      <%= f.label :event_id,"演目" %>
+      <%= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:program,:prompt => "選択してください" ,class:"form-control" %>
+
+      <br>
+      <%= f.label :event_id,"演者" %>
+      <% events = Event.select(:performer).where(user_id:current_user.id).order(:performer).distinct %>
+      <%= f.collection_select :event_performer_eq, events,:performer,:performer,:prompt => "選択してください" ,class:"form-control" %>
+
+      <br>
+      <%#= f.label :event_id,"演目" %>
+      <%#= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:program,:prompt => "選択してください" ,class:"form-control" %>
+      <br>
+      <%= f.label :event_id,"演目" %>
+      <%= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:program %>
+
+  <!--     t.datetime "start_datetime"
+      t.datetime "end_datetime"
+      t.string "seat_type"
+      t.boolean "fix"
+      t.boolean "check"
+
+
+
+      t.integer "user_id" -->
+    </div>
+    <div class="actions"><%= f.submit "検索", class:"form-control btn"%></div>
+  <% end %>
   </div>
-</div>-->
-
-<%= search_form_for @q, url:search_path do |f|%>
-  <div class="form-group">
-    <!-- 予定の期間 -->
-    <%= f.label :start_datetime,"期間" %>
-    <%= f.date_field :start_datetime_gteq, class:"form-control" %>
-    <br>
-    <%= f.label :start_datetime,"〜" %>
-    <%= f.date_field :start_datetime_lteq_end_of_day, class:"form-control" %>
-
-    <br>
-    <%= f.label :otherside_id,"関係者" %>
-    <%= f.collection_select :otherside_id_eq, Otherside.where(user_id:current_user.id),:id,:otherside_name,:prompt => "選択してください" ,class:"form-control" %>
-
-    <br>
-    <%= f.label :location_id,"場所" %>
-    <%= f.collection_select :location_id_eq, Location.where(user_id:current_user.id),:id,:place_name,:prompt => "選択してください" ,class:"form-control" %>
-
-    <br>
-    <%= f.label :event_id,"演目" %>
-    <%= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:program,:prompt => "選択してください" ,class:"form-control" %>
-
-    <br>
-    <%= f.label :event_id,"演者" %>
-    <%= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:performer,:prompt => "選択してください" ,class:"form-control" %>
-
-<!--     t.datetime "start_datetime"
-    t.datetime "end_datetime"
-    t.string "seat_type"
-    t.boolean "fix"
-    t.boolean "check"
-
-
-
-    t.integer "user_id" -->
-  </div>
-  <div class="actions"><%= f.submit "検索", class:"form-control btn"%></div>
-<% end %>
 
 </div>
 <div class="col-md-8">
