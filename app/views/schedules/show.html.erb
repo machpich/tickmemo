@@ -1,9 +1,30 @@
+<h1><span class="far fa-calendar"></span><%= link_to "#{@schedule.start_datetime.strftime("%Y/%m/%d (%a)")}  #{@schedule.start_datetime.strftime("%H:%M")}",schedule_path(@schedule) %></h1>
 <div class="col-md-4">
 <!-- 貸借管理 -->
-  <%= render 'application/total_loan', otherside: @schedule.otherside, othersides: nil, journals: @journals %>
+  <%= render 'application/total_loan', otherside: @schedule.otherside, journals: @journals %>
 
 <!-- 仕訳登録フォーム -->
   <%= render 'application/journal_form', journal:@journal, schedules: nil, otherside: @otherside %>
+
+  <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
+
+<div class="form_field">
+    <div class="check_field">
+      <div>
+        <label>
+          <input type="checkbox" id="fix" name="fix">
+          <span class="fix_label" id="fix_label">未定</span>
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="checkbox" id="check" name="check">
+          <span class="check_label" id="check_label">未清算</span>
+        </label>
+      </div>
+    </div>
+</div>
+
 </div>
 
 

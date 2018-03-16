@@ -1,53 +1,57 @@
-<h1>Home#search</h1>
-<p>Find me in app/views/home/search.html.erb</p>
+<!-- <h1><span class="glyphicon glyphicon-search" aria-hidden="true"></span> スケジュール検索</h1> -->
 
 <div class="col-md-4">
-  <div class="sarch_form_field">
-    <h3>検索フォーム</h3>
+  <h3><span class="glyphicon glyphicon-search mg-b-15" aria-hidden="true"></span> 予定検索</h3>
+  <div class="search_form_field">
     <%= search_form_for @q, url:search_path do |f|%>
     <div class="form-group">
       <!-- 予定の期間 -->
-      <%= f.label :start_datetime,"期間" %>
-      <%= f.date_field :start_datetime_gteq, class:"form-control" %>
-      <br>
-      <%= f.label :start_datetime,"〜" %>
-      <%= f.date_field :start_datetime_lteq_end_of_day, class:"form-control" %>
+
+      <label><i class="far fa-calendar pict"></i>期間</label>
+      <%= f.date_field :start_datetime_gteq %>
+      <label><i class="pict_b"></i>から</label>
+      <%= f.date_field :start_datetime_lteq_end_of_day %>
 
       <br>
-      <%= f.label :otherside_id,"関係者" %>
-      <%= f.collection_select :otherside_id_eq, Otherside.where(user_id:current_user.id),:id,:otherside_name,:prompt => "選択してください" ,class:"form-control" %>
+      <label><i class="glyphicon glyphicon-user pict"></i>関係者</label>
+      <%= f.collection_select :otherside_id_eq, Otherside.where(user_id:current_user.id),:id,:otherside_name,include_blank: true %>
 
       <br>
-      <%= f.label :location_id,"場所" %>
-      <%= f.collection_select :location_id_eq, Location.where(user_id:current_user.id),:id,:place_name,:prompt => "選択してください" ,class:"form-control" %>
+      <label><i class="fas fa-map-marker-alt pict"></i>場所</label>
+      <%= f.collection_select :location_id_eq, Location.where(user_id:current_user.id),:id,:place_name,include_blank: true %>
 
       <br>
-      <%= f.label :event_id,"演目" %>
-      <%= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:program,:prompt => "選択してください" ,class:"form-control" %>
+      <label><i class="fas fa-ticket-alt pict"></i>演目</label>
+      <%= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:program,include_blank: true %>
 
       <br>
-      <%= f.label :event_id,"演者" %>
+      <label><i class="glyphicon glyphicon-heart-empty pict"></i>演者</label>
       <% events = Event.select(:performer).where(user_id:current_user.id).order(:performer).distinct %>
-      <%= f.collection_select :event_performer_eq, events,:performer,:performer,:prompt => "選択してください" ,class:"form-control" %>
+      <%= f.collection_select :event_performer_eq, events,:performer,:performer,include_blank: true %>
 
       <br>
-      <%#= f.label :event_id,"演目" %>
-      <%#= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:program,:prompt => "選択してください" ,class:"form-control" %>
+      <i class="fas fa-check pict"></i>
+      <%= f.label :check,"清算状況" %>
+      <div class="radio_field">
+        <label class="check_label"><%= f.radio_button :check_eq, '', {:checked => true} %><i class="mg-l-10"></i>不問</label>
+        <label class="check_label"><%= f.radio_button :check_eq, false %><i class="mg-l-10"></i>未</label>
+        <label class="check_label"><%= f.radio_button :check_eq, true %><i class="mg-l-5 fas fa-check"></i>済</label>
+      </div>
+
       <br>
-      <%= f.label :event_id,"演目" %>
-      <%= f.collection_select :event_id_eq, Event.where(user_id:current_user.id),:id,:program %>
+      <i class="fas fa-square pict"></i>
+      <%= f.label :fix,"確定状況" %>
+      <div class="radio_field">
+        <label class="check_label"><%= f.radio_button :fix_eq, '', {:checked => true} %><i class="mg-l-10"></i>不問</label>
+        <label class="check_label"><%= f.radio_button :fix_eq, false %><i class="mg-l-5 fas fa-square font-gray1"></i>未</label>
+        <label class="check_label"><%= f.radio_button :fix_eq, true %><i class="mg-l-5 fas fa-square font-yellow1"></i>決</label>
+      </div>
 
-  <!--     t.datetime "start_datetime"
-      t.datetime "end_datetime"
-      t.string "seat_type"
-      t.boolean "fix"
-      t.boolean "check"
-
-
-
-      t.integer "user_id" -->
     </div>
-    <div class="actions"><%= f.submit "検索", class:"form-control btn"%></div>
+    <div class="actions">
+      <%= f.submit "検索", class:"yellow_btn btn"%>
+      <%= link_to "クリア", search_path, class:"gray_btn btn" %>
+    </div>
   <% end %>
   </div>
 
@@ -55,4 +59,3 @@
 <div class="col-md-8">
 <%= render 'application/schedule_list', schedules: @schedules%>
 </div>
-

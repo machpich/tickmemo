@@ -1,0 +1,16 @@
+    <% if related_schedules.present? %>
+    <h4>関連予定</h4>
+    <ul>
+      <% related_schedules.each do |schedule| %>
+      <%# related_schedules.includes(:event).each do |schedule| %>
+      <li><i class="<%= check_fix_icon(schedule)%>"></i>
+        <%= link_to schedule_path(schedule) do%>
+                  <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)") %>
+                  <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
+                  <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
+      <%end%>
+      <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>  <%= schedule.event.performer %>
+      </li>
+      <% end %>
+    </ul>
+    <% end %>

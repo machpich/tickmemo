@@ -1,5 +1,5 @@
-<div>
-  <h3>仕訳登録フォーム</h3>
+<div class="form_field">
+  <h3><i class="fas fa-pen-square mg-r-10"></i>仕訳登録</h3>
   <%= form_for journal do |f|%>
     <ul class="submit_form">
     <%if schedules.present?%>
@@ -32,24 +32,34 @@
     </li>
     <li>
       <%= f.fields_for :memo do |me| %>
-      <%= me.label :body,"メモ" %>
-      <%= me.text_area :body %>
+      <%= me.label :body,"メモ",class:"memo_label" %>
+      <%= me.text_area :body,class:"memo_label" %>
+      <span class="count">0</span>
       <% end %>
     </li>
-<!--     <li>
-      <%#= fields_for journal.schedule do |sc| %>
-      <%#= sc.label :check,"清算完了" %>
-      <%#= sc.check_box :check %>
-      <%# end %>
-    </li> -->
     <div class="submit_form_btn">
-      <%= f.submit "登録",class:"btn"%>
+      <%= f.submit "登録",class:"btn yellow_btn"%>
     </div>
   <%end%>
 </div>
 <script>
-// othersideフィールドのオートコンプリート
   $(function(){
+//文字数カウント
+    var countMax = 120;
+    $('textarea').bind('keydown keyup keypress change',function(){
+        var thisValueLength = $(this).val().length;
+        var countDown = (countMax)-(thisValueLength);
+        $('.count').html(countDown);
+
+        if(countDown < 0){
+            $('.count').css({color:'#ff0000',fontWeight:'bold'});
+        }
+    });
+    $(window).load(function(){
+        $('.count').html(countMax);
+    });
+
+// othersideフィールドのオートコンプリート
     $( "#otherside_name" ).autocomplete({
       autoFocus: true,
       source: "/schedules/autocomplete_otherside_name",

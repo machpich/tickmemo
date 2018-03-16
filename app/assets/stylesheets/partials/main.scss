@@ -1,8 +1,11 @@
 
-$main-yellow-color: #e1d333;
+$yellow: #e1d333;
 $gray0: #F3F3F3;
 $gray1: #A9A9A9;
 $gray2: #767676;
+$link: #23527c;
+//$hover_link:#5f8eb9;
+$hover_link:#767676;
 
 /* =========================bootstrap打ち消し用========================= */
 .no-border td {
@@ -11,6 +14,16 @@ $gray2: #767676;
 
 .breadcrumb {
   background-color: transparent;
+}
+
+a {
+  color:$link;
+
+  &:hover {
+  text-decoration:none;
+  color:$hover_link;
+  transition: .5s;
+  }
 }
 
 /* =========================material design======================= */
@@ -24,7 +37,6 @@ $gray2: #767676;
   padding: 0;
   box-sizing: border-box;
   list-style-type: none;
-  //font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体";
 }
 
 h1 {
@@ -34,10 +46,32 @@ h1 {
     font-size: 28px;
     font-weight: 200;
     margin: 0 0 30px;
+    letter-spacing: 10px;
 }
 
 .non-active {
   display: none;
+}
+
+.pict {
+    padding-right: 10px;
+    font-size: 16px;
+}
+.pict_b {
+    padding-right: 26px;
+}
+
+.label-journal{
+  background-color:$gray1;
+  display: block;
+  width: 40px;
+  white-space: normal;
+  line-height:1.3em;
+}
+.label-memo{
+  background-color:$hover_link;
+  margin-top: 10px;
+  display: inline-block;
 }
 /* =========================layout======================= */
 
@@ -50,20 +84,54 @@ header {
 
 .header-left {
   font-family: 'Krona One', sans-serif;
-  font-size: 70px;
   position: absolute;
   top: 4px;
+  a.title_logo {
+    color: #fff;
+    font-size:70px;
+   &:hover{
+    color: #ddd;
+    text-decoration: none;
+    transition: 0.8s;
+   }
+  }
+}
+
+i,span {
+  margin: 5px 5px 5px 0;
 }
 
 .header-right {
   float: right;
+  li{
+      display: inline-block;
+      float:left;
+      padding: 0 5px 0 0;
+      a{
+        height: 60px;
+        display: inline-block;
+        padding: 0 15px;
+        float: right;
+        &:hover{
+         background-color:#ddd;
+         color:#fff;
+         border-radius: 4px;
+         transition: 0.5s;
+         cursor: pointer;
+        }
+      }
+    }
+    .dropdown-menu>li{
+      padding:0;
+      a{
+      height:32px;
+      line-height:32px;
+      width: 170px;
+      }
+    }
 }
 
-.header-right li {
-    display: inline-block;
-    padding: 0 20px;
-}
-.web_desc {
+.web_description {
     top: 70px;
     position: absolute;
     font-size: 12px;
@@ -74,87 +142,231 @@ header {
 .header_user_icon {
     border-radius: 50%;
     position: relative;
-    top: -10px;
 }
 
+img {
+    vertical-align: top;
+}
+/* ===============home#top======================== */
+
+@mixin basic_btn($color){
+  color: #fff;
+  width: 300px;
+  margin-top:15px;
+  display: inline-block;
+  line-height: 34px;
+  background-color: $color;
+  border: none;
+  &:hover,&:focus{
+    opacity: 0.5;
+    transition: 0.5s;
+    color:#fff;
+  }
+}
+
+.yellow_btn{
+  @include basic_btn($yellow);
+}
+.gray_btn{
+  @include basic_btn($gray0);
+  color:$gray2;
+}
+
+.top {
+    padding-top: 60px;
+    position: relative;
+    z-index: 1;
+    text-align:center;
+    p {
+    margin: 0 0 30px;
+    letter-spacing: 5px;
+    }
+    .btn_field {
+    padding: 50px 30px;
+    }
+}
+
+.home_bg{
+    z-index: 0;
+    width: 100%;
+    height: 500px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-size:cover;
+    background-position:top;
+    background: linear-gradient(rgba(255, 255, 255, 1), rgba(209,209,209, .3)),url(/assets/home_bg.jpeg);
+}
 /* ===============schedule#index======================== */
+
+.journals{
+  i,span {
+    margin: 0 auto;
+  }
+  .table{
+  th { text-align: center;}
+  .xxs{ width: 10px;}
+  .xs{ width: 24px;}
+  .sm{ width: 40px;}
+  .md{ width: 80px;}
+  .lg{ min-width: 120px}
+  }
+  padding-bottom:50px;
+}
 
 .img-field {
     height: 280px;
     text-align: center;
-    img {
-      padding: 10px;
-    }
+    img { padding: 10px; }
 }
 
 /* ===============schedule_form,journal_form======================== */
 
-.submit_form label {
-    width: 80px;
-    vertical-align: top;
-    //height: 2em;
-    font-weight: normal;
+@mixin basic_form($width) {
+  padding: 6px 12px;
+  margin: 4px;
+  font-size: 13px;
+  height:36px;
+  margin-bottom: 5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: $width;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-.submit_form input,.submit_form textarea,.submit_form select{
-    padding: 5px;
-    margin: 4px;
-    font-size: 13px;
-    border: 1px solid #A9A9A9;
-    border-radius: 3px;
-    width: 165px;
+@mixin basic_label{
+  width: 80px;
+  font-weight: normal;
+  margin-top:5px;
+  margin-bottom:5px;
 }
 
-select {
-    width: 200px;
-    background: #fff;
-    height: 2em;
-    margin-bottom: 3px;
-    border: 1px solid #ccc;
+@mixin basic_checkbox($color,$color1){
+  content:"";
+  position:absolute;
+  display:block;
+  top:0;
+  right:-70px;
+  width:16px;
+  height:16px;
+  border: 1px solid $color;
+  background-color: $color1;
+  border-radius: 4px;
+}
+
+/* devise関連 */
+.new_form {
+    width: 600px;
+    margin: 0 auto;
+    .center_field { text-align: center;}
+  }
+
+.devise_form {
+  .center_field { text-align: center;}
+  .btn { width:500px;}
 }
 
 
-input.btn {
-    background-color: $main-yellow-color;
-    height: 40px;
-    width: 100px;
-    text-align: center;
-    border: none;
-}
-
-.submit_form_btn {
-    text-align: center;
-}
-
-.submit_form_sub {
-    padding-left: 15px;
-}
-
+/*Scheduledetail*/
 table.table_list {
   width: 100%;
-  td{
-  padding: 1px;
+  td.schedule_title>a{
+    font-weight: bold;
+    font-size: 15px;
   }
-  td.schedule_title > a{
-  font-weight: bold;
-  font-size: 15px;
-  }
-}
-
-input#event_image {
-    position: relative;
-    top: -30px;
-    left: 84px;
-    width: 300px;
-}
-
-td.notes_font {
+  td.notes_font {
     font-size: 12px;
     color: #ccc;
+  }
 }
 
-input#schedule_check,input#schedule_fix {
-  width: 30px;
+/*検索画面*/
+.search_form_field{
+  label {
+    @include basic_label
+  }
+  input[type="date"] {
+    @include basic_form(230px);
+  }
+  select {
+    @include basic_form(230px);
+  }
+  .radio_field{
+    text-align:center;
+  }
+  .actions{
+    text-align:center;
+  }
+}
+
+/*登録フォーム用*/
+.form_field{
+  label {
+    @include basic_label;
+  }
+  .memo_label{
+    vertical-align: top;
+  }
+  input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select {
+    @include basic_form(230px);
+  }
+  textarea{
+    @include basic_form(230px);
+    height: 100px;
+  }
+  input#event_image {
+    position: relative;
+    top: -20px;
+    left: 76px;
+    font-size: 13px;
+    background-color: #fff;
+  }
+  .check_field {
+    label{
+      width:90px;
+    }
+    div{
+      display:inline-block;
+    }
+  }
+  input[type="checkbox"]{
+    display:none;
+  }
+  .check_label,.fix_label,.remove_label{
+    position:relative;
+  }
+  input#fix+span::after{
+    @include basic_checkbox(#ccc,#ccc);
+  }
+  input#fix:checked+span::after{
+    @include basic_checkbox($yellow,$yellow);
+  }
+  input#check+span::after,input#event_remove_image+span::after{
+    @include basic_checkbox(#ccc,#fff);
+  }
+  input#check:checked+span::after,input#event_remove_image:checked+span::after{
+    @include basic_checkbox(#ccc,#fff);
+    content:"\f00c";
+    font-family: FontAwesome;
+  }
+
+  span.count {
+    position: relative;
+    top: -110px;
+    left: 50px;
+    width: 25px;
+    display: block;
+    color: #ddd;
+  }
+
+  .submit_form_btn{
+    text-align:center;
+  }
+  .yellow_btn{
+    text-align:center;
+  }
 }
 
 /* ===============event======================== */
@@ -181,4 +393,163 @@ div.event_img {
     word-wrap: break-word;
     color: $gray2;
     font-size:13px;
+}
+
+/* ==============================================responsive============================================== */
+/* =====================1200===================== */
+@media (max-width: 1200px){
+  header {
+    height: 120px;
+    line-height:normal;
+    text-align:center;
+    .header-left{
+    position:static;
+    }
+    .header-right{
+    float:none;
+    position:static;
+    width:100%;
+      li{
+      float:none;
+        a{
+        float:none;
+        height:unset;
+        }
+      }
+    }
+  }
+  img {
+    vertical-align: baseline;
+  }
+  .web_description{
+    top:140px;
+    text-align:center;
+    width: inherit;
+  }
+
+.search_form_field{
+  input[type="date"],select {
+    width:100%;
+  }
+}
+.form_field{
+  input[type="date"],input[type="datetime-local"],input[type="time"],
+  input[type="text"],select,textarea {
+    width:100%;
+  }
+  span.count {
+   top: -142px;
+  }
+}
+
+
+}
+
+/* =====================992　colがフラット化する===================== */
+@media (max-width: 992px){
+  h1 {
+    font-size:24px;
+    letter-spacing: 5px;
+  }
+
+  .img-field a:nth-of-type(4) {
+    display: none;
+    }
+
+  .form_field{
+    padding-bottom:50px;
+    input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select{
+      width:80%;
+    }
+    textarea{
+      width:80%;
+      height:72px;
+    }
+    label{
+      width:120px;
+    }
+    span.count {
+     top: -80px;
+    }
+    .check_field {
+      label{
+        width:160px;
+      }
+      input#fix+span::after,input#fix:checked+span::after,
+      input#check+span::after,input#check:checked+span::after{
+        right: -120px;
+      }
+    }
+    .btn{
+      width:500px;
+    }
+  }
+
+  .devise_form .yellow_btn,.devise_form .gray_btn {
+      width: 500px;
+  }
+
+  .search_form_field{
+    padding-bottom:50px;
+
+    label{
+      width: 120px;
+    }
+    .radio_field{
+      display: inline-block;
+    }
+    .actions {
+      text-align: center;
+      .btn {
+      width: 300px;
+      }
+    }
+  }
+}
+
+/* =====================720===================== */
+@media (max-width: 720px){
+  .header-left a.title_logo{
+    font-size:60px;
+  }
+  .img-field a:nth-of-type(3) {
+    display: none;
+  }
+  .web_description{
+    top:140px;
+  }
+  .search_form_field{
+    input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select{
+      width:100%;
+    }
+    .actions {
+      .btn {
+      width: 100%;
+      }
+    }
+  }
+  .form_field{
+  padding-bottom:50px;
+  input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select,textarea{
+    width:100%;
+    }
+  span.count {
+   top: -110px;
+  }
+
+  }
+  .new_form {
+    width: 100%;
+    div.center_field .yellow_btn {
+      width:100%;
+    }
+  }
+  .devise_form {
+    .gray_btn {
+      width:100%;
+    }
+    .yellow_btn{
+      width:100%;
+    }
+  }
 }

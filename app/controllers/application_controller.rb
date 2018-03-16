@@ -67,6 +67,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # othersideが関わっているSchedule一覧のIDを配列化する
+  def schedule_ids_related(otherside)
+    ot_s1=Schedule.other(otherside).map{|s|s.id}
+    ot_s2=Schedule.has_other_details(otherside).map{|s|s.id}
+    ids=[]
+    ids = ot_s1+ot_s2
+    ids.uniq!
+    ids
+  end
+
   protected
   def configure_permitted_parameters
      devise_parameter_sanitizer.permit(:account_update, keys: [:password, :password_confirmation, :current_password, :profile_image])

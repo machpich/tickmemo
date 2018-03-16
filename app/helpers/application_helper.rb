@@ -86,40 +86,25 @@ module ApplicationHelper
   end
 
 # ========================= _total_loan.html.erbで使用  ===========================
-# detailsに関連先があるjournalを全て抽出し、利用されているotherside_idを配列化、メインで使用してるothersideを除外する
+# journalsから、配下のdetailsで利用されているotherside_idを配列化(create_otherside_list)、メインで使用してるothersideを除外(otherside_list)
 # メインで使用しているothersideがnilの場合は除外せずに返す
   def create_otherside_list(journals)
-
     if journals.exists?
-      list = []
-
-      journals.each do |journal|
-        list << journal.details.pluck(:otherside_id)
-      end
-
-      list.flatten!.uniq!
+      list = Detail.where(journal_id:journals.map{|j|j.id}).pluck(:otherside_id).uniq.flatten
       return list
-
     else
       return false
     end
-
   end
 
   def otherside_list(journals,otherside)
-
-    if otherside
-
-    #画面の取引者だけか、それ以外のものがあるか
-      if create_otherside_list(journals).size == 1 #関連先が1つしかない
+    if otherside&&journals.present?
+      if create_otherside_list(journals).size == 1 #関連先が1つしかない＝メイン1件のみ
         false
       else
         create_otherside_list(journals).reject{|e| e == otherside.id}
       end
-
     else
-
-    #取引先情報が皆無
       create_otherside_list(journals)
     end
 
@@ -158,9 +143,9 @@ module ApplicationHelper
 # 取引先種類によってアイコンを変える
   def sub_or_others_icon(otherside)
     if judge_sub_or_others(otherside)
-      return "far fa-address-card"
+      return "glyphicon glyphicon-user font-gray1"
     else
-      return "fas fa-address-card"
+      return "glyphicon glyphicon-user"
     end
   end
 

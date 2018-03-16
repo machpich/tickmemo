@@ -10,4 +10,8 @@ class Detail < ApplicationRecord
   belongs_to :journal, inverse_of: :details
 
   enum position_status: { debit: 0, credit: 1 }
+
+  # scope
+  scope :other, ->(other) { where(otherside_id: other.id) }
+  scope :mine, ->(me) { where(user_id: me.id) }
 end

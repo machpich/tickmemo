@@ -15,4 +15,8 @@ class User < ApplicationRecord
 
   attachment :profile_image
 
+# validations
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }#必須項目
+  validates :encrypted_password, presence: true #必須項目
 end

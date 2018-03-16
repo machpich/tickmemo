@@ -5,27 +5,25 @@
   <%= f.hidden_field :reset_password_token %>
 
     <div class="form-group row">
-      <div class="col-lg-10">
         <%= f.label :password, "新しいパスワード" %>
         <% if @minimum_password_length %>
           <em>(<%= @minimum_password_length %> 文字以上)</em><br />
         <% end %>
-        <%= f.password_field :password, autofocus: true, autocomplete: "off", class:"form-control input-lg" %>
-      </div>
+        <%= f.password_field :password, autofocus: true, autocomplete: "off", class:"form-control" %>
     </div>
 
     <div class="form-group row">
-      <div class="col-lg-10">
         <%= f.label :password_confirmation, "新しいパスワード（再入力）" %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "off", class:"form-control input-lg" %>
-      </div>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class:"form-control" %>
     </div>
 
     <div class="form-group row">
-      <div class="col-sm-10 actions">
-      <%= f.submit "Change my password" %>
+      <div class="actions  center_field">
+      <%= f.submit "パスワードの変更",class:"btn yellow_btn" %>
       </div>
     </div>
 <% end %>
 
+<div class="center">
 <%= render "devise/shared/links" %>
+</div>

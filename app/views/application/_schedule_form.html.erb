@@ -1,8 +1,8 @@
-<div class="right_form_field center">
-<h3>予定登録フォーム</h3>
+<div class="form_field">
+<h3><i class="fas fa-pen-square mg-r-10"></i>予定登録</h3>
   <!-- form_for部分 -->
   <%= form_for schedule do |sc|%>
-  <ul class="submit_form">
+  <ul>
     <li>
       <%= sc.label :start_datetime,"開始日時*" %>
       <%= sc.datetime_field :start_datetime %>
@@ -37,22 +37,21 @@
       <% end %>
     </li>
      <li>
- <!--     <div class="pretty p-default p-curve p-toggle">
-        <input type="checkbox" />
-        <div class="state p-success p-on">
-            <label>確定</label>
-        </div>
-        <div class="state p-danger p-off">
-            <label>未定 </label>
-        </div>
-    </div>
-  -->
-        <%= sc.label :fix,"確定" ,class:"short_label"%>
-        <%= sc.check_box :fix %>
-
-        <%= sc.label :check,"清算済",class:"short_label" %>
-        <%= sc.check_box :check %>
+    <div class="check_field">
+      <div>
+        <label>
+          <%= sc.check_box :fix, id: :fix %>
+          <span class="fix_label" id="fix_label">未定</span>
+        </label>
+      </div>
+      <div>
+        <label>
+        　<%= sc.check_box :check, id: :check %>
+          <span class="check_label" id="check_label">未清算</span>
+        </label>
         <%= sc.hidden_field :user_id, value:current_user.id%>
+      </div>
+    </div>
       </li>
     <div class="plus_form">
       <li>
@@ -62,31 +61,52 @@
 
       <li>
         <%= sc.fields_for :memo||schedule.build_memo do |me| %>
-        <%= me.label :メモ %>
+        <%= me.label :メモ,class:"memo_label" %>
         <%= me.text_area :body %>
+        <span class="count">0</span>
         <% end %>
       </li>
     </div>
   </ul>
   <div class="submit_form_btn">
-    <%= sc.submit "登録",class:"btn btn-default"%>
+    <%= sc.submit "登録",class:"btn yellow_btn"%>
   </div>
   <!-- scの終了タグ -->
   <% end %>
 </div>
 <script>
   $(function(){
-    // 追加項目の表示
-    // $('#plus_form').on('click',function(){
-    //   var icon = $('#plus_form').text();
-    //   $('.plus_form').toggleClass('hidden');
-    //     if(icon=="+"){
-    //       $(this).text("-");
-    //   } else {
-    //       $(this).text("+");
-    //   };
-    // });
+    //文字数カウント
+      var countMax = 120;
+      $('textarea').bind('keydown keyup keypress change',function(){
+          var thisValueLength = $(this).val().length;
+          var countDown = (countMax)-(thisValueLength);
+          $('.count').html(countDown);
 
+          if(countDown < 0){
+              $('.count').css({color:'#ff0000',fontWeight:'bold'});
+          }
+      });
+      $(window).load(function(){
+          $('.count').html(countMax);
+      });
+    //確定未定情報の切り替え
+    $('#fix_label').on('click',function(){
+      var text = $(this).text();
+      if(text == "未定"){
+        $(this).text('確定');
+      }else{
+        $(this).text('未定');
+      }
+    });
+    $('#check_label').on('click',function(){
+      var text = $(this).text();
+      if(text == "清算済"){
+        $(this).text('未清算');
+      }else{
+        $(this).text('清算済');
+      }
+    });
 
     // オートコンプリート
     $( "#place_name" ).autocomplete({

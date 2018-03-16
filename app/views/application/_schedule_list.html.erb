@@ -7,13 +7,13 @@
             <td class="w-25p">
               <i class="<%= check_fix_icon(schedule) %>"></i>
             </td>
-            <td class="w-300p"><%= link_to schedule_path(schedule) do%>
+            <td class="w-250p"><%= link_to schedule_path(schedule) do%>
               <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)")%>
               <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
               <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
               <%end%>
             </td>
-            <td class="w-200p left"><i class="fas fa-map-marker-alt"></i> <%= "#{schedule.location.place_name}" %></td>
+            <td class="w-250p left"><i class="fas fa-map-marker-alt"></i> <%= "#{schedule.location.place_name}" %></td>
             <td class="w-100p"><%= "#{schedule.seat_type}席" unless schedule.seat_type.blank? %></td>
             <td class="w-50p right">
               <%= link_to edit_schedule_path(schedule) do %>
@@ -40,7 +40,7 @@
           <tr>
             <td></td>
             <% if memo_exist?(schedule) %>
-            <td colspan="5" class="schedule/memo font-13 font-gray2"><span class="label label-default">MEMO</span> <%= schedule.memo.body %></td>
+            <td colspan="5" class="schedule/memo font-13 font-gray2"><span class="label label-memo">MEMO</span> <%= schedule.memo.body %></td>
             <% end %>
           </tr>
         </tbody>

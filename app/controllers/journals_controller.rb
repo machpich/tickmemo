@@ -4,10 +4,10 @@ class JournalsController < ApplicationController
   after_action :clean_parts, only:[:update,:destroy]
 
   def index
-   # 'application/total_loan', otherside: nil, othersides: @othersides, journals: nil
-   # 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @otherside
-
-   # 'application/journal_list', journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others, display_event: true, display_price: true
+# 関連予定  @related_schedules
+# 貸借管理 'application/total_loan', otherside: nil, journals: nil
+# 仕訳登録 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @otherside
+# 取引履歴 'application/journal_list', journals: @journals, otherside: nil , display_event: true, display_price: false, otherside_page:false, schedule_page:false, journals_page:true
 
    # total_loan
     @user = current_user
@@ -29,6 +29,21 @@ class JournalsController < ApplicationController
     # journal_list
     @journals = @user.journals.order(trade_date: :asc,id: :asc)
     @related_schedules = @user.schedules.order(:start_datetime)
+
+
+# params[:c]での切り替え
+    if params[:c].present?
+      if params[:c] == "true"
+        check = true
+      elsif params[:c] == "false"
+        check = false
+      end
+      @schedules = @schedules.where(check: check)
+      @related_schedules = @schedules
+
+      ids = @schedules.pluck(:id).uniq
+      @journals = Journal.includes(:schedule).where(schedules:{id: ids.each{|id|id}}).new_order
+    end
   end
 
   def create
@@ -116,10 +131,6 @@ class JournalsController < ApplicationController
       end #each終わり
     end
   end
-
-  # def params_schedule
-  #   params.require(:schedule).permit(:fix)
-  # end
 
   def params_otherside
     params.require(:otherside).permit(:otherside_name)

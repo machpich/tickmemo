@@ -2,18 +2,14 @@ class OthersidesController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    # total_loan (otherside: @sub_or_others ? nil : @schedule.otherside, othersides: nil, details: @details)
-    # journal_list (journals: @journals, otherside: @otherside, othersides:nil ,sub_or_others: @sub_or_others)
-    # journal_form', journal:@journal, schedules: @schedules, otherside: @form_otherside
+# <!-- 貸借管理 -->'application/total_loan', otherside: @otherside, journals: @journals
+# <!-- 仕訳登録フォーム -->'application/journal_form', journal:@journal, schedules: @schedules, otherside: @form_otherside
+# <!-- 関連予定 -->'application/related_schedules', related_schedules: @related_schedules
+# <!-- 仕訳詳細 -->'application/journal_list', journals: @journals, otherside: @otherside, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false
 
     # total_loan
     @otherside = Otherside.find(params[:id])
-    @details = @otherside.details
-
-    # journal_list
-    @journals = Journal.joins(:details).where(details: {otherside_id: params[:id]}).order(trade_date: :asc,id: :asc).distinct
-    @journals = nil if @journals.blank?
-    @sub_or_others = judge_sub_or_others(@otherside)
+    @journals = Journal.has_other_details(@otherside)
 
     # journal_form
     if params[:journal].present? && Journal.where(id: params[:journal]).present?
@@ -22,31 +18,37 @@ class OthersidesController < ApplicationController
       if detail = @journal.details.find_by(account_id:4)
         @form_otherside = detail.otherside
       end
-
     else
       @schedule = Schedule.new
       @journal = Journal.new
       @form_otherside = @sub_or_others ? Otherside.find(params[:id]) : Otherside.new
     end
+    @journal.memo || @journal.build_memo
 
-      @journal.memo || @journal.build_memo
-      # フォームのschedule一覧
-      if @sub_or_others
-        @user = current_user
-        @schedules = @user.schedules
-      else
-        @schedules = @otherside.schedules
+    # journal_form_select and related_schedules
+    @schedules = Schedule.where(id: schedule_ids_related(@otherside).each{|id|id})
+    @related_schedules = @schedules
+
+    # journal_list
+    @journals = nil if @journals.blank?
+    @sub_or_others = judge_sub_or_others(@otherside)
+
+# params[:c]での切り替え
+    if params[:c].present?
+      if params[:c] == "true"
+        check = true
+      elsif params[:c] == "false"
+        check = false
       end
 
-    # 関連スケジュール一覧
-    if @sub_or_others
-      @related_schedules = Schedule.joins(journals:[:details]).where(details:{otherside_id: @otherside.id}).order("start_datetime").distinct
-    else
-      otherside = Otherside.find(params[:id])
-      @related_schedules = otherside.schedules
-    end
-  end
+      @schedules = @schedules.where(check: check)
+      @related_schedules = @schedules
 
+      ids = @schedules.pluck(:id).uniq
+      @journals = @journals.where(schedule_id: ids.each{|id|id}).new_order
+    end
+
+  end
 
   def edit
     @otherside = Otherside.find(params[:id])
@@ -57,13 +59,9 @@ class OthersidesController < ApplicationController
     @journals = nil if @journals.blank?
     @sub_or_others = judge_sub_or_others(@otherside)
 
-    # 関連スケジュール一覧
-    if @sub_or_others
-      @related_schedules = Schedule.joins(journals:[:details]).where(details:{otherside_id: @otherside.id}).order("start_datetime").distinct
-    else
-      otherside = Otherside.find(params[:id])
-      @related_schedules = otherside.schedules
-    end
+    # related_schedules,schedule_selecte
+    @schedules = Schedule.where(id: schedule_ids_related(@otherside).each{|id|id})
+    @related_schedules = @schedules
   end
 
   def update

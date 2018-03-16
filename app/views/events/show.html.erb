@@ -1,4 +1,4 @@
-<h1><%= link_to "#{@event.program} # #{@event.performer}", event_path(@event) %></h1>
+<h1><span class="fas fa-flag"></span><%= link_to "#{@event.program} # #{@event.performer}", event_path(@event) %></h1>
 <div class="col-md-4">
 <div>
     <% unless @event.image.nil?%>
@@ -15,7 +15,7 @@
       <li><%= "#{@event.date_start.strftime("%Y/%m/%d (%a)")} 〜 " unless @event.date_start.nil? %><%= @event.date_end.strftime("%Y/%m/%d (%a)") unless @event.date_end.nil? %></li>
       <li class="mg-t-20 mg-b-10"><span class="label label-default">参加会場</span></li>
       <% @event.locations.distinct.each do |location|%>
-        <li><%= location.place_name%></li>
+        <li><i class="fas fa-map-marker-alt mg-r-10"></i><%= location.place_name%></li>
       <% end %>
       <% if @event.try(:memo)%>
       <li class="mg-t-20 mg-b-10"><span class="label label-default">MEMO</span></li>

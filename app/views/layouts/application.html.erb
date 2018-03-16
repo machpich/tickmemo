@@ -4,7 +4,6 @@
     <title>TICKMEMO</title>
     <meta http-equiv="Content-Language" content="ja">
     <link href="https://fonts.googleapis.com/css?family=Krona+One" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -17,9 +16,9 @@
         <div class="header-left">
            <%= attachment_image_tag current_user, :profile_image, :fill,50,50, class:"header_user_icon", format: 'jpeg',fallback: "no_user.png" %>
           <% if user_signed_in?%>
-           <%= link_to 'TICKMEMO', index_path%>
+           <%= link_to 'TICKMEMO', index_path,class:"title_logo"%>
           <% else %>
-           <%= link_to 'TICKMEMO', root_path%>
+           <%= link_to 'TICKMEMO', root_path,class:"title_logo"%>
           <% end %>
         </div>
 
@@ -27,18 +26,50 @@
           <% if current_user %>
           <ul>
             <li>
-              <%= link_to "#{current_user.email}さんの全仕訳",journals_path%>
+              <%= link_to journals_path do%>
+                <%= content_tag(:i,"",class:"fab fa-pagelines") %>全取引
+              <% end %>
             </li>
             <li>
-              <%= link_to '検索',search_path%>
+              <%= link_to search_path do%>
+                <%= content_tag(:i,"",class:"glyphicon glyphicon-search") %>予定検索
+              <% end %>
             </li>
             <li>
-              <%= link_to 'マイページ',setting_path%>
+            <div class="dropdown">
+              <a href="" data-toggle="dropdown" role="button" aria-expanded="false">
+                <%= content_tag(:i,"",class:"fas fa-cog")%>マイページ
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li role="presentation">
+                  <%= link_to edit_user_registration_path do%>
+                  <span class="fab fa-pagelines font-18 mg-r-10"></span>会員情報編集
+                  <%end%>
+                </li>
+                <li role="presentation">
+                  <%= link_to events_path do%>
+                  <span class="fas fa-flag font-18 mg-r-10"></span>登録イベント一覧
+                  <% end %>
+                </li>
+                <li role="presentation">
+                  <%= link_to othersides_path do %>
+                  <span class="glyphicon glyphicon-user font-18 mg-r-10"></span>取引先情報一覧
+                  <% end %>
+                </li>
+              </ul>
+            </div>
             </li>
             <li>
-              <%= link_to 'ログアウト',destroy_user_session_path,method: :delete%>
+              <%= link_to destroy_user_session_path,method: :delete do%>
+                <%= content_tag(:i,"",class:"glyphicon glyphicon-log-out") %>ログアウト
+              <% end %>
+            </li>
+            <li class="hidden">
+              <%= link_to 'ピクト',etc_path%>
             </li>
           </ul>
+
+
           <% end %>
         </div>
       </div>
