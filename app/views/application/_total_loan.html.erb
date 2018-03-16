@@ -1,16 +1,6 @@
 <div class="loan_field">
     <table>
       <tbody>
-<!-- 複数のothersideがある場合　journal#index -->
-        <% if othersides %>
-            <% othersides.each do |otherside| %>
-            <tr>
-                <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i></td>
-                <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
-            </tr>
-            <% end %>
-        <% end %>
-
 <!-- othersideのみある場合 -->
         <% if otherside %>
             <tr>

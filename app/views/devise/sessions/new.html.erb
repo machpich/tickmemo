@@ -1,40 +1,32 @@
-<div class="devise_form">
-  <h2>ログイン</h2>
+<div class="devise_form new_form">
+  <h2 class="pd-b-15"><span class="glyphicon glyphicon-log-in mg-r-15"></span>ログイン</h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html:{class:"form"}) do |f| %>
       <div class="form-group row">
-        <div class="col-lg-10">
         <%= f.label :email%>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control input-lg" %>
-        </div>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
       </div>
 
       <div class="form-group row">
-        <div class="col-lg-10">
         <%= f.label :password %>
-          <%= f.password_field :password, autocomplete: "off", class:"form-control input-lg" %>
-        </div>
+        <%= f.password_field :password, autocomplete: "off", class:"form-control" %>
       </div>
 
       <% if devise_mapping.rememberable? -%>
         <div class="form-group row">
-          <div class="col-sm-5">
             <div class="check_box">
               <%= f.label :remember_me, class:"control-label"%>
               <%= f.check_box :remember_me%>
             </div>
-          </div>
         </div>
       <% end -%>
 
-      <div class="form-group row">
-        <div class="col-sm-10 actions">
-        <%= f.submit "ログイン", class:"form-control btn" %>
-        </div>
+      <div class="form-group row center_field">
+        <%= f.submit "ログイン", class:"device_btn btn yellow_btn" %>
       </div>
     <% end %>
 
-  <div>
+  <div class="center_field">
     <%= render "devise/shared/links" %>
   </div>
 </div>

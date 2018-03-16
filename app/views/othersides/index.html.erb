@@ -1,13 +1,5 @@
-<!-- t.string "otherside_name"
-t.integer "type"
-t.integer "user_id"
-t.datetime "created_at", null: false
-t.datetime "updated_at", null: false -->
-
 <div class="col-md-4">
-<h2>取引先情報一覧</h2>
-<!-- 設定メニュー -->
-<%= render '/application/setting_menu'%>
+<h2><span class="glyphicon glyphicon-user mg-r-10"></span>取引先情報一覧</h2>
 </div>
 
 <div class="col-md-8">
@@ -17,9 +9,9 @@ t.datetime "updated_at", null: false -->
       <caption>関係者一覧</caption>
       <thead>
         <tr>
-          <th>no</th>
-          <th class="w-150p">NAME</th>
-          <th class="w-500p">memo</th>
+          <th></th>
+          <th class="w-200p">名前</th>
+          <th class="w-500p">メモ</th>
           <th></th>
         </tr>
       </thead>
@@ -29,10 +21,13 @@ t.datetime "updated_at", null: false -->
 
         <tr>
           <!-- no -->
-          <td><%= index %>.</td>
+          <td class="left"><%= index %><br>
+            <%= link_to content_tag(:i,"",class:"glyphicon glyphicon-edit"), edit_otherside_path(otherside)%>
+          </td>
           <!-- name -->
-          <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i> <%= link_to otherside.otherside_name, otherside_path(otherside) %>
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></td>
+          <td>
+            <i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i> <%= link_to otherside.otherside_name, otherside_path(otherside) %>
+            </td>
           <!-- memo -->
           <td class="font-12"><%= simple_format(otherside.memo.body) unless otherside.memo.nil?%></td>
           <!-- url -->

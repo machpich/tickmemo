@@ -26,4 +26,9 @@ class Schedule < ApplicationRecord
 
   validates :start_datetime, presence: true
 
+  # scope
+  scope :has_other_details, ->(other){ includes(journals:[:details]).where(details:{otherside_id: other.id}).distinct }
+  scope :other, ->(other){ where(otherside_id: other.id)}
+  scope :order_date, -> { order("start_datetime") }
+  scope :limit_10, ->{ limit(10) }
 end

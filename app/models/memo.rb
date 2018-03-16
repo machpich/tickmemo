@@ -5,4 +5,6 @@
 class Memo < ApplicationRecord
   belongs_to :memoable, polymorphic: true
 
+# validations
+validates :body, length:{maximum: 120}
 end

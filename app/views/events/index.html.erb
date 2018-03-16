@@ -7,8 +7,7 @@
     t.integer "user_id"
 イベント一覧 -->
   <div class="col-md-4">
-  <h2>イベント情報一覧</h2>
-  <%= render '/application/setting_menu'%>
+  <h2><span class="fas fa-flag mg-r-10"></span>登録イベント一覧</h2>
   </div>
 
   <div class="col-md-8">
@@ -26,27 +25,25 @@
         <tr>
           <th></th>
           <th>IMG</th>
-          <th class="w-250p">演目</th>
-          <th>演者</th>
-          <th>期間</th>
-          <th></th>
+          <th class="w-250p">演目/演者/期間</th>
         </tr>
       </thead>
       <tbody>
       <% @events.includes(:memo).each do |event|%>
         <tr>
-          <td rowspan="2">
+          <td rowspan="2" class="w-25p">
             <%= link_to edit_event_path(event) do %>
             　<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
            <% end %>
           </td>
-          <td rowspan="2">
+          <td rowspan="2" class="w-25p center">
             <%= attachment_image_tag event, :image, :fill, 60, 80, format: 'jpeg'%>
           </td>
-          <td><%= link_to event.program, event_path(event) %></td>
-          <td><%= event.performer %></td>
-          <td><%= "#{event.date_start.strftime("%Y/%m/%d (%a)")}" unless event.date_start.nil?%> <%= "〜 #{event.date_end}" unless event.date_start.nil? %></td>
-          <td></td>
+          <td>
+            <strong><%= link_to event.program, event_path(event) %></strong><br>
+            <%= event.performer %><br>
+            <%= "#{event.date_start.strftime("%Y/%m/%d (%a)")}" unless event.date_start.nil?%> <%= "〜 #{event.date_end.strftime("%Y/%m/%d (%a)")}" unless event.date_start.nil? %>
+          </td>
         </tr>
         <tr class="no-border pd-t-20">
           <td colspan="3" class="notes_font"><%= event.memo.body unless event.memo.nil? %></td>

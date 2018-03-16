@@ -2,58 +2,31 @@
 <div class="col-md-4">
 <!-- ユーザーメモ -->
   <div class="otherside-memo-content pd-10">
-    <h6 class="label label-default">MEMO</h6>
-    <%= link_to edit_otherside_path(@otherside) do %><span class="mg-l-5 glyphicon glyphicon-edit" aria-hidden="true"></span><% end %>
-    <!-- <p><%= simple_format(@otherside.memo.body) unless @otherside.memo.nil?%></p> -->
-    <p><%= text_url_to_link(h(simple_format(@otherside.memo.body))).html_safe unless @otherside.memo.nil?%></p>
+    <h6 class="label label-memo">MEMO</h6>
+    <%= link_to edit_otherside_path(@otherside) do %><span class="mg-l-5 glyphicon glyphicon-edit"></span><% end %>
+    <%= text_url_to_link(h(simple_format(@otherside.memo.body))).html_safe unless @otherside.memo.nil?%>
   </div>
 
 <!-- 貸借管理 -->
-<%= render 'application/total_loan', otherside: @otherside, othersides: nil, journals: @journals %>
+<%= render 'application/total_loan', otherside: @otherside, journals: @journals %>
 <!-- 仕訳登録フォーム -->
 <%= render 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @form_otherside%>
 </div>
 
 
 <div class="col-md-8">
-<!--   <div class="row">
-    <div class="col-md-8"> -->
-    <% if @related_schedules.present? %>
-    <h4>関連予定</h4>
-    <ul>
-      <%# @related_schedules.includes(:event).each do |schedule| %>
-      <% @related_schedules.each do |schedule| %>
-      <li><i class="<%= check_fix_icon(schedule)%>"></i>
-        <%= link_to schedule_path(schedule) do%>
-                  <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)") %>
-                  <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
-                  <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
-      <%end%>
-      <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>  <%= schedule.event.performer %>
-      </li>
-      <% end %>
-    </ul>
-    <% end %>
-    <!-- </div> -->
 
-<!--     <div class="col-md-4">
-      <div class="right">
-        <%#= link_to edit_otherside_path(@otherside) do %>
-        <h6><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> edit</h6>
-        <%# end %>
-      </div>
-      <div class="otherside-memo-content">
-        <%# unless @otherside.memo.nil? %>
-          <span class="label label-default">MEMO</span>
-          <br><br>
-          <%#= simple_format(@otherside.memo.body) %>
-        <%# end %>
-      </div>
-    </div>
-  </div> -->
+  <ol class="breadcrumb right">
+    <li><i class=""></i><%= link_to '未処理',otherside_path(@otherside, c:false)%></li>
+    <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',otherside_path(@otherside, c:true)%></li>
+    <li><%= link_to 'all',otherside_path(@otherside)%></li>
+  </ol>
 
+  <!-- 関連予定 -->
+  <%= render 'application/related_schedules', related_schedules: @related_schedules %>
 
-<!-- 仕訳詳細 -->
-<%= render 'application/journal_list', journals: @journals, otherside: @otherside, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false %>
+  <!-- 仕訳詳細 -->
+  <%= render 'application/journal_list', journals: @journals, otherside: @otherside, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false %>
+
 
 </div>

@@ -4,20 +4,21 @@
   <div class="form_field">
     <h3 class="pd-b-15">関係者情報</h3>
       <%= form_for @otherside, url:otherside_path(@otherside), method: :patch do |f|%>
-      <ul class="submit_form">
+      <ul>
         <li>
           <%= f.label :otherside_name,"関係者名" %>
           <%= f.text_field :otherside_name,id: :otherside_name %>
         </li>
         <li>
             <%= f.fields_for :memo||@otherside.build_memo do |me| %>
-            <%= me.label :メモ %>
-            <%= me.text_area :body,style:"margin: 5px; width: 180px; height: 140px;" %>
+            <%= me.label :メモ,class:"memo_label"%>
+            <%= me.text_area :body %>
+            <span class="count">0</span>
             <% end %>
         </li>
       </ul>
       <div class="submit_form_btn">
-        <%= f.submit "登録",class:"btn btn-default"%>
+        <%= f.submit "登録",class:"btn yellow_btn"%>
       </div>
       <!-- fの終了タグ -->
       <% end %>
@@ -25,42 +26,15 @@
 
 </div>
 
+
 <div class="col-md-8">
-  <div class="row">
-    <div class="col-md-8">
-    <% if @related_schedules.present? %>
-    <h4>関連予定</h4>
-    <ul>
-      <% @related_schedules.includes(:event).each do |schedule| %>
-      <li><i class="<%= check_fix_icon(schedule)%>"></i>
-        <%= link_to schedule_path(schedule) do%>
-                  <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)") %>
-                  <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
-                  <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
-      <%end%>
-      <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>  <%= schedule.event.performer %>
-      </li>
-      <% end %>
-    </ul>
-    <% end %>
-    </div>
-
-    <div class="col-md-4">
-      <div class="right">
-        <%= link_to edit_otherside_path(@otherside) do %>
-        <h6><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> edit</h6>
-        <% end %>
-      </div>
-      <div class="otherside-memo-content">
-        <% unless @otherside.memo.nil? %>
-          <span class="label label-default">MEMO</span>
-          <br><br>
-          <%= simple_format(@otherside.memo.body) %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-
+  <ol class="breadcrumb right">
+    <li><%= link_to 'all',otherside_path(@otherside)%></li>
+    <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',result_schedules_path(c:true),remote:true%></li>
+    <li><i class=""></i><%= link_to '未処理',result_schedules_path(c:false),remote:true%></li>
+  </ol>
+  <!-- 関連予定 -->
+<%= render 'application/related_schedules', related_schedules:@related_schedules%>
 
 <!-- 仕訳詳細 -->
 <%= render 'application/journal_list', journals: @journals, otherside: @otherside, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false %>

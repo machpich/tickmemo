@@ -1,6 +1,7 @@
+<h1><span class="far fa-calendar"></span><%= link_to "#{@schedule.start_datetime.strftime("%Y/%m/%d (%a)")}  #{@schedule.start_datetime.strftime("%H:%M")}",schedule_path(@schedule) %></h1>
 <div class="col-md-4">
 <!-- 貸借管理 -->
-  <%= render 'application/total_loan', otherside: @schedule.otherside, othersides: nil, journals: @journals %>
+  <%= render 'application/total_loan', otherside: @schedule.otherside, journals: @journals %>
 
 <!-- 仕訳登録フォーム -->
   <%= render 'application/journal_form', journal:@journal, schedules: nil, otherside: @otherside %>

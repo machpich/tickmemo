@@ -11,10 +11,16 @@ class HomeController < ApplicationController
   end
 
   def search
-    @schedules = Schedule.where(user_id:current_user.id).order("start_datetime desc")
+    @q = Schedule.where(user_id:current_user.id).search(params[:q])
+    @q.sorts = 'start_datetime desc' if @q.sorts.empty?
+    @schedules = @q.result(distinct: true).includes(:event)
   end
 
   def mypage
   end
 
+  private
+  def search_params
+    params.require(:q).permit!
+  end
 end

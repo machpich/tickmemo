@@ -4,23 +4,24 @@
         <caption>個別明細</caption>
         <thead>
           <tr>
-            <th class="w-50p">日付</th>
-            <th class="w-50p">取引</th>
-            <%if display_event %><th class="w-80p">相手</th><%end%>
-            <th>金額</th>
-            <th class="w-80p font-11 center">借方<br>(立替者)</th>
-            <th class="w-80p font-11 center">貸方<br>(立替者)</th>
-            <%if display_price %><th class="center w-40p font-11">借方<br>金額</th><% end %>
-            <th class="center w-40p font-11"><span data-toggle="tooltip" data-placement="top" title="マイナスが支払必要のある金額">差引</span></th>
-            <%if display_price %><th class="center w-40p font-11">貸方<br>金額</th><% end %>
-            <%if display_event %><th class="font-11">演目</th><% end %>
-            <th><a href="#"><span id="memo_btn" class="far fa-file-alt active_btn" aria-hidden="true"></span></a></th>
+            <th class="xs">日付</th>
+            <th class="sm">取引</th>
+            <%if display_event %><th class="md">相手</th><%end%>
+            <th class="sm">金額</th>
+            <th class="md font-11">借方<br>(立替者)</th>
+            <th class="md font-11">貸方<br>(立替者)</th>
+            <%if display_price %><th class="sm font-11">借方<br>金額</th><% end %>
+            <th class="sm font-11">差引</span>
+            </th>
+            <%if display_price %><th class="sm font-11">貸方<br>金額</th><% end %>
+            <%if display_event %><th class="lg font-11">演目</th><% end %>
+            <th class="xxs"><span id="memo_btn" class="far fa-file-alt active_btn" aria-hidden="true"></span></th>
           </tr>
         </thead>
         <tbody>
           <% array = []%>
-          <%# journals.includes(:trade_type,:memo,details: [:otherside, :account]).each do |journal|%>
-          <% journals.includes(:trade_type,:memo,:otherside, schedule: [:event],details: [:otherside, :account]).each do |journal|%>
+          <% journals.includes(:otherside,:schedule,:trade_type,:memo,details: [:otherside, :account]).each do |journal|%>
+          <%# journals.includes(:trade_type,:memo,:otherside, schedule: [:event],details: [:otherside, :account]).each do |journal|%>
           <tr>
             <!-- 日付 -->
             <td class="center">
@@ -31,7 +32,7 @@
             </td>
 
             <!-- 取引種類 -->
-            <td><span class="label label-info"><%= journal.trade_type.short_name %></span></td>
+            <td class="center"><span class="label label-journal"><%= journal.trade_type.short_name %></span></td>
 
             <!-- 相手 -->
             <% if display_event %>
@@ -159,25 +160,17 @@
             <td></td>
             <td></td>
             <%if display_price %><td></td><% end %>
-            <td class="center"><span data-toggle="tooltip" data-placement="top" title="マイナス:支払必要のある金額"><%=  total = array.sum.to_s(:delimited) %></span></td>
+            <td class="center"><%=  total = array.sum.to_s(:delimited) %></span></td>
             <%if display_price %><td></td><% end %>
             <%if display_event %><td></td><% end %>
             <th></th>
           </tr>
         </tbody>
       </table>
+      <div class="font-11 font-red right">
+        ※マイナス値は支払い金額
+      </div>
       </div>
 <% else %>
   <p>明細登録がありません</p>
 <% end %>
-<script>
-  $(function(){
-    // $('.memo_btn').click(function(){
-    //   $(this)..toggleClass('hidden');
-    // });
-    $('#memo_btn').on('click',function(){
-      $(this).parents().find('.memos').toggleClass('hidden');
-    });
-    $('[data-toggle="tooltip"]').tooltip();
-  });
-</script>

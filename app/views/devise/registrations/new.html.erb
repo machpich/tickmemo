@@ -1,40 +1,34 @@
-<div class="devise_form">
-<h2>会員登録</h2>
+<div class="devise_form new_form">
+  <h2 class="pd-b-15"><span class="glyphicon glyphicon-check mg-r-15"></span>会員登録</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html:{class:"form"}) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html:{class:"form"}) do |f| %>
   <%= devise_error_messages! %>
 
-<div class="form-group row">
-  <div class="col-lg-10">
+  <div class="form-group row">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control input-lg" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
   </div>
-</div>
 
-<div class="form-group row">
-  <div class="col-lg-10">
+  <div class="form-group row">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "off", class:"form-control input-lg" %>
+    <%= f.password_field :password, autocomplete: "off", class:"form-control" %>
   </div>
-</div>
 
-<div class="form-group row">
-  <div class="col-lg-10">
+  <div class="form-group row">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off", class:"form-control input-lg" %>
+    <%= f.password_field :password_confirmation, autocomplete: "off", class:"form-control" %>
   </div>
-</div>
 
-<div class="form-group row">
-  <div class="col-sm-10 actions">
-    <%= f.submit "会員登録", class:"form-control btn" %>
+  <div class="form-group row center_field">
+      <%= f.submit "会員登録", class:"device_btn btn yellow_btn" %>
+    </div>
+  <% end %>
+
+  <div class="center_field">
+    <%= render "devise/shared/links" %>
   </div>
-</div>
-<% end %>
-
-<%= render "devise/shared/links" %>
 
 </div>

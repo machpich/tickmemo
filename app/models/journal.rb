@@ -12,4 +12,11 @@ class Journal < ApplicationRecord
   has_many :details, dependent: :destroy, inverse_of: :journal
 
   accepts_nested_attributes_for :memo, reject_if: :all_blank
+
+  # scope
+  scope :has_other_details, ->(other){
+    joins(:details).where(details:{otherside_id: other.id}).order(trade_date: :asc,id: :asc).distinct
+  }
+  scope :new_order, ->{ order("trade_date") }
+
 end

@@ -1,5 +1,5 @@
-<div class="web_desc">
-  <p>おかねとチケットを一元管理！ 楽しみな予定をもっと簡単に！</p>
+<div class="web_description">
+おかねとチケットを一元管理！ 楽しみな予定をもっと簡単に！
 </div>
 <% unless @images.blank? %>
   <div class="img-field">
@@ -20,9 +20,9 @@
 
 <div class="col-md-8">
   <ol class="breadcrumb right">
-    <li><a href="#">all</a></li>
+    <li><a href="/index">all</a></li>
     <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',result_schedules_path(c:true),remote:true%></li>
-    <li><a href="#"><i class=""></i><%= link_to '未処理',result_schedules_path(c:false),remote:true%></a></li>
+    <li><i class=""></i><%= link_to '未処理',result_schedules_path(c:false),remote:true%></li>
   </ol>
   <div id="result">
     <%= render 'application/schedule_list', schedules: @schedules%>

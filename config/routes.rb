@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get '/index' => 'schedules#index'
   get '/search' => 'home#search'
   get '/setting' => 'home#setting'
+  get '/etc' => 'home#etc'
 
   resources :schedules, except: [:new] do
     collection do

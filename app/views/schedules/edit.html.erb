@@ -1,9 +1,7 @@
 <h1>Schedules#edit</h1>
 <div class="col-md-4">
 <!-- 貸借管理 -->
-<%#= render 'application/total_loan', otherside: @schedule.otherside, othersides:nil, details: @details %>
-<%#= render 'application/total_loan', otherside: nil, othersides: nil, journals: @schedule.journals, sub_or_others: false, display_event: false, display_price: true %>
-<%= render 'application/total_loan', otherside: @otherside, othersides: nil, journals: @journals %>
+<%= render 'application/total_loan', otherside: @otherside, journals: @journals %>
 
 
 <!-- スケジュールフォーム -->
