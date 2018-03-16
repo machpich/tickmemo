@@ -1,4 +1,6 @@
-  $(function(){
+$(document).on('turbolinks:load', function() {
+  //ページ切り替え後にさせたい処理
+
     //確定未定情報の切り替え
     $('#fix_label').on('click',function(){
       var text = $(this).text();
@@ -95,4 +97,4 @@
     $('#total_loan').click(function(){
       $(this).next().toggleClass('hidden');
     });
-});
+  });
