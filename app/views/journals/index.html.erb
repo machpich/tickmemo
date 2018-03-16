@@ -47,16 +47,4 @@
     <!-- 取引履歴一覧 -->
     <%= render 'application/journal_list', journals: @journals, otherside: nil , display_event: true, display_price: false, otherside_page:false, schedule_page:false, journals_page:true %>
   </div>
-
 </div>
-
-<script>
-  $(function(){
-    $('#related_schedule').click(function(){
-      $(this).next().toggleClass('hidden');
-    });
-    $('#total_loan').click(function(){
-      $(this).next().toggleClass('hidden');
-    });
-  });
-</script>

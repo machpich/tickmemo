@@ -40,20 +40,3 @@
 <%= render 'application/journal_list', journals: @journals, otherside: @otherside, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false %>
 
 </div>
-
-<script>
-//文字数カウント
-    var countMax = 120;
-    $('textarea').bind('keydown keyup keypress change',function(){
-        var thisValueLength = $(this).val().length;
-        var countDown = (countMax)-(thisValueLength);
-        $('.count').html(countDown);
-
-        if(countDown < 0){
-            $('.count').css({color:'#ff0000',fontWeight:'bold'});
-        }
-    });
-    $(window).load(function(){
-        $('.count').html(countMax);
-    });
-</script>
