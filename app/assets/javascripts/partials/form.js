@@ -67,11 +67,11 @@
 
       if (othersideVal == ""){
         if (selectVal>=6){
-          $('#otherside_field').removeClass('hidden')
+          $('#otherside_field').removeClass('hidden');
         } else {
-          $('#otherside_field').addClass('hidden')
-        };
-      };
+          $('#otherside_field').addClass('hidden');
+        }
+      }
     });
 
 //今日の日付を自動でフォームに入力
