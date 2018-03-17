@@ -73,6 +73,6 @@ class OthersidesController < ApplicationController
   private
 
   def params_otherside
-    params.require(:otherside).permit(:otherside_name,memo_attributes:[:body,:id,:_destroy])
+    params.require(:otherside).permit(:otherside_name,:url,memo_attributes:[:body,:id,:_destroy])
   end
 end

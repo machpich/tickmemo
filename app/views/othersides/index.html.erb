@@ -22,7 +22,7 @@
         <tr>
           <!-- no -->
           <td class="left"><%= index %><br>
-            <%= link_to content_tag(:i,"",class:"glyphicon glyphicon-edit"), edit_otherside_path(otherside)%>
+            <%= link_to content_tag(:i,"",class:"glyphicon glyphicon-edit"), edit_otherside_path(otherside),target:"_blank"%>
           </td>
           <!-- name -->
           <td>
@@ -31,7 +31,11 @@
           <!-- memo -->
           <td class="font-12"><%= simple_format(otherside.memo.body) unless otherside.memo.nil?%></td>
           <!-- url -->
-          <td><span class="glyphicon glyphicon-globe"></span></td>
+          <td>
+            <% unless otherside.url.nil? %>
+            <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe mg-l-10 font-16'),otherside.url,target:"_blank" %>
+            <%end%>
+          </td>
         </tr>
         <% end %>
       </tbody>

@@ -90,7 +90,7 @@ module ApplicationHelper
 # メインで使用しているothersideがnilの場合は除外せずに返す
   def create_otherside_list(journals)
     if journals.exists?
-      list = Detail.where(journal_id:journals.map{|j|j.id}).pluck(:otherside_id).uniq.flatten
+      list = Detail.where(journal_id:journals.map(&:id)).pluck(:otherside_id).uniq.flatten
       return list
     else
       return false

@@ -2,13 +2,14 @@
 <div class="col-md-4">
 <!-- ユーザーメモ -->
   <div class="otherside-memo-content pd-10">
-    <h6 class="label label-memo">MEMO</h6>
+    <h6 class="label label_memo">MEMO</h6>
+    <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe mg-l-10 font-16',target:"_blank"),@otherside.url,target:"_blank" %>
     <%= link_to edit_otherside_path(@otherside) do %><span class="mg-l-5 glyphicon glyphicon-edit"></span><% end %>
     <%= text_url_to_link(h(simple_format(@otherside.memo.body))).html_safe unless @otherside.memo.nil?%>
   </div>
 
 <!-- 貸借管理 -->
-<%= render 'application/total_loan', otherside: @otherside, journals: @journals %>
+<%= render 'application/total_loan', otherside: @otherside, journals: @journals, othersides:nil %>
 <!-- 仕訳登録フォーム -->
 <%= render 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @form_otherside%>
 </div>

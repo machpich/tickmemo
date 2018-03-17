@@ -10,6 +10,10 @@
           <%= f.text_field :otherside_name,id: :otherside_name %>
         </li>
         <li>
+          <%= f.label :url,"URL" %>
+          <%= f.text_field :url,id: :url %>
+        </li>
+        <li>
             <%= f.fields_for :memo||@otherside.build_memo do |me| %>
             <%= me.label :メモ,class:"memo_label"%>
             <%= me.text_area :body %>

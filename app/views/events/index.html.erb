@@ -11,30 +11,26 @@
   </div>
 
   <div class="col-md-8">
-<div class="nav_list hidden">
-  <ul>
-    <li>half_year</li>
-    <li>past</li>
-    <li>feature</li>
-    <li>all</li>
-  </ul>
-</div>
 <div>
     <table class="table">
       <thead>
         <tr>
           <th></th>
-          <th>IMG</th>
-          <th class="w-250p">演目/演者/期間</th>
+          <th class="center">IMG</th>
+          <th style="min-width:250px;">演目/演者/期間</th>
         </tr>
       </thead>
       <tbody>
       <% @events.includes(:memo).each do |event|%>
         <tr>
-          <td rowspan="2" class="w-25p">
+          <td rowspan="2" class="w-25p center">
             <%= link_to edit_event_path(event) do %>
             　<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
            <% end %>
+           <br>
+           <% if event.url.present? %>
+           <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe'),event.url,target:"_blank" %>
+           <%end%>
           </td>
           <td rowspan="2" class="w-25p center">
             <%= attachment_image_tag event, :image, :fill, 60, 80, format: 'jpeg'%>
@@ -42,11 +38,11 @@
           <td>
             <strong><%= link_to event.program, event_path(event) %></strong><br>
             <%= event.performer %><br>
-            <%= "#{event.date_start.strftime("%Y/%m/%d (%a)")}" unless event.date_start.nil?%> <%= "〜 #{event.date_end.strftime("%Y/%m/%d (%a)")}" unless event.date_start.nil? %>
+            <%= "#{event.date_start.strftime("%Y/%m/%d (%a)")}" unless event.date_start.nil?%> <%= "〜 #{event.date_end.strftime("%Y/%m/%d (%a)")}" unless event.date_end.nil? %>
           </td>
         </tr>
         <tr class="no-border pd-t-20">
-          <td colspan="3" class="notes_font"><%= event.memo.body unless event.memo.nil? %></td>
+          <td colspan="3" class="font-11 font-gray1"><%= event.memo.body unless event.memo.nil? %></td>
         </tr>
       <%end%>
       </tbody>

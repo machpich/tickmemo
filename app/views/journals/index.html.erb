@@ -25,7 +25,7 @@
   <!-- 貸借管理 -->
   <h3 id="total_loan" class="active_btn"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 関係者</h3>
   <div class="hidden">
-  <%= render 'application/total_loan', otherside: nil, journals: @journals %>
+  <%= render 'application/total_loan', otherside: nil, journals: @journals, othersides:@othersides %>
   </div>
 
   <!-- 仕訳登録フォーム -->
