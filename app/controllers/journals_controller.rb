@@ -40,6 +40,7 @@ class JournalsController < ApplicationController
       end
       @schedules = @schedules.where(check: check)
       @related_schedules = @schedules
+      @othersides = nil
 
       ids = @schedules.pluck(:id).uniq
       @journals = Journal.includes(:schedule).where(schedules:{id: ids.each{|id|id}}).new_order

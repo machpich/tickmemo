@@ -1,34 +1,48 @@
 <div class="loan_field">
+  <% if othersides %>
     <table>
       <tbody>
-<!-- othersideのみある場合 -->
-        <% if otherside %>
+<!-- 複数のothersideがある場合　journal#index -->
+            <% othersides.each do |otherside| %>
             <tr>
                 <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i></td>
                 <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
             </tr>
-        <% end %>
-
+            <% end %>
       </tbody>
     </table>
+<% else %>
 
-<!-- 立替金関係者(otherside)がある場合 -->
-<% if journals %>
+<!-- othersideのみある場合 -->
+ <% if otherside %>
     <table>
       <tbody>
-        <!-- otherside_list 相手先に関連のある立替者のリストアップメソッド -->
-        <% if otherside_list(journals,otherside) %>
-            <% otherside_list(journals,otherside).each do |num|%>
-            <% otherside = Otherside.find(num)%>
-            <tr>
-                <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i></td>
-                <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>
-                <td></td>
-            </tr>
-            <% end %>
-        <% end %>
+        <tr>
+            <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i></td>
+            <td><%= link_to_unless_current "#{otherside.otherside_name}", otherside_path(otherside) %></td>
+        </tr>
       </tbody>
     </table>
 <% end %>
 
+<!-- 立替金関係者(otherside)がある場合 -->
+    <% if journals %>
+        <table>
+          <tbody>
+            <!-- otherside_list 相手先に関連のある立替者のリストアップメソッド -->
+            <% if otherside_list(journals,otherside) %>
+                <% otherside_list(journals,otherside).each do |num|%>
+                <% otherside = Otherside.find(num)%>
+                <tr>
+                    <td><i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i></td>
+                    <td><%= link_to otherside.otherside_name, otherside_path(otherside) %></td>
+                    <td></td>
+                </tr>
+                <% end %>
+            <% end %>
+          </tbody>
+        </table>
+    <% end %>
+
+<%end%>
 </div>

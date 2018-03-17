@@ -3,13 +3,16 @@
     <ul>
       <% related_schedules.each do |schedule| %>
       <%# related_schedules.includes(:event).each do |schedule| %>
-      <li><i class="<%= check_fix_icon(schedule)%>"></i>
+      <li>
+        <i class="<%= check_fix_icon(schedule)%>"></i>
         <%= link_to schedule_path(schedule) do%>
-                  <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)") %>
-                  <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
-                  <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
+          <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)") %>
+          <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
+          <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
       <%end%>
-      <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>  <%= schedule.event.performer %>
+      <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>
+      <span><%= schedule.event.performer %></span>
+      <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-remove font-11 mg-l-5'),schedule_path(schedule),data: { confirm: "削除しますか?" },method: :delete %>
       </li>
       <% end %>
     </ul>

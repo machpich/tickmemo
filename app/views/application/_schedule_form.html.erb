@@ -41,13 +41,19 @@
       <div>
         <label>
           <%= sc.check_box :fix, id: :fix %>
-          <span class="fix_label" id="fix_label">未定</span>
+          <span class="fix_label" id="fix_label">
+            <%= "確定" if schedule.fix == true %>
+            <%= "未定" if schedule.fix.nil? || schedule.fix == false %>
+        </span>
         </label>
       </div>
       <div>
         <label>
         　<%= sc.check_box :check, id: :check %>
-          <span class="check_label" id="check_label">未清算</span>
+          <span class="check_label" id="check_label">
+            <%= "清算済" if schedule.check == true %>
+            <%= "未清算" if schedule.check.nil? || schedule.check == false %>
+        </span>
         </label>
         <%= sc.hidden_field :user_id, value:current_user.id%>
       </div>

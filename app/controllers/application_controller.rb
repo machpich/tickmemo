@@ -69,8 +69,8 @@ class ApplicationController < ActionController::Base
 
   # othersideが関わっているSchedule一覧のIDを配列化する
   def schedule_ids_related(otherside)
-    ot_s1=Schedule.other(otherside).map{|s|s.id}
-    ot_s2=Schedule.has_other_details(otherside).map{|s|s.id}
+    ot_s1=Schedule.other(otherside).map(&:id)
+    ot_s2=Schedule.has_other_details(otherside).map(&:id)
     ids=[]
     ids = ot_s1+ot_s2
     ids.uniq!

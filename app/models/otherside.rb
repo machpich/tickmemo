@@ -12,5 +12,5 @@ class Otherside < ApplicationRecord
   accepts_nested_attributes_for :memo
 
 # validations
-  validates :otherside_name, presence: true
+  validates :url, format: /\A#{URI::regexp(%w(http https))}\z/
 end

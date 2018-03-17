@@ -26,11 +26,11 @@ a {
   }
 }
 
-/* =========================material design======================= */
-
 .ui-helper-hidden-accessible {
   display: none;
 }
+
+/* =========================related_all======================= */
 
 *{
   margin: 0;
@@ -61,14 +61,14 @@ h1 {
     padding-right: 26px;
 }
 
-.label-journal{
+.label_journal{
   background-color:$gray1;
   display: block;
   width: 40px;
   white-space: normal;
   line-height:1.3em;
 }
-.label-memo{
+.label_memo{
   background-color:$hover_link;
   margin-top: 10px;
   display: inline-block;
@@ -147,7 +147,7 @@ i,span {
 img {
     vertical-align: top;
 }
-/* ===============home#top======================== */
+/* ===============infomation======================== */
 
 @mixin basic_btn($color){
   color: #fff;
@@ -197,7 +197,21 @@ img {
     background-position:top;
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(209,209,209, .3)),url(/assets/home_bg.jpeg);
 }
-/* ===============schedule#index======================== */
+
+.img-field {
+    height: 280px;
+    text-align: center;
+    img { padding: 10px; }
+}
+
+.soat_fields {
+    font-size: 11px;
+    padding-bottom: 10px;
+    text-align: left;
+    a{ text-decoration: underline; }
+}
+
+/* ===============not_forms======================== */
 
 .journals{
   i,span {
@@ -214,13 +228,7 @@ img {
   padding-bottom:50px;
 }
 
-.img-field {
-    height: 280px;
-    text-align: center;
-    img { padding: 10px; }
-}
-
-/* ===============schedule_form,journal_form======================== */
+/* ===============form======================== */
 
 @mixin basic_form($width) {
   padding: 6px 12px;
@@ -382,6 +390,13 @@ div.event_img {
     border: 1px solid #999;
     border-radius: 4px;
     }
+
+.event_detail{
+  .event_sub{
+    margin-top:10px;
+    margin-bottom:5px;
+    }
+}
 
 /* =====================setting===================== */
 .setting_menu > li {

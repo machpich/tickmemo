@@ -56,6 +56,6 @@ class EventsController < ApplicationController
   private
 
   def params_event
-    params.require(:event).permit(:user_id,:program,:performer,:date_start,:date_end,:image,:remove_image,memo_attributes:[:id,:_destroy,:body])
+    params.require(:event).permit(:user_id,:program,:performer,:date_start,:date_end,:url,:image,:remove_image,memo_attributes:[:id,:_destroy,:body])
   end
 end
