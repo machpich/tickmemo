@@ -6,7 +6,4 @@ class Location < ApplicationRecord
   belongs_to :user
   has_many :schedules
   has_and_belongs_to_many :events
-
-  # accepts_nested_attributes_for :event
-  # accepts_nested_attributes_for :schedules
 end
