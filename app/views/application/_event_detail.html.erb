@@ -1,0 +1,54 @@
+
+  <div>
+    <% unless event.image.nil?%>
+      <%= attachment_image_tag event, :image, :fill, 280, 300, format: 'jpeg'%>
+    <% else %>
+     <div class="event_img mg-b-20">NO IMG</div>
+    <% end %>
+
+    <%= link_to edit_event_path(event) do %>
+      <h6><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> edit</h6>
+    <% end %>
+
+    <div class="event_detail">
+      <ul>
+
+        <% if event.url.present? %>
+        <li class="event_sub">
+          <span class="label label-default">URL</span>
+          <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe mg-l-10'),event.url,target:"_blank" %>
+        </li>
+        <% end %>
+
+        <% if event.date_start.present? || event.date_end.present? %>
+        <li class="event_sub">
+          <span class="label label-default">イベント開催期間</span>
+        </li>
+        <li>
+          <%= "#{event.date_start.strftime("%Y/%m/%d (%a)")} 〜 " unless event.date_start.nil? %><%= event.date_end.strftime("%Y/%m/%d (%a)") unless event.date_end.nil? %>
+        </li>
+        <% end %>
+
+        <% if event.locations.any?%>
+        <li class="event_sub">
+          <span class="label label-default">参加会場</span>
+        </li>
+
+        <% event.locations.distinct.each do |location|%>
+          <li>
+            <i class="fas fa-map-marker-alt mg-r-10"></i><%= location.place_name%>
+          </li>
+        <% end %>
+        <% end %>
+
+        <% if event.memo.present? && event.memo.body.present? %>
+        <li class="event_sub">
+          <span class="label label-default">MEMO</span>
+        </li>
+        <li>
+          <%= simple_format(event.memo.body)%>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>

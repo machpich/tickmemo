@@ -60,4 +60,7 @@
   <%= sort_link(@q, :start_datetime, '日付順', default_order: :asc) %>
   </div>
 <%= render 'application/schedule_list', schedules: @schedules%>
+  <div class="center">
+    <%= paginate @schedules %>
+  </div>
 </div>

@@ -211,7 +211,19 @@ img {
     a{ text-decoration: underline; }
 }
 
-/* ===============not_forms======================== */
+.rightpos{
+    float:right;
+}
+
+.leftpos{
+    float: left;
+}
+.note {
+    padding: 8px;
+    text-decoration: underline;
+    letter-spacing: 0.7em;
+    color: $gray1;
+  }
 
 .journals{
   i,span {

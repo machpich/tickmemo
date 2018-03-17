@@ -18,12 +18,15 @@
 
 </div>
 
-<div class="col-md-8">
-  <ol class="breadcrumb right">
-    <li><a href="/index">all</a></li>
-    <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',result_schedules_path(c:true),remote:true%></li>
-    <li><i class=""></i><%= link_to '未処理',result_schedules_path(c:false),remote:true%></li>
-  </ol>
+<div class="col-md-8 clearfix">
+  <div class="leftpos note">先月から半年間の予定</div>
+  <div class="rightpos">
+    <ol class="breadcrumb right">
+      <li><a href="/index">all</a></li>
+      <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',result_schedules_path(c:true),remote:true%></li>
+      <li><i class=""></i><%= link_to '未処理',result_schedules_path(c:false),remote:true%></li>
+    </ol>
+  </div>
   <div id="result">
     <%= render 'application/schedule_list', schedules: @schedules%>
   </div>
