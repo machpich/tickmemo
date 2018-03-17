@@ -17,7 +17,7 @@ class SchedulesController < ApplicationController
     today = Date.today
     from = today - 1.month
     to = today + 5.month
-    @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).includes([:event,:otherside,:location]).order(:start_datetime)
+    @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).includes([:event,:otherside,:location]).order(:start_datetime).page(params[:page])
   end
 
   def create

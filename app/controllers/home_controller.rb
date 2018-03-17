@@ -13,7 +13,7 @@ class HomeController < ApplicationController
   def search
     @q = Schedule.where(user_id:current_user.id).search(params[:q])
     @q.sorts = 'start_datetime desc' if @q.sorts.empty?
-    @schedules = @q.result(distinct: true).includes(:event)
+    @schedules = @q.result(distinct: true).includes(:event).page(params[:page])
   end
 
   def mypage
