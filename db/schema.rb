@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317013459) do
+ActiveRecord::Schema.define(version: 20180302072715) do
 
   create_table "accounts", force: :cascade do |t|
     t.string "account_name"
@@ -23,9 +23,9 @@ ActiveRecord::Schema.define(version: 20180317013459) do
     t.integer "position_status"
     t.integer "account_id"
     t.integer "otherside_id"
+    t.integer "journal_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "journal_id"
     t.index ["account_id"], name: "index_details_on_account_id"
     t.index ["journal_id"], name: "index_details_on_journal_id"
     t.index ["otherside_id"], name: "index_details_on_otherside_id"
@@ -36,11 +36,11 @@ ActiveRecord::Schema.define(version: 20180317013459) do
     t.string "performer"
     t.date "date_start"
     t.date "date_end"
+    t.string "image_id"
+    t.text "url"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "image_id"
-    t.text "url"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
@@ -56,10 +56,10 @@ ActiveRecord::Schema.define(version: 20180317013459) do
     t.integer "figure"
     t.integer "trade_type_id"
     t.integer "schedule_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "otherside_id"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["otherside_id"], name: "index_journals_on_otherside_id"
     t.index ["schedule_id"], name: "index_journals_on_schedule_id"
     t.index ["trade_type_id"], name: "index_journals_on_trade_type_id"
@@ -68,9 +68,9 @@ ActiveRecord::Schema.define(version: 20180317013459) do
 
   create_table "locations", force: :cascade do |t|
     t.string "place_name"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.index ["user_id"], name: "index_locations_on_user_id"
   end
 
@@ -84,10 +84,10 @@ ActiveRecord::Schema.define(version: 20180317013459) do
 
   create_table "othersides", force: :cascade do |t|
     t.string "otherside_name"
+    t.text "url"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "url"
     t.index ["user_id"], name: "index_othersides_on_user_id"
   end
 
@@ -121,14 +121,15 @@ ActiveRecord::Schema.define(version: 20180317013459) do
 
   create_table "trade_types", force: :cascade do |t|
     t.string "trade_name"
+    t.string "short_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "short_name"
   end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "profile_image_id"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -139,7 +140,6 @@ ActiveRecord::Schema.define(version: 20180317013459) do
     t.string "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "profile_image_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
