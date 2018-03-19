@@ -4,6 +4,7 @@
     <%= favicon_link_tag 'favicon.ico'%>
     <title>TICKMEMO</title>
     <meta http-equiv="Content-Language" content="ja">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Krona+One" rel="stylesheet">
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -28,7 +29,7 @@
           <ul>
             <li>
               <%= link_to journals_path do%>
-                <%= content_tag(:i,"",class:"fab fa-pagelines") %>全取引
+                <%= content_tag(:i,"",class:"fab fa-pagelines") %>取引計
               <% end %>
             </li>
             <li>
@@ -39,7 +40,7 @@
             <li>
             <div class="dropdown">
               <a href="" data-toggle="dropdown" role="button" aria-expanded="false">
-                <%= content_tag(:i,"",class:"fas fa-cog")%>マイページ
+                <%= content_tag(:i,"",class:"fas fa-cog")%>設定
               <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li role="presentation">

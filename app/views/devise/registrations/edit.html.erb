@@ -7,7 +7,7 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class:"form" }) do |f| %>
     <%= devise_error_messages! %>
   <!-- メールアドレス -->
-    <div class="form-group row">
+    <div class="form-group">
         <%= f.label :email %><br />
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
     </div>
@@ -17,12 +17,12 @@
     <% end %>
 
 
-    <div class="form-group row">
+    <div class="form-group">
         <%= f.label :profile_image,"プロフィール画像"%>
         <%= f.attachment_field :profile_image%>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group">
         <%= f.label :current_password %> <i>(現在のパスワードを入れてください。)</i><br />
         <%= f.password_field :current_password, autocomplete: "off", class:"form-control" %>
     </div>
@@ -30,7 +30,7 @@
   <fieldset>
     <legend>パスワードの変更</legend>
 
-    <div class="form-group row">
+    <div class="form-group">
         <%= f.label :password_new %> <i>(パスワードの変更をしない場合は入力しないでください)</i>
         <% if @minimum_password_length %>
           <em><%= @minimum_password_length %> 文字以上</em>
@@ -41,14 +41,14 @@
 
     </div>
 
-    <div class="form-group row">
+    <div class="form-group">
       <%= f.label :password_confirmation_new %><br />
       <%= f.password_field :password_confirmation, autocomplete: "off", class:"form-control" %>
     </div>
   </fieldset>
 
 
-  <div class="form-group row center_field">
+  <div class="form-group center_field">
       <%= f.submit "変更", class:"btn yellow_btn" %>
   </div>
   <% end %>

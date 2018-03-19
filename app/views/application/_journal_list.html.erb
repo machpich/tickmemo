@@ -4,27 +4,27 @@
         <caption>個別明細</caption>
         <thead>
           <tr>
-            <th class="xs">日付</th>
-            <th class="sm">取引</th>
-            <%if display_event %><th class="md">相手</th><%end%>
-            <th class="sm">金額</th>
-            <th class="md font-11">借方<br>(立替者)</th>
-            <th class="md font-11">貸方<br>(立替者)</th>
-            <%if display_price %><th class="sm font-11">借方<br>金額</th><% end %>
-            <th class="sm font-11">差引</span>
+            <th class="date">日付</th>
+            <th class="trade">取引</th>
+            <%if display_event %><th class="other">相手</th><%end%>
+            <th class="price">金額</th>
+            <th class="credit_sb">借方<br>(立替者)</th>
+            <th class="debit_sb">貸方<br>(立替者)</th>
+            <%if display_price %><th class="credit_mn">借方<br>金額</th><% end %>
+            <th class="balance_mn">差引</span>
             </th>
-            <%if display_price %><th class="sm font-11">貸方<br>金額</th><% end %>
-            <%if display_event %><th class="lg font-11">演目</th><% end %>
-            <th class="xxs"><span id="memo_btn" class="far fa-file-alt active_btn" aria-hidden="true"></span></th>
+            <%if display_price %><th class="debit_mn">貸方<br>金額</th><% end %>
+            <%if display_event %><th class="program">演目</th><% end %>
+            <th class="edit_jn"><span id="memo_btn" class="far fa-file-alt active_btn" aria-hidden="true"></span></th>
           </tr>
         </thead>
         <tbody>
           <% array = []%>
           <% journals.includes(:otherside,:schedule,:trade_type,:memo,details: [:otherside, :account]).each do |journal|%>
-          <%# journals.includes(:trade_type,:memo,:otherside, schedule: [:event],details: [:otherside, :account]).each do |journal|%>
+
           <tr>
             <!-- 日付 -->
-            <td class="center">
+            <td class="center date">
               <% unless journal.trade_date.nil?%>
               <span style="font-weight:600;font-size:20px;color:#ccc;"><%= journal.trade_date.strftime("%y") %></span><br>
               <%= journal.trade_date.strftime("%m/%d") %>
@@ -32,21 +32,21 @@
             </td>
 
             <!-- 取引種類 -->
-            <td class="center"><span class="label label_journal"><%= journal.trade_type.short_name %></span></td>
+            <td class="center trade"><span class="label label_journal"><%= journal.trade_type.short_name %></span></td>
 
             <!-- 相手 -->
             <% if display_event %>
-            <td><%= link_to journal.otherside.otherside_name, otherside_path(journal.otherside) %></td>
+            <td class="other"><%= link_to journal.otherside.otherside_name, otherside_path(journal.otherside) %></td>
             <% end %>
 
             <!-- 金額 -->
-            <td><%= journal.figure.to_s(:delimited) unless journal.figure.nil?%></td>
+            <td class="price"><%= journal.figure.to_s(:delimited) unless journal.figure.nil?%></td>
 
       <% first = journal.details.first if journal.details.present?%>
       <% last = journal.details.last if journal.details.present?%>
 
             <!-- 借方科目 -->
-            <td class="font-12 bg-gray0">
+            <td class="credit_sb bg-gray0">
               <% if  journal.details.present?%>
                 <%= first.account.account_name %><br>
 
@@ -58,7 +58,7 @@
             </td>
 
             <!-- 貸方科目 -->
-            <td class="font-12 bg-gray0">
+            <td class="debit_sb bg-gray0">
               <% if  journal.details.present?%>
                 <%= last.account.account_name %><br>
                 <%= link_to otherside_path(last.otherside) do %>
@@ -70,7 +70,7 @@
 
             <!-- 借方金額 -->
             <% if display_price%>
-            <td class="font-12 center">
+            <td class="credit_mn center">
               <% if  journal.details.present?%>
                 <%= credit(journal,otherside)==0? nil : credit(journal,otherside).to_s(:delimited) %>
               <% end %>
@@ -78,7 +78,7 @@
             <% end %>
 
             <!-- バランス -->
-            <td class="font-12 center">
+            <td class="balance_mn center">
             <% if  journal.details.present?%>
               <% array << balance(journal,otherside) unless balance(journal,otherside)==nil%>
               <%= total = array.sum.to_s(:delimited) %>
@@ -88,7 +88,7 @@
 
             <!-- 貸方金額 -->
             <% if display_price %>
-            <td class="font-12 center">
+            <td class="debit_mn center">
             <% if  journal.details.present?%>
               <%= debit(journal,otherside) == 0 ? nil : debit(journal,otherside).to_s(:delimited) %>
             <%end%>
@@ -97,7 +97,7 @@
 
             <!-- 演目 -->
             <% if display_event %>
-            <td class="font-12">
+            <td class="program">
               <%= link_to schedule_path(journal.schedule) do%>
               <i class="<%= check_fix_smicon(journal.schedule)%>"></i>
                 <%= "(#{journal.schedule.id}) #{journal.schedule.start_datetime.strftime("%y/%m/%d")}" %><i class="<%= "#{matisowa_icon(journal.schedule)}"%>"></i>
@@ -108,7 +108,7 @@
 
             <!-- 編集 -->
 
-            <td class="font-12">
+            <td class="edit_jn">
               <!-- 編集リンク -->
             <% if otherside_page %>
               <%= link_to "/othersides/#{params[:id]}?journal=#{journal.id}" do %>

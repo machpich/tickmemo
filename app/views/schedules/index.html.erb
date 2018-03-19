@@ -1,33 +1,47 @@
-<div class="web_description">
-おかねとチケットを一元管理！ 楽しみな予定をもっと簡単に！
-</div>
-<% unless @images.blank? %>
-  <div class="img-field">
-    <% @images.each do |image|%>
-      <%= link_to event_path(image) do %>
-      <%= attachment_image_tag image, :image, :fill, 200, 230, format: 'jpeg'%>
-      <% end %>
-    <%end%>
+<div class="schedule_pabe">
+
+  <div class="web_description">
+    楽しみな予定の管理をもっと楽しく！もっと簡単に！
+    <div class="pd-t-20"></div>
   </div>
-<%end %>
+  <% unless @images.blank? %>
+    <div class="img-field">
+      <% @images.each do |image|%>
+        <%= link_to event_path(image) do %>
+        <%= attachment_image_tag image, :image, :fill, 200, 230, format: 'jpeg'%>
+        <% end %>
+      <%end%>
+    </div>
+  <%end %>
 
-<div class="col-md-4">
+  <div class="col-md-4">
 
-<!-- 仕訳登録フォーム -->
-<%= render 'application/schedule_form', event: @event, schedule: @schedule %>
+  <!-- 仕訳登録フォーム -->
+  <%= render 'application/schedule_form', event: @event, schedule: @schedule %>
 
-</div>
-
-<div class="col-md-8 clearfix">
-  <div class="leftpos note">先月から半年間の予定</div>
-  <div class="rightpos">
-    <ol class="breadcrumb right">
-      <li><a href="/index">all</a></li>
-      <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',result_schedules_path(c:true),remote:true%></li>
-      <li><i class=""></i><%= link_to '未処理',result_schedules_path(c:false),remote:true%></li>
-    </ol>
   </div>
-  <div id="result">
-    <%= render 'application/schedule_list', schedules: @schedules%>
+
+  <div class="col-md-8">
+    <div class="clearfix">
+
+      <div class="leftpos note">先月から半年間の予定</div>
+        <div class="rightpos">
+          <ol class="breadcrumb right">
+            <li><a href="/index">all</a></li>
+            <li>
+              <i class="fas fa-check mg-r-5"></i><%= link_to '処理済',result_schedules_path(c:true),remote:true%>
+            </li>
+            <li>
+              <i class=""></i><%= link_to '未処理',result_schedules_path(c:false),remote:true%>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+
+    <div id="result">
+      <%= render 'application/schedule_list', schedules: @schedules%>
+    </div>
   </div>
+
 </div>

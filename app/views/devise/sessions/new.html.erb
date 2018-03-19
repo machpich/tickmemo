@@ -2,18 +2,18 @@
   <h2 class="pd-b-15"><span class="glyphicon glyphicon-log-in mg-r-15"></span>ログイン</h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html:{class:"form"}) do |f| %>
-      <div class="form-group row">
+      <div class="form-group">
         <%= f.label :email%>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group">
         <%= f.label :password %>
         <%= f.password_field :password, autocomplete: "off", class:"form-control" %>
       </div>
 
       <% if devise_mapping.rememberable? -%>
-        <div class="form-group row">
+        <div class="form-group">
             <div class="check_box">
               <%= f.label :remember_me, class:"control-label"%>
               <%= f.check_box :remember_me%>
@@ -21,7 +21,7 @@
         </div>
       <% end -%>
 
-      <div class="form-group row center_field">
+      <div class="form-group center_field">
         <%= f.submit "ログイン", class:"device_btn btn yellow_btn" %>
       </div>
     <% end %>

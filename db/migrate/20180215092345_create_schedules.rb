@@ -1,6 +1,6 @@
 class CreateSchedules < ActiveRecord::Migration[5.1]
   def change
-    #create_table :schedules do |t|
+    # create_table :schedules do |t|
     create_table :schedules, :options => 'ENGINE=InnoDB ROW_FORMAT=DYNAMIC' do |t|
       t.datetime :start_datetime
       t.datetime :end_datetime

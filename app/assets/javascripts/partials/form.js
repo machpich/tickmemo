@@ -2,20 +2,18 @@ $(document).on('turbolinks:load', function() {
   //ページ切り替え後にさせたい処理
 
     //確定未定情報の切り替え
-    $('#fix_label').on('click',function(){
-      var text = $(this).text();
-      if(text == "未定"){
-        $(this).text('確定');
+    $('#fix').on('change',function(){
+      if ($(this).prop('checked')) {
+        $('#fix_label').text("確定");
       }else{
-        $(this).text('未定');
+        $('#fix_label').text("未定");
       }
     });
-    $('#check_label').on('click',function(){
-      var text = $(this).text();
-      if(text == "清算済"){
-        $(this).text('未清算');
+    $('#check').on('change',function(){
+      if ($(this).prop('checked')) {
+        $('#check_label').text("未清算");
       }else{
-        $(this).text('清算済');
+        $('#check_label').text("清算済");
       }
     });
 
@@ -85,16 +83,31 @@ $(document).on('turbolinks:load', function() {
       $(this).val(yyyy+'-'+mm+'-'+dd);
     });
 
-// memo表示の切り替え
+// journalのmemo表示の出し入れ
     $('#memo_btn').on('click',function(){
       $(this).parents().find('.memos').toggleClass('hidden');
     });
 
-// journal#index画面の切り替え
+// journal#index画面の出し入れ
     $('#related_schedule').click(function(){
       $(this).next().toggleClass('hidden');
     });
     $('#total_loan').click(function(){
       $(this).next().toggleClass('hidden');
     });
+
+// form_fieldの出し入れ
+     $('#oc_btn').on('click',function(){
+    $form_field = $('.form_field');
+    if($form_field.hasClass('show')){
+      $form_field.removeClass('show');
+      $(this).html('<i class="fas fa-angle-down font-gray2 pd-l-10"></i>');
+
+    } else {
+      $form_field.addClass('show');
+      $(this).html('<i class="fas fa-angle-up font-gray2 pd-l-10"></i>');
+
+    }
+  });
+
   });

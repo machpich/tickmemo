@@ -1,5 +1,7 @@
+  <h3 class="form_h3"><i class="fas fa-pen-square mg-r-10"></i>予定登録</h3>
+    <div id="oc_btn"><i class="fas fa-angle-down font-gray2 pd-l-10"></i></div>
+
 <div class="form_field">
-<h3><i class="fas fa-pen-square mg-r-10"></i>予定登録</h3>
   <!-- form_for部分 -->
   <%= form_for schedule do |sc|%>
   <ul>
@@ -44,16 +46,16 @@
           <span class="fix_label" id="fix_label">
             <%= "確定" if schedule.fix == true %>
             <%= "未定" if schedule.fix.nil? || schedule.fix == false %>
-        </span>
-        </label>
+            </span>
+          </label>
       </div>
       <div>
         <label>
-        　<%= sc.check_box :check, id: :check %>
+          <%= sc.check_box :check, id: :check %>
           <span class="check_label" id="check_label">
             <%= "清算済" if schedule.check == true %>
             <%= "未清算" if schedule.check.nil? || schedule.check == false %>
-        </span>
+            </span>
         </label>
         <%= sc.hidden_field :user_id, value:current_user.id%>
       </div>
@@ -67,14 +69,15 @@
 
       <li>
         <%= sc.fields_for :memo||schedule.build_memo do |me| %>
-        <%= me.label :メモ,class:"memo_label" %>
+        <label class="memo_label">
+          メモ<span class="count">0</span>
+        </label>
         <%= me.text_area :body %>
-        <span class="count">0</span>
         <% end %>
       </li>
     </div>
   </ul>
-  <div class="submit_form_btn">
+  <div class="center">
     <%= sc.submit "登録",class:"btn yellow_btn"%>
   </div>
   <!-- scの終了タグ -->

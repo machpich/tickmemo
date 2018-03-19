@@ -1,33 +1,43 @@
-<h1><i class="<%= "#{sub_or_others_icon(@otherside)}"%>"></i> <%=link_to @otherside.otherside_name,otherside_path(@otherside) %></h1>
-<div class="col-md-4">
-<!-- ユーザーメモ -->
-  <div class="otherside-memo-content pd-10">
-    <h6 class="label label_memo">MEMO</h6>
-    <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe mg-l-10 font-16',target:"_blank"),@otherside.url,target:"_blank" %>
-    <%= link_to edit_otherside_path(@otherside) do %><span class="mg-l-5 glyphicon glyphicon-edit"></span><% end %>
-    <%= text_url_to_link(h(simple_format(@otherside.memo.body))).html_safe unless @otherside.memo.nil?%>
+<div class="otherside_page">
+
+  <h1><i class="<%= "#{sub_or_others_icon(@otherside)}"%>"></i> <%=link_to @otherside.otherside_name,otherside_path(@otherside) %></h1>
+
+  <div class="col-md-4">
+  <!-- ユーザーメモ -->
+    <div class="otherside_memo pd-10">
+      <h6 class="label label_memo">MEMO</h6>
+
+      <% if @otherside.url.present?%>
+        <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe mg-l-10 font-16',target:"_blank"),@otherside.url,target:"_blank" %>
+      <% end %>
+
+      <%= link_to edit_otherside_path(@otherside) do %>
+        <span class="mg-l-5 glyphicon glyphicon-edit"></span>
+      <% end %>
+      <%= text_url_to_link(h(simple_format(@otherside.memo.body))).html_safe unless @otherside.memo.nil?%>
+    </div>
+
+  <!-- 貸借管理 -->
+  <%= render 'application/total_loan', otherside: @otherside, journals: @journals, othersides:nil %>
+  <!-- 仕訳登録フォーム -->
+  <%= render 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @form_otherside%>
   </div>
 
-<!-- 貸借管理 -->
-<%= render 'application/total_loan', otherside: @otherside, journals: @journals, othersides:nil %>
-<!-- 仕訳登録フォーム -->
-<%= render 'application/journal_form', journal:@journal, schedules: @schedules, otherside: @form_otherside%>
-</div>
+
+  <div class="col-md-8">
+
+    <ol class="breadcrumb right">
+      <li><i class=""></i><%= link_to '未処理',otherside_path(@otherside, c:false)%></li>
+      <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',otherside_path(@otherside, c:true)%></li>
+      <li><%= link_to 'all',otherside_path(@otherside)%></li>
+    </ol>
+
+    <!-- 関連予定 -->
+    <%= render 'application/related_schedules', related_schedules: @related_schedules %>
+
+    <!-- 仕訳詳細 -->
+    <%= render 'application/journal_list', journals: @journals, otherside: @otherside, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false %>
 
 
-<div class="col-md-8">
-
-  <ol class="breadcrumb right">
-    <li><i class=""></i><%= link_to '未処理',otherside_path(@otherside, c:false)%></li>
-    <li><i class="fas fa-check mg-r-5"></i><%= link_to '処理済',otherside_path(@otherside, c:true)%></li>
-    <li><%= link_to 'all',otherside_path(@otherside)%></li>
-  </ol>
-
-  <!-- 関連予定 -->
-  <%= render 'application/related_schedules', related_schedules: @related_schedules %>
-
-  <!-- 仕訳詳細 -->
-  <%= render 'application/journal_list', journals: @journals, otherside: @otherside, display_event: true, display_price: true, otherside_page: true,schedule_page: false, journals_page:false %>
-
-
+  </div>
 </div>

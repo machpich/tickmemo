@@ -1,13 +1,15 @@
-<h1><span class="fas fa-flag"></span><%= link_to "#{@event.program} # #{@event.performer}", event_path(@event) %></h1>
-<div class="col-md-4">
-<!-- event詳細 -->
-<%= render 'application/event_detail', event:@event %>
-</div>
+<div class="event_page">
+  <h1><span class="fas fa-flag"></span><%= link_to "#{@event.program} # #{@event.performer}", event_path(@event) %></h1>
+  <div class="col-md-4">
+  <!-- event詳細 -->
+  <%= render 'application/event_detail', event:@event, display:true %>
+  </div>
 
-<div class="col-md-8">
-<!-- 予定一覧 -->
-<%= render 'application/schedule_list', schedules: @schedules %>
-</div>
-<div class="center">
-  <%= paginate @schedules %>
+  <div class="col-md-8">
+  <!-- 予定一覧 -->
+  <%= render 'application/schedule_list', schedules: @schedules %>
+  </div>
+  <div class="center">
+    <%= paginate @schedules %>
+  </div>
 </div>

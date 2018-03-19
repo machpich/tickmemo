@@ -1,6 +1,6 @@
 class CreateJournals < ActiveRecord::Migration[5.1]
   def change
-    #create_table :journals do |t|
+    # create_table :journals do |t|
     create_table :journals, :options => 'ENGINE=InnoDB ROW_FORMAT=DYNAMIC' do |t|
       t.date :trade_date
       t.integer :figure

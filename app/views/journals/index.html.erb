@@ -1,31 +1,36 @@
 <div class="col-md-4">
 
   <!-- 関連予定 @related_schedules -->
-  <% if @related_schedules.present? %>
-  <h3 class="pd-t-20 active_btn" id="related_schedule"><i class="far fa-calendar"></i> 関連予定</h3>
-  <div class="hidden">
-    <ul>
-      <% @related_schedules.includes(:event).each do |schedule| %>
-      <li>
-        <i class="<%= check_fix_icon(schedule)%>"></i>
-        <%= link_to schedule_path(schedule) do%>
-                  <%= "(#{schedule.id}) #{schedule.start_datetime.strftime("%Y/%m/%d (%a)")}" %>
-                  <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
-                  <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
-      <%end%>
-      </li>
-      <li class="pd-b-10 pd-l-20" style="font-weight:bold;">
-        <%= link_to schedule.event.program, event_path(schedule.event) %>
-      </li>
-      <% end %>
-    </ul>
+
+  <div class="related_schedule_field">
+    <% if @related_schedules.present? %>
+    <h3 class="pd-t-20 active_btn" id="related_schedule"><i class="far fa-calendar"></i> 関連予定</h3>
+    <div class="hidden">
+      <ul>
+        <% @related_schedules.includes(:event).each do |schedule| %>
+        <li>
+          <i class="<%= check_fix_icon(schedule)%>"></i>
+          <%= link_to schedule_path(schedule) do%>
+                    <%= "(#{schedule.id}) #{schedule.start_datetime.strftime("%Y/%m/%d (%a)")}" %>
+                    <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
+                    <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
+        <%end%>
+        </li>
+        <li class="pd-b-10 pd-l-20" style="font-weight:bold;">
+          <%= link_to schedule.event.program, event_path(schedule.event) %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
   </div>
-  <% end %>
 
   <!-- 貸借管理 -->
-  <h3 id="total_loan" class="active_btn"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 関係者</h3>
-  <div class="hidden">
-  <%= render 'application/total_loan', otherside: nil, journals: @journals, othersides:@othersides %>
+  <div class="total_loan_field">
+    <h3 id="total_loan" class="active_btn"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 関係者</h3>
+    <div class="hidden">
+    <%= render 'application/total_loan', otherside: nil, journals: @journals, othersides:@othersides %>
+    </div>
   </div>
 
   <!-- 仕訳登録フォーム -->
