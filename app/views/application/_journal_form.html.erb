@@ -1,12 +1,13 @@
+  <h3 class="form_h3"><i class="fas fa-pen-square mg-r-10"></i>仕訳登録</h3>
+    <div id="oc_btn"><i class="fas fa-angle-down font-gray2 pd-l-10"></i></div>
+
 <div class="form_field">
-  <h3><i class="fas fa-pen-square mg-r-10"></i>仕訳登録</h3>
   <%= form_for journal do |f|%>
     <ul class="submit_form">
     <%if schedules.present?%>
     <li>
       <%= f.label :schedule_id,"関連予定" %>
       <%= f.select :schedule_id, schedules.order("start_datetime").includes(:event,:otherside).map{|t| ["#{t.start_datetime.strftime("%y/%m/%d(%a)")} #{t.start_datetime.strftime("%H")}時 #{t.event.program} (#{t.otherside.otherside_name})", t.id]} %>
-      <%#= f.collection_select :schedule_id, schedules, :id, :start_datetime, id: :schedule_id %>
     </li>
     <% else %>
       <%= f.hidden_field :schedule_id, value:params[:id] %>

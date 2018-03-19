@@ -265,17 +265,47 @@ img {
 }
 
 
+.loan_field {
+    background-color: $main-gray-color;
+    border-radius: 10px;
+    padding: 10px 20px;
+
+    table {
+      width: 90%;
+      margin: 0 auto;
+
+      tr {
+        line-height: 2em;
+
+        td:nth-of-type(1){
+          width:20px;
+        }
+      }
+    }
+}
+
 .journals{
+  $xxs:10px;
+  $xs:24px;
+  $sm:40px;
+  $md:70px;
+
   i,span {
     margin: 0 auto;
   }
   .table{
-  th { text-align: center;}
-  .xxs{ width: 10px;}
-  .xs{ width: 24px;}
-  .sm{ width: 40px;}
-  .md{ width: 80px;}
-  .lg{ min-width: 120px}
+  th {text-align: center;}
+
+//  .edit_jn{ width: $xxs;}
+
+//  .date{ width: $xs;}
+
+//  .trade,.price,.credit_mn,.debit_mn,.balance_mn,.price{ width: $sm;}
+
+  .credit_sb,.debit_sb,.credit_mn,.balance_mn,.debit_mn,.program{
+    font-size:0.8em;
+  }
+
   }
   padding-bottom:50px;
 }
@@ -363,6 +393,8 @@ table.table_list {
 }
 
 /*登録フォーム用*/
+.form_h3{ display: inline-block;}
+
 .form_field{
   display: block;
   padding-bottom: 90px;
@@ -439,6 +471,56 @@ table.table_list {
   }
 }
 
+.schedule_list{
+  position: relative;
+  padding-left: 15px;
+  padding-right: 15px;
+  width:100%;
+
+  .check_fix_icon{ position:relative; }
+
+  .date,.time,.location,.seat_type {
+    display: inline-block;
+  }
+
+  .edit {
+    display: inline-block;    font-size: 0.8em;
+    padding-left:10px;
+  }
+
+  .program,.performer,.location,.seat_type,.otherside,.memo_sc{
+    padding-left:30px;
+  }
+
+  .program{
+    font-weight:bold;
+    font-size: 1.2em;
+    line-height:1.6em;
+  }
+
+  .memo_sc {
+    font-size:90%;
+  }
+}
+
+.schedule_detail{
+  padding-left: 0;
+  padding-right: 0;
+
+  .check_fix_icon {
+    font-size:20px;
+  }
+
+  .program{
+    display:inline-block;
+    padding-left:0;
+    font-size: 20px;
+  }
+
+  .performer,.location,.seat_type,.otherside,.memo_sc{
+    padding-left:36px;
+  }
+}
 
 /* ===============event======================== */
 

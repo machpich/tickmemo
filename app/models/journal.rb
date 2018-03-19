@@ -13,6 +13,9 @@ class Journal < ApplicationRecord
 
   accepts_nested_attributes_for :memo, reject_if: :all_blank
 
+  # validation
+  validates :figure, presence: true;
+
   # scope
   scope :has_other_details, ->(other){
     joins(:details).where(details:{otherside_id: other.id}).order(trade_date: :asc,id: :asc).distinct
