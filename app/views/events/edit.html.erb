@@ -1,60 +1,65 @@
-<h1><span class="fas fa-flag"></span><%= link_to "#{@event.program} # #{@event.performer}", event_path(@event) %></h1>
-<div class="col-md-4">
+<div class="event_page">
 
-<!-- event詳細 -->
-<%= render 'application/event_detail', event:@event %>
+  <h1><span class="fas fa-flag"></span><%= link_to "#{@event.program} # #{@event.performer}", event_path(@event) %></h1>
+  <div class="col-md-4">
 
-</div>
+  <!-- event詳細 -->
+  <%= render 'application/event_detail', event:@event, display:false %>
 
-<div class="col-md-8">
-  <div class="form_field pd-t-50">
-    <%= form_for @event, url:event_path(@event), method: :patch do |f|%>
-    <ul class="submit_form">
-      <li>
-        <%= f.label :program,"演目" %>
-        <%= f.text_field :program,id: :program %>
-      </li>
-      <li>
-        <%= f.label :performer,"演者" %>
-        <%= f.text_field :performer,id: :performer %>
-      </li>
-      <li>
-        <%= f.label :date_start,"開始" %>
-        <%= f.date_field :date_start %>
-      </li>
-      <li>
-        <%= f.label :date_end,"終了" %>
-        <%= f.date_field :date_end %>
-      </li>
-      <li>
-        <%= f.label :url,"URL" %>
-        <%= f.text_field :url %>
-        <%= f.hidden_field :user_id, value:current_user.id %>
-      </li>
-      <li>
-        <%= f.label :image ,"画像" %>
-        <%= f.attachment_field :image, style:"width:320px;" %>
-        <div style="position: relative;font-size: 13px;top: -8px;">
-          <div class="state">
-              <label>
-                <%= f.check_box :remove_image %>
-                <span class="remove_label">画像削除</span>
-            </label>
-          </div>
-        </div>
-      </li>
-      <li>
-          <%= f.fields_for :memo||schedule.build_memo do |me| %>
-          <%= me.label :メモ ,class:"memo_label"%>
-          <%= me.text_area :body %>
-          <span class="count">0</span>
-          <% end %>
-      </li>
-    </ul>
-    <div class="submit_form_btn">
-      <%= f.submit "登録",class:"btn yellow_btn"%>
-    </div>
-    <!-- fの終了タグ -->
-    <% end %>
   </div>
+
+  <div class="col-md-8">
+    <div class="form_field event_form_field pd-tb-50">
+      <%= form_for @event, url:event_path(@event), method: :patch do |f|%>
+      <ul>
+        <li>
+          <%= f.label :program,"演目" %>
+          <%= f.text_field :program,id: :program %>
+        </li>
+        <li>
+          <%= f.label :performer,"演者" %>
+          <%= f.text_field :performer,id: :performer %>
+        </li>
+        <li>
+          <%= f.label :date_start,"開始" %>
+          <%= f.date_field :date_start %>
+        </li>
+        <li>
+          <%= f.label :date_end,"終了" %>
+          <%= f.date_field :date_end %>
+        </li>
+        <li>
+          <%= f.label :url,"URL" %>
+          <%= f.text_field :url %>
+          <%= f.hidden_field :user_id, value:current_user.id %>
+        </li>
+        <li>
+          <%= f.label :image ,"画像" %>
+          <%= f.attachment_field :image %>
+          <div style="position: relative;font-size: 13px;top: -8px;">
+            <div class="state">
+                <label>
+                  <%= f.check_box :remove_image %>
+                  <span class="remove_label">画像削除</span>
+              </label>
+            </div>
+          </div>
+        </li>
+        <li>
+            <%= f.fields_for :memo||schedule.build_memo do |me| %>
+            <label class="memo_label">
+              メモ<span class="count">0</span>
+            </label>
+            <%= me.text_area :body %>
+            <% end %>
+        </li>
+      </ul>
+      <div class="center">
+        <%= f.submit "登録",class:"btn yellow_btn"%>
+      </div>
+      <!-- fの終了タグ -->
+      <% end %>
+    </div>
+  </div>
+
 </div>

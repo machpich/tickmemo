@@ -46,6 +46,10 @@ a {
     cursor: pointer;
 }
 
+.container {
+  padding-bottom: 50px;
+}
+
 /* =========================related_all======================= */
 
 *{
@@ -91,10 +95,11 @@ h1 {
   display: inline-block;
 }
 
-.br::before{
-  content:"\A";
-  white-space: pre ;
+#oc_btn{
+  display:none;
+  cursor:pointer;
 }
+
 /* =========================layout======================= */
 
 header {
@@ -230,10 +235,26 @@ img {
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(209,209,209, .3)),image-url("home_bg.jpg");
 }
 
-.img-field {
-    height: 280px;
-    text-align: center;
-    img { padding: 10px; }
+.schedule_pabe{
+  .img-field {
+      height: auto;
+      text-align: center;
+      img { padding: 10px; }
+  }
+  .rightpos{
+      float:right;
+      font-size:85%;
+  }
+  .leftpos{
+      float: left;
+      font-size:85%;
+  }
+  .note {
+      padding: 8px 0;
+      text-decoration: underline;
+      letter-spacing: 0.7em;
+      color: $gray1;
+    }
 }
 
 .soat_fields {
@@ -243,19 +264,6 @@ img {
     a{ text-decoration: underline; }
 }
 
-.rightpos{
-    float:right;
-}
-
-.leftpos{
-    float: left;
-}
-.note {
-    padding: 8px;
-    text-decoration: underline;
-    letter-spacing: 0.7em;
-    color: $gray1;
-  }
 
 .journals{
   i,span {
@@ -293,6 +301,7 @@ img {
   font-weight: normal;
   margin-top:5px;
   margin-bottom:5px;
+  margin-right:10px;
 }
 
 @mixin basic_checkbox($color,$color1){
@@ -300,7 +309,7 @@ img {
   position:absolute;
   display:block;
   top:0;
-  right:-70px;
+  right:0;
   width:16px;
   height:16px;
   border: 1px solid $color;
@@ -355,8 +364,15 @@ table.table_list {
 
 /*登録フォーム用*/
 .form_field{
+  display: block;
+  padding-bottom: 90px;
+
   label {
     @include basic_label;
+  }
+
+  .check_field label {
+    width: 110px;
   }
 
   .memo_label{
@@ -373,15 +389,12 @@ table.table_list {
   input#event_image {
     position: relative;
     top: -20px;
-    left: 76px;
+    left: 120px;
     font-size: 13px;
     background-color: #fff;
   }
 
   .check_field {
-    label{
-      width:90px;
-    }
     div{
       display:inline-block;
     }
@@ -392,6 +405,12 @@ table.table_list {
   }
   .check_label,.fix_label,.remove_label{
     position:relative;
+    display: inline-block;
+    width: 100px;
+  }
+
+  .remove_label{
+    width: 150px;
   }
   input#fix+span::after{
     @include basic_checkbox(#ccc,#ccc);
@@ -409,21 +428,17 @@ table.table_list {
   }
 
   span.count {
-    position: relative;
-    top: -110px;
-    left: 50px;
-    width: 25px;
-    display: block;
+    padding-left: 10px;
     color: #ddd;
   }
+}
 
-  .submit_form_btn{
-    text-align:center;
-  }
-  .yellow_btn{
-    text-align:center;
+.event_form_field{
+  input[type="date"],input[type="text"],select,textarea{
+    width:400px;
   }
 }
+
 
 /* ===============event======================== */
 
@@ -452,7 +467,7 @@ div.event_img {
 }
 
 /* =====================otherside#show===================== */
-.otherside-memo-content {
+.otherside_memo {
     word-wrap: break-word;
     color: $gray2;
     font-size:13px;

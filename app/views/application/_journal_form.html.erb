@@ -32,12 +32,13 @@
     </li>
     <li>
       <%= f.fields_for :memo do |me| %>
-      <%= me.label :body,"メモ",class:"memo_label" %>
-      <%= me.text_area :body,class:"memo_label" %>
-      <span class="count">0</span>
+      <label class="memo_label">
+        メモ<span class="count">0</span>
+      </label>
+      <%= me.text_area :body %>
       <% end %>
     </li>
-    <div class="submit_form_btn">
+    <div class="center">
       <%= f.submit "登録",class:"btn yellow_btn"%>
     </div>
   <%end%>

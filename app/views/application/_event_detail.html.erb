@@ -1,5 +1,6 @@
+<div class="event_detail clearfix">
 
-  <div>
+  <div class="leftpos">
     <% unless event.image.nil?%>
       <%= attachment_image_tag event, :image, :fill, 280, 300, format: 'jpeg'%>
     <% else %>
@@ -9,10 +10,11 @@
     <%= link_to edit_event_path(event) do %>
       <h6><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> edit</h6>
     <% end %>
+  </div>
 
-    <div class="event_detail">
+<% if display %>
+  <div class="rightpos">
       <ul>
-
         <% if event.url.present? %>
         <li class="event_sub">
           <span class="label label-default">URL</span>
@@ -50,5 +52,7 @@
         </li>
         <% end %>
       </ul>
-    </div>
   </div>
+<% end %>
+
+</div>
