@@ -49,7 +49,7 @@
       </div>
       <div>
         <label>
-        　<%= sc.check_box :check, id: :check %>
+          <%= sc.check_box :check, id: :check %>
           <span class="check_label" id="check_label">
             <%= "清算済" if schedule.check == true %>
             <%= "未清算" if schedule.check.nil? || schedule.check == false %>

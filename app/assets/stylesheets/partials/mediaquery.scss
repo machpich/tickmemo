@@ -1,12 +1,15 @@
 /* =====================PC===================== */
 @media (max-width: 1199px){
+
   header {
     height: 120px;
     line-height:normal;
     text-align:center;
+
     .header-left{
     position:static;
     }
+
     .header-right{
     float:none;
     position:static;
@@ -20,9 +23,11 @@
       }
     }
   }
+
   img {
     vertical-align: baseline;
   }
+
   .web_description{
     top:140px;
     text-align:center;
@@ -61,10 +66,10 @@
   .form_field{
     padding-bottom:50px;
     input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select{
-      width:80%;
+      width:500px;
     }
     textarea{
-      width:80%;
+      width:500px;
       height:72px;
     }
     label{
@@ -109,19 +114,31 @@
   }
 }
 
-/* ================ mobile ================ */
-@media (max-width: 720px){
-//@media (max-width: 768px){
+/* ================ sm-tablet ================ */
+@media (max-width: 768px){
   body{ font-size: 16px;}
 
-  .header-left a.title_logo{
-    font-size:60px;
+  header{
+    height: 160px;
+
+    .header-left a.title_logo{
+      font-size:60px;
+    }
+
+    .header-right {
+      li{
+          a{
+            padding: 0 5px;
+          }
+        }
+    }
   }
+
   .img-field a:nth-of-type(3) {
     display: none;
   }
   .web_description{
-    top:140px;
+    display: none;
   }
 
   .top {
@@ -147,15 +164,20 @@
     }
   }
   .form_field{
-  padding-bottom:50px;
-  input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select,textarea{
-    width:100%;
+    padding-bottom:50px;
+
+    input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select,textarea{
+      width:100%;
+      }
+    span.count {
+     top: -110px;
     }
-  span.count {
-   top: -110px;
-  }
+    .btn{
+      width:100%;
+    }
 
   }
+
   .new_form {
     width: 100%;
     div.center_field .yellow_btn {
@@ -172,3 +194,12 @@
   }
 }
 
+/* ================ mobile ================ */
+  @media (max-width: 480px){
+    header{
+
+      .header-left {
+        a.title_logo{ font-size:40px;}
+      }
+    }
+  }
