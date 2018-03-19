@@ -183,6 +183,8 @@ img {
     }
     .btn_field {
     padding: 50px 30px;
+
+    a:nth-of-type(1){margin-right:20px;}
     }
 }
 
@@ -195,7 +197,7 @@ img {
     right: 0;
     background-size:cover;
     background-position:top;
-    background: linear-gradient(rgba(255, 255, 255, 1), rgba(209,209,209, .3)),url(/assets/home_bg.jpg);
+    background: linear-gradient(rgba(255, 255, 255, 1), rgba(209,209,209, .3)),image-url("home_bg.jpg");
 }
 
 .img-field {
@@ -422,161 +424,3 @@ div.event_img {
     font-size:13px;
 }
 
-/* ==============================================responsive============================================== */
-/* =====================1200===================== */
-@media (max-width: 1200px){
-  header {
-    height: 120px;
-    line-height:normal;
-    text-align:center;
-    .header-left{
-    position:static;
-    }
-    .header-right{
-    float:none;
-    position:static;
-    width:100%;
-      li{
-      float:none;
-        a{
-        float:none;
-        height:unset;
-        }
-      }
-    }
-  }
-  img {
-    vertical-align: baseline;
-  }
-  .web_description{
-    top:140px;
-    text-align:center;
-    width: inherit;
-  }
-
-.search_form_field{
-  input[type="date"],select {
-    width:100%;
-  }
-}
-.form_field{
-  input[type="date"],input[type="datetime-local"],input[type="time"],
-  input[type="text"],select,textarea {
-    width:100%;
-  }
-  span.count {
-   top: -142px;
-  }
-}
-
-
-}
-
-/* =====================992　colがフラット化する===================== */
-@media (max-width: 992px){
-  h1 {
-    font-size:24px;
-    letter-spacing: 5px;
-  }
-
-  .img-field a:nth-of-type(4) {
-    display: none;
-    }
-
-  .form_field{
-    padding-bottom:50px;
-    input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select{
-      width:80%;
-    }
-    textarea{
-      width:80%;
-      height:72px;
-    }
-    label{
-      width:120px;
-    }
-    span.count {
-     top: -80px;
-    }
-    .check_field {
-      label{
-        width:160px;
-      }
-      input#fix+span::after,input#fix:checked+span::after,
-      input#check+span::after,input#check:checked+span::after{
-        right: -120px;
-      }
-    }
-    .btn{
-      width:500px;
-    }
-  }
-
-  .devise_form .yellow_btn,.devise_form .gray_btn {
-      width: 500px;
-  }
-
-  .search_form_field{
-    padding-bottom:50px;
-
-    label{
-      width: 120px;
-    }
-    .radio_field{
-      display: inline-block;
-    }
-    .actions {
-      text-align: center;
-      .btn {
-      width: 300px;
-      }
-    }
-  }
-}
-
-/* =====================720===================== */
-@media (max-width: 720px){
-  .header-left a.title_logo{
-    font-size:60px;
-  }
-  .img-field a:nth-of-type(3) {
-    display: none;
-  }
-  .web_description{
-    top:140px;
-  }
-  .search_form_field{
-    input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select{
-      width:100%;
-    }
-    .actions {
-      .btn {
-      width: 100%;
-      }
-    }
-  }
-  .form_field{
-  padding-bottom:50px;
-  input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select,textarea{
-    width:100%;
-    }
-  span.count {
-   top: -110px;
-  }
-
-  }
-  .new_form {
-    width: 100%;
-    div.center_field .yellow_btn {
-      width:100%;
-    }
-  }
-  .devise_form {
-    .gray_btn {
-      width:100%;
-    }
-    .yellow_btn{
-      width:100%;
-    }
-  }
-}
