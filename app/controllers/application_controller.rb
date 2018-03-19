@@ -77,9 +77,14 @@ class ApplicationController < ActionController::Base
     ids
   end
 
+  def sign_in_required
+      redirect_to schedules_path if user_signed_in?
+  end
+
   protected
   def configure_permitted_parameters
      devise_parameter_sanitizer.permit(:account_update, keys: [:password, :password_confirmation, :current_password, :profile_image])
   end
+
 
 end
