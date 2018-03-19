@@ -26,8 +26,24 @@ a {
   }
 }
 
+.table > tbody > tr.no-border > td {
+    border-top: none;
+}
+
+.memo {
+    font-size: 13px;
+    color: #777;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
 .ui-helper-hidden-accessible {
   display: none;
+}
+
+.active_btn:hover {
+    cursor: pointer;
 }
 
 /* =========================related_all======================= */

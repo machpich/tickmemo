@@ -109,9 +109,10 @@
   }
 }
 
-/* ===================== mobile ===================== */
+/* ================ mobile ================ */
 @media (max-width: 720px){
 //@media (max-width: 768px){
+  body{ font-size: 16px;}
 
   .header-left a.title_logo{
     font-size:60px;
@@ -131,6 +132,9 @@
         a:nth-of-type(1){margin-right:auto;}
       }
   }
+
+  .yellow_btn{width:auto;}
+  .gray_btn{width:auto;}
 
   .search_form_field{
     input[type="date"],input[type="datetime-local"],input[type="time"],input[type="text"],select{
@@ -168,6 +172,3 @@
   }
 }
 
-/* ===================== mobile ===================== */
-@media (max-width: 480px;){
-}
