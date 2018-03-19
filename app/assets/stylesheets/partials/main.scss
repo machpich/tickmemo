@@ -107,6 +107,8 @@ header {
   height: 60px;
   line-height: 60px;
   margin-bottom: 50px;
+  position: relative;
+  z-index: 1;
 
   .header-left {
     font-family: 'Krona One', sans-serif;

@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!, except:[:top]
+  before_action :sign_in_required, only:[:top]
   # skip_before_action :authenticate_user!,only:[:top]
 
 
