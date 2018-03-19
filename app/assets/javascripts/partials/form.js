@@ -11,9 +11,9 @@ $(document).on('turbolinks:load', function() {
     });
     $('#check').on('change',function(){
       if ($(this).prop('checked')) {
-        $('#check_label').text("未清算");
-      }else{
         $('#check_label').text("清算済");
+      }else{
+        $('#check_label').text("未清算");
       }
     });
 
