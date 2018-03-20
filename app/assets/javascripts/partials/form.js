@@ -1,7 +1,7 @@
 $(document).on('turbolinks:load', function() {
   //ページ切り替え後にさせたい処理
 
-    //確定未定情報の切り替え
+//確定未定情報の切り替え
     $('#fix').on('change',function(){
       if ($(this).prop('checked')) {
         $('#fix_label').text("確定");
@@ -17,7 +17,7 @@ $(document).on('turbolinks:load', function() {
       }
     });
 
-    // オートコンプリート
+// オートコンプリート
     $( "#place_name" ).autocomplete({
       autoFocus: true,
       source: "/schedules/autocomplete_place_name.json",
@@ -99,12 +99,12 @@ $(document).on('turbolinks:load', function() {
 // form_fieldの出し入れ
      $('#oc_btn').on('click',function(){
     $form_field = $('.form_field');
-    if($form_field.hasClass('show')){
-      $form_field.removeClass('show');
+    if($form_field.hasClass('hidden')){
+      $form_field.removeClass('hidden');
       $(this).html('<i class="fas fa-angle-down font-gray2 pd-l-10"></i>');
 
     } else {
-      $form_field.addClass('show');
+      $form_field.addClass('hidden');
       $(this).html('<i class="fas fa-angle-up font-gray2 pd-l-10"></i>');
 
     }
