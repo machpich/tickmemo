@@ -27,7 +27,7 @@
           <span class="label label-default">イベント開催期間</span>
         </li>
         <li>
-          <%= "#{event.date_start.strftime("%Y/%m/%d (%a)")} 〜 " unless event.date_start.nil? %><%= event.date_end.strftime("%Y/%m/%d (%a)") unless event.date_end.nil? %>
+          <%= eventdate(event) %>
         </li>
         <% end %>
 

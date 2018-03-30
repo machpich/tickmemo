@@ -2,13 +2,12 @@
     <h4>関連予定</h4>
     <ul>
       <% related_schedules.each do |schedule| %>
-      <%# related_schedules.includes(:event).each do |schedule| %>
       <li>
-        <i class="<%= check_fix_icon(schedule)%>"></i>
+        <i class="<%= check_fix_icon(schedule)%> check_fix_icon"></i>
         <%= link_to schedule_path(schedule) do%>
-          <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)") %>
-          <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
-          <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
+          <%= schedule_date(schedule) %>
+          <%= schedule_matisowa(schedule)%>
+          <%= schedule_time(schedule)%>
       <%end%>
       <%= link_to "#{schedule.event.program}", event_path(schedule.event) %>
       <span><%= schedule.event.performer %></span>

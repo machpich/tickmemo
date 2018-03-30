@@ -18,14 +18,8 @@ class ApplicationController < ActionController::Base
     memos.delete_all
   end
 
-  def clean_parts
+  def crean_journal_detail
     user = current_user
-    # otherside_clear
-    user.othersides.includes(:schedules,:journals,:details).each do |otherside|
-      if otherside.schedules.empty? && otherside.journals.empty? && otherside.details.empty?
-        otherside.destroy
-      end
-    end
     # detail_clear 親(journals)の居ないdetailsを削除
     user.othersides.each do |otherside|
       if otherside.details.present?
@@ -43,12 +37,6 @@ class ApplicationController < ActionController::Base
         journal.destroy
       end
     end
-    # event_clear
-    user.events.each do |event|
-      if event.schedules.empty?
-        event.destroy
-      end
-    end
     # location_clear
     user.locations.each do |location|
       if location.schedules.empty?
@@ -56,6 +44,22 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  # def crean_schedule_parts
+  #       user = current_user
+  #   # otherside_clear
+  #   user.othersides.includes(:schedules,:journals,:details).each do |otherside|
+  #     if otherside.schedules.empty? && otherside.journals.empty? && otherside.details.empty?
+  #       otherside.destroy
+  #     end
+  #   end
+  #   # event_clear
+  #   user.events.each do |event|
+  #     if event.schedules.empty?
+  #       event.destroy
+  #     end
+  #   end
+  # end
 
   def judge_sub_or_others(otherside)
     if Detail.where(otherside_id: otherside.id).any? && Journal.where(otherside_id: otherside.id).empty?

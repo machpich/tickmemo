@@ -1,6 +1,10 @@
 class OthersidesController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @othersides = Otherside.where(user_id:current_user.id)
+  end
+
   def show
 # <!-- 貸借管理 -->'application/total_loan', otherside: @otherside, journals: @journals
 # <!-- 仕訳登録フォーム -->'application/journal_form', journal:@journal, schedules: @schedules, otherside: @form_otherside
@@ -68,6 +72,12 @@ class OthersidesController < ApplicationController
     @otherside = Otherside.find(params[:id])
     @otherside.update(params_otherside)
     redirect_to otherside_path(@otherside)
+  end
+
+  def destroy
+    @otherside = Otherside.find(params[:id])
+    @otherside.destroy
+    redirect_to othersides_path
   end
 
   private

@@ -14,5 +14,40 @@
 //= require jquery-ui
 //= require rails-ujs
 //= require bootstrap-sprockets
+//= require moment
+//= require moment/ja.js
+//= require bootstrap-datetimepicker
 //= require turbolinks
 //= require_tree .
+
+$(document).on('turbolinks:load', function() {
+
+    var now = moment({ hour:11, minute:00 });
+
+    $('.datetime').datetimepicker({
+      format:'YYYY/MM/DD HH:mm',
+      stepping: 10,
+      date: now,
+      toolbarPlacement: 'top',
+      collapse: false,
+      keepOpen: true,
+      showClose: true,
+      showClear: true,
+      allowInputToggle: true,
+      widgetPositioning:{
+        horizontal: 'auto',
+        vertical: 'bottom',
+      }
+    });
+
+    $('.date').datetimepicker({
+      format:'YYYY/MM/DD',
+      showClose: true,
+      showClear: true,
+      widgetPositioning:{
+        horizontal: 'auto',
+        vertical: 'bottom'
+      }
+    });
+
+});

@@ -1,7 +1,7 @@
 class SchedulesController < ApplicationController
   before_action :authenticate_user!
   after_action :clean_memo, only:[:update]
-  after_action :clean_parts, only:[:update,:destroy]
+  after_action :crean_journal_detail, only:[:update,:destroy]
 
   def index
     @images = Event.where(user_id:current_user.id).where.not(image_id:nil).order(created_at: :desc).distinct.limit(4)
@@ -118,10 +118,16 @@ class SchedulesController < ApplicationController
   def destroy
     @schedule = Schedule.find(params[:id])
     if @schedule.destroy
-      redirect_back(fallback_location: root_path)
+      redirect_back(fallback_location: schedules_path)
     else
-      redirect_to root_path
+      redirect_to schedules_path
     end
+  end
+
+  def destroy_from_scheule
+    @schedule = Schedule.find(params[:id])
+    @schedule.destroy
+    redirect_to schedules_path
   end
 
 

@@ -380,7 +380,7 @@ table.table_list {
   label {
     @include basic_label
   }
-  input[type="date"] {
+  input[type="text"] {
     @include basic_form(230px);
   }
   select {
