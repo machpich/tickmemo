@@ -14,6 +14,9 @@ Rails.application.routes.draw do
       get 'autocomplete_otherside_name'
       get 'result'
     end
+    member do
+      delete 'destroy_from_scheule'
+    end
   end
   resources :journals, except: [:new]
   resources :othersides, except:[:new]

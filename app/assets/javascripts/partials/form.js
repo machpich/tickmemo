@@ -12,7 +12,6 @@ $(document).on('turbolinks:load', function() {
     $('#end_datetime').focus(function(){
       var time = $('#start_datetime').val();
       var time_end = moment(time).add(3,'hours').format('HH:mm');
-      console.log(time_end);
 
       $(this).val(time_end);
     });
