@@ -20,17 +20,17 @@ test:
   <<: *default
   database: db/test.sqlite3
 
-production:
-  <<: *default
-  database: db/production.sqlite3
-
 # production:
 #   <<: *default
-#   database: tickmemo
-#   adapter: mysql2
-#   encoding: utf8mb4
-#   collation: utf8mb4_general_ci
-#   host: rds-mysql-server.clzi7slu1vpy.ap-southeast-1.rds.amazonaws.com
-#   username: root
-#   password: hogehoge
+#   database: db/production.sqlite3
+
+production:
+  <<: *default
+  database: tickmemo
+  adapter: mysql2
+  encoding: utf8mb4
+  collation: utf8mb4_general_ci
+  host: rds-mysql-server.clzi7slu1vpy.ap-southeast-1.rds.amazonaws.com
+  username: root
+  password: hogehoge
 
