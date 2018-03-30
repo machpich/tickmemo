@@ -36,6 +36,7 @@
            <% if event.url.present? %>
            <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe'),event.url,target:"_blank" %>
            <%end%>
+           <span class="font-12 font-gray2">（　関連数：<%= event.schedules.size%>　）</span>
            <br>
             <%= event.performer %><br>
             <%= eventdate(event) %>

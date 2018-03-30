@@ -6,7 +6,6 @@
 <!-- 関係者一覧 -->
   <div >
     <table class="table">
-      <caption>関係者一覧</caption>
       <thead>
         <tr>
           <th class="w-25p"></th>
@@ -33,7 +32,11 @@
           <% unless otherside.url.nil? %>
             <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe mg-l-10 font-16'),otherside.url,target:"_blank" %>
           <%end%>
-            <p class="font-11"><%= simple_format(otherside.memo.body) unless otherside.memo.nil?%></p>
+            <span class="font-12 font-gray2">（　関連数：<%= otherside.schedules.size%>　）</span>
+
+          <% unless otherside.memo.nil?%>
+            <div class="font-12 font-gray2 pd-tb-5"><%= simple_format(otherside.memo.body) %></div>
+          <% end %>
           </td>
         </tr>
         <% end %>
