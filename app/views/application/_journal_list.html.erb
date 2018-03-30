@@ -1,7 +1,7 @@
 <% if journals.present? %>
       <div class="journals">
       <table class="table">
-        <caption>個別明細</caption>
+        <caption>個別明細<span class="font-11 font-red pd-l-10">※差引マイナス値:支払金額</span></caption>
         <thead>
           <tr>
             <th class="date">日付</th>
@@ -100,7 +100,7 @@
             <td class="program">
               <%= link_to schedule_path(journal.schedule) do%>
               <i class="<%= check_fix_smicon(journal.schedule)%>"></i>
-                <%= "(#{journal.schedule.id}) #{journal.schedule.start_datetime.strftime("%y/%m/%d")}" %><i class="<%= "#{matisowa_icon(journal.schedule)}"%>"></i>
+                <%= "(#{journal.schedule.id}) #{journal.schedule.start_datetime.strftime("%y/%m/%d")}" %><%= schedule_matisowa(journal.schedule)%>
               <% end %>
               <br>
               <%=link_to truncate(journal.schedule.event.program,  length: 24), event_path(journal.schedule.event) %></td>
@@ -167,9 +167,6 @@
           </tr>
         </tbody>
       </table>
-      <div class="font-11 font-red right">
-        ※マイナス値は支払い金額
-      </div>
       </div>
 <% else %>
   <p>明細登録がありません</p>

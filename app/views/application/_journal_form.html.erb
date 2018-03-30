@@ -7,14 +7,14 @@
     <%if schedules.present?%>
     <li>
       <%= f.label :schedule_id,"関連予定" %>
-      <%= f.select :schedule_id, schedules.order("start_datetime").includes(:event,:otherside).map{|t| ["#{t.start_datetime.strftime("%y/%m/%d(%a)")} #{t.start_datetime.strftime("%H")}時 #{t.event.program} (#{t.otherside.otherside_name})", t.id]} %>
+      <%= f.select :schedule_id, schedules.order("start_datetime").limit(10).includes(:event,:otherside).map{|t| ["#{t.start_datetime.strftime("%y/%m/%d(#{format_wday(t.start_datetime)})")} #{t.start_datetime.strftime("%H")}時 #{t.event.program} (#{t.otherside.otherside_name})", t.id]} %>
     </li>
     <% else %>
       <%= f.hidden_field :schedule_id, value:params[:id] %>
     <% end %>
     <li>
       <%= f.label :trade_date,"取引日" %>
-      <%= f.date_field :trade_date %>
+      <%= f.text_field :trade_date, class:"date" %>
     </li>
     <li>
       <%= f.label :trade_type_id,"取引種類" %>

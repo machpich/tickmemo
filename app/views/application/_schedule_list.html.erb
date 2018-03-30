@@ -7,13 +7,13 @@
       <div class="date">
         <i class="<%= check_fix_icon(schedule) %> check_fix_icon"></i>
         <%= link_to schedule_path(schedule) do%>
-          <%= schedule.start_datetime.strftime("%Y/%m/%d (%a)")%>
-          <i class="<%= "#{matisowa_icon(schedule)}"%>"></i>
+          <%= schedule_date(schedule) %>
+          <%= schedule_matisowa(schedule)%>
       </div>
 
 <!-- 時間 -->
       <div class="time">
-        <%= schedule.start_datetime.strftime("%H:%M")%><%= "-#{schedule.end_datetime.strftime("%H:%M")}" if schedule.end_datetime.present? %>
+        <%= schedule_time(schedule)%>
         <%end%>
       </div>
 

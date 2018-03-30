@@ -1,0 +1,15 @@
+<div class="event_page">
+
+  <h1><span class="fas fa-flag"></span>NEWEVENT</h1>
+
+  <div class="col-md-4">
+  <!-- event詳細 -->
+  <%#= render 'application/event_detail', event:@event, display:false %>
+  </div>
+
+  <div class="col-md-8">
+  <!-- event_formについて -->
+  <%= render 'application/event_form', event:@event %>
+  </div>
+
+</div>

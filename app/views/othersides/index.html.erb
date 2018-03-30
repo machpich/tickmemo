@@ -9,32 +9,31 @@
       <caption>関係者一覧</caption>
       <thead>
         <tr>
-          <th></th>
-          <th class="w-200p">名前</th>
-          <th class="w-500p">メモ</th>
+          <th class="w-25p"></th>
+          <th>名前 / メモ</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <% othersides = Otherside.where(user_id:current_user.id)%>
-        <% othersides.includes(:memo).each.with_index(1) do |otherside, index|%>
+        <% @othersides.includes(:memo).each do |otherside|%>
 
         <tr>
-          <!-- no -->
-          <td class="left"><%= index %><br>
+          <!-- edit / delete -->
+          <td>
             <%= link_to content_tag(:i,"",class:"glyphicon glyphicon-edit"), edit_otherside_path(otherside),target:"_blank"%>
+            <br>
+            <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-trash'),otherside_path(otherside),data: { confirm: "関連する予定等も全て削除されます。\n削除しますか?" },method: :delete %>
           </td>
-          <!-- name -->
+
+
+          <!-- icon / name / url // memo-->
           <td>
-            <i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i> <%= link_to otherside.otherside_name, otherside_path(otherside) %>
-            </td>
-          <!-- memo -->
-          <td class="font-12"><%= simple_format(otherside.memo.body) unless otherside.memo.nil?%></td>
-          <!-- url -->
-          <td>
-            <% unless otherside.url.nil? %>
+          <i class="<%= "#{sub_or_others_icon(otherside)}"%>"></i>
+          <%= link_to otherside.otherside_name, otherside_path(otherside) %>
+          <% unless otherside.url.nil? %>
             <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe mg-l-10 font-16'),otherside.url,target:"_blank" %>
-            <%end%>
+          <%end%>
+            <p class="font-11"><%= simple_format(otherside.memo.body) unless otherside.memo.nil?%></p>
           </td>
         </tr>
         <% end %>

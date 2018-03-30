@@ -8,6 +8,8 @@
 イベント一覧 -->
   <div class="col-md-4">
   <h2><span class="fas fa-flag mg-r-10"></span>登録イベント一覧</h2>
+  <%= link_to '新しいイベント',new_event_path, class:"btn" %>
+
   </div>
 
   <div class="col-md-8">
@@ -15,30 +17,28 @@
     <table class="table">
       <thead>
         <tr>
-          <th></th>
-          <th class="center">IMG</th>
-          <th style="min-width:250px;">演目/演者/期間</th>
+          <th class="w-25p center">IMG</th>
+          <th>演目 / 演者 /  期間</th>
         </tr>
       </thead>
       <tbody>
       <% @events.includes(:memo).each do |event|%>
         <tr>
-          <td rowspan="2" class="w-25p center">
-            <%= link_to edit_event_path(event) do %>
-            　<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-           <% end %>
+          <td rowspan="2" class="left">
+            <%= attachment_image_tag event, :image, :fill, 60, 80, format: 'jpeg'%>
+            <br>
+           <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-edit'), edit_event_path(event) %>
+           <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-trash'), event_path(event), data: { confirm: "関連する予定も全て削除されます。\n削除しますか?" },method: :delete %>
            <br>
+          </td>
+          <td>
+            <strong><%= link_to event.program, event_path(event) %></strong>
            <% if event.url.present? %>
            <%= link_to content_tag(:i, '', class: 'glyphicon glyphicon-globe'),event.url,target:"_blank" %>
            <%end%>
-          </td>
-          <td rowspan="2" class="w-25p center">
-            <%= attachment_image_tag event, :image, :fill, 60, 80, format: 'jpeg'%>
-          </td>
-          <td>
-            <strong><%= link_to event.program, event_path(event) %></strong><br>
+           <br>
             <%= event.performer %><br>
-            <%= "#{event.date_start.strftime("%Y/%m/%d (%a)")}" unless event.date_start.nil?%> <%= "〜 #{event.date_end.strftime("%Y/%m/%d (%a)")}" unless event.date_end.nil? %>
+            <%= eventdate(event) %>
           </td>
         </tr>
         <tr class="no-border pd-t-20">

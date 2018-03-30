@@ -6,6 +6,16 @@ class EventsController < ApplicationController
     @events = Event.where(user_id: current_user.id).order(created_at: :desc)
   end
 
+  def new
+    @event = Event.new
+  end
+
+  def create
+    @event = Event.new(params_event)
+    @event.save
+    redirect_to events_path
+  end
+
   def show
     @event = Event.find(params[:id])
     @schedules = Schedule.where(user_id:current_user.id,event_id:params[:id]).order(:start_datetime).page(params[:page])
@@ -20,6 +30,12 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @event.update(params_event)
     redirect_to event_path(@event)
+  end
+
+  def destroy
+    @event = Event.find(params[:id])
+    @event.destroy
+    redirect_to events_path
   end
 
   private

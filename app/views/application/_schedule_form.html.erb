@@ -6,12 +6,17 @@
   <%= form_for schedule do |sc|%>
   <ul>
     <li>
-      <%= sc.label :start_datetime,"開始日時*" %>
-      <%= sc.datetime_field :start_datetime, step:1800 %>
+      <div style="position: relative">
+        <%= sc.label :start_datetime,"開始日時*" %>
+        <%= sc.text_field :start_datetime, id:"start_datetime", class:"datetime" %>
+      </div>
     </li>
+
     <li>
-      <%= sc.label :end_data_time,"終了時間" %>
-      <%= sc.time_field :end_datetime, step:1800 %>
+      <div style="position: relative">
+        <%= sc.label :end_data_time,"終了時間" %>
+        <%= sc.text_field :end_datetime, id:"datetime" %>
+      </div>
     </li>
     <li>
       <%= fields_for :location do |lo| %>
@@ -83,3 +88,23 @@
   <!-- scの終了タグ -->
   <% end %>
 </div>
+
+<script>
+$(function(){
+
+    $('#datetime').datetimepicker({
+      format: 'HH:mm',
+      stepping: 10,
+      keepOpen: true,
+      showClose: true,
+      showClear: true,
+    });
+
+    $('#datetime').focus(function(){
+      var time = $('#start_datetime').val();
+      var time_end = moment(time).add(3,'hours').format('HH:mm');
+
+      $(this).val(time_end);
+    });
+});
+</script>

@@ -1,7 +1,7 @@
 class JournalsController < ApplicationController
   before_action :authenticate_user!
   after_action :clean_memo, only:[:update]
-  after_action :clean_parts, only:[:update,:destroy]
+  after_action :crean_journal_detail, only:[:update,:destroy]
 
   def index
 # 関連予定  @related_schedules

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   end
   resources :journals, except: [:new]
   resources :othersides, except:[:new]
-  resources :events,except: [:new]
+  resources :events
   resources :trade_account_dicts
 
   resource :settings, only: [:index] do
