@@ -6,9 +6,9 @@
       <!-- 予定の期間 -->
 
       <label><i class="far fa-calendar pict"></i>期間</label>
-      <%= f.date_field :start_datetime_gteq %>
+      <%= f.text_field :start_datetime_gteq, class:"date" %>
       <label><i class="pict_b"></i>から</label>
-      <%= f.date_field :start_datetime_lteq_end_of_day %>
+      <%= f.text_field :start_datetime_lteq_end_of_day, class:"date" %>
 
       <br>
       <label><i class="glyphicon glyphicon-user pict"></i>関係者</label>

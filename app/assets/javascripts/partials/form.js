@@ -1,5 +1,21 @@
 $(document).on('turbolinks:load', function() {
-  //ページ切り替え後にさせたい処理
+//ページ切り替え後にさせたい処理
+
+    $('#end_datetime').datetimepicker({
+      format: 'HH:mm',
+      stepping: 10,
+      keepOpen: true,
+      showClose: true,
+      showClear: true,
+    });
+
+    $('#end_datetime').focus(function(){
+      var time = $('#start_datetime').val();
+      var time_end = moment(time).add(3,'hours').format('HH:mm');
+      console.log(time_end);
+
+      $(this).val(time_end);
+    });
 
 //確定未定情報の切り替え
     $('#fix').on('change',function(){

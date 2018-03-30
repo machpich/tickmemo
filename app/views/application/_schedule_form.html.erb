@@ -15,7 +15,7 @@
     <li>
       <div style="position: relative">
         <%= sc.label :end_data_time,"終了時間" %>
-        <%= sc.text_field :end_datetime, id:"datetime" %>
+        <%= sc.text_field :end_datetime, id:"end_datetime",class:"end_datetime" %>
       </div>
     </li>
     <li>
@@ -88,23 +88,3 @@
   <!-- scの終了タグ -->
   <% end %>
 </div>
-
-<script>
-$(function(){
-
-    $('#datetime').datetimepicker({
-      format: 'HH:mm',
-      stepping: 10,
-      keepOpen: true,
-      showClose: true,
-      showClear: true,
-    });
-
-    $('#datetime').focus(function(){
-      var time = $('#start_datetime').val();
-      var time_end = moment(time).add(3,'hours').format('HH:mm');
-
-      $(this).val(time_end);
-    });
-});
-</script>
