@@ -24,24 +24,24 @@ test:
 #   <<: *default
 #   database: db/production.sqlite3
 
-production:
-  <<: *default
-  database: tickmemo
-  adapter: mysql2
-  encoding: utf8mb4
-  collation: utf8mb4_general_ci
-  host: rds-mysql-server.clzi7slu1vpy.ap-southeast-1.rds.amazonaws.com
-  username: root
-  password: hogehoge
-
 # production:
 #   <<: *default
+#   database: tickmemo
 #   adapter: mysql2
-#   database: <%= ENV['RDS_DB_NAME'] %>
-#   username: <%= ENV['RDS_USERNAME'] %>
-#   password: <%= ENV['RDS_PASSWORD'] %>
-#   host: <%= ENV['RDS_HOSTNAME'] %>
-#   port: <%= ENV['RDS_PORT'] %>
 #   encoding: utf8mb4
-#   charset: utf8mb4
 #   collation: utf8mb4_general_ci
+#   host: rds-mysql-server.clzi7slu1vpy.ap-southeast-1.rds.amazonaws.com
+#   username: root
+#   password: hogehoge
+
+production:
+  <<: *default
+  adapter: mysql2
+  database: <%= ENV['RDS_DB_NAME'] %>
+  username: <%= ENV['RDS_USERNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: <%= ENV['RDS_PORT'] %>
+  encoding: utf8mb4
+  charset: utf8mb4
+  collation: utf8mb4_general_ci

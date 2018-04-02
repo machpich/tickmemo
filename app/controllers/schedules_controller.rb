@@ -48,7 +48,7 @@ class SchedulesController < ApplicationController
     # schedule_detail ( schedule: @schedule )
     # journal_list (journals: @schedule.journals,sub_or_others: false)
 
-    # フォーム用
+    # schedule_form
     if params[:journal].present? && Journal.where(id: params[:journal]).present?
       @journal = Journal.find(params[:journal])
       if detail = @journal.details.find_by(account_id:4)
@@ -70,6 +70,8 @@ class SchedulesController < ApplicationController
   end
 
   def edit
+    index
+
     # scheduleフォーム用
     @schedule = Schedule.find(params[:id])
     @schedule.memo || @schedule.build_memo
@@ -77,12 +79,7 @@ class SchedulesController < ApplicationController
     @otherside = @schedule.otherside
     @location = @schedule.location
 
-    # total_loan
-    @journals = @schedule.journals
-    @journals = nil if @journals.blank?
-
-    # journal_list
-    @list_journals = @schedule.journals.order('trade_date')
+    render 'index'
   end
 
   def update
@@ -124,23 +121,40 @@ class SchedulesController < ApplicationController
     end
   end
 
+
   def destroy_from_scheule
     @schedule = Schedule.find(params[:id])
     @schedule.destroy
     redirect_to schedules_path
   end
 
+  def copy
+    index
+
+    # form_copy
+    @schedule = Schedule.new
+    @schedule_old = Schedule.find(params[:id])
+    @schedule.seat_type = @schedule_old.seat_type
+
+    @event = @schedule_old.event
+    @otherside = @schedule_old.otherside
+    @location = @schedule_old.location
+    @schedule.build_memo
+
+    render 'index'
+  end
+
 
 # =========================================create json field=========================================
 
   def autocomplete_place_name
-    locations = Location.select(:place_name).where(user_id:current_user.id).where("place_name like '%" + params[:term] + "%'").order(:place_name).distinct
+    locations = Location.select(:place_name).where(user_id:current_user.id).where("place_name like '%" + params[:term] + "%'").order(:location).distinct
     locations = locations.map(&:place_name)
     render json: locations.to_json
   end
 
   def autocomplete_program
-    programs = Event.select(:program).where(user_id:current_user.id).where("program like '%" + params[:term] + "%'").order(:program).distinct
+    programs = Event.select(:program).where(user_id:current_user.id).where("program like '%" + params[:term] + "%'").order(:created_at).reverse_order.distinct
     programs = programs.map(&:program)
     render json: programs.to_json
   end

@@ -16,12 +16,14 @@ Rails.application.routes.draw do
     end
     member do
       delete 'destroy_from_scheule'
+      get 'copy'
     end
   end
   resources :journals, except: [:new]
   resources :othersides, except:[:new]
   resources :events
-  resources :trade_account_dicts
+  resources :trade_account_dicts, only:[:index,:create,:destroy]
+  resources :trade_types, only:[:destroy]
 
   resource :settings, only: [:index] do
     resources :users, only:[:index]
