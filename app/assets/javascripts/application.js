@@ -22,12 +22,9 @@
 
 $(document).on('turbolinks:load', function() {
 
-    var now = moment({ hour:11, minute:00 });
-
     $('.datetime').datetimepicker({
       format:'YYYY/MM/DD HH:mm',
       stepping: 10,
-      date: now,
       toolbarPlacement: 'top',
       collapse: false,
       keepOpen: true,
@@ -39,6 +36,13 @@ $(document).on('turbolinks:load', function() {
         vertical: 'bottom',
       }
     });
+
+    var datetime = $('.datetime').val();
+    if(datetime == ''){
+      var now = moment({ hour:11, minute:00 }).format('YYYY/MM/DD HH:mm');
+      $('.datetime').val(now);
+    };
+
 
     $('.date').datetimepicker({
       format:'YYYY/MM/DD',
