@@ -20,11 +20,17 @@
 <!-- 編集 -->
       <div class="edit">
         <%= link_to edit_schedule_path(schedule) do %>
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-              <% end %>
-              <%= link_to schedule_path(schedule), data: { confirm: "削除しますか?" },method: :delete do %>
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-              <% end %>
+          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+        <% end %>
+
+        <%= link_to schedule_path(schedule), data: { confirm: "削除しますか?" },method: :delete do %>
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        <% end %>
+
+        <%= link_to copy_schedule_path(schedule) do %>
+          <span class="far fa-copy"></span>
+        <% end %>
+
       </div>
 
 <!-- タイトル -->

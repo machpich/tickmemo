@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
     member do
       delete 'destroy_from_scheule'
+      get 'copy'
     end
   end
   resources :journals, except: [:new]

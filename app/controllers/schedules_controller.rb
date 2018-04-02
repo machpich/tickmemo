@@ -48,7 +48,7 @@ class SchedulesController < ApplicationController
     # schedule_detail ( schedule: @schedule )
     # journal_list (journals: @schedule.journals,sub_or_others: false)
 
-    # フォーム用
+    # schedule_form
     if params[:journal].present? && Journal.where(id: params[:journal]).present?
       @journal = Journal.find(params[:journal])
       if detail = @journal.details.find_by(account_id:4)
@@ -169,6 +169,28 @@ class SchedulesController < ApplicationController
     from = today - 1.month
     to = today + 5.month
     @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).where(check: check).order(:start_datetime)
+  end
+
+  def copy
+    @images = Event.where(user_id:current_user.id).where.not(image_id:nil).order(created_at: :desc).distinct.limit(4)
+
+    # form_copy
+    @schedule = Schedule.new
+    @schedule_old = Schedule.find(params[:id])
+    @schedule.seat_type = @schedule_old.seat_type
+
+    @event = @schedule_old.event
+    @otherside = @schedule_old.otherside
+    @location = @schedule_old.location
+    @schedule.build_memo
+
+    # 未来の予定（今月から6ヶ月）のみ表示
+    today = Date.today
+    from = today - 1.month
+    to = today + 5.month
+    @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).includes([:event,:otherside,:location]).order(:start_datetime)
+
+    render 'index'
   end
 
   private
