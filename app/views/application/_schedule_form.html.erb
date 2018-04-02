@@ -19,13 +19,6 @@
       </div>
     </li>
     <li>
-      <%= fields_for :location do |lo| %>
-      <%= lo.label :place_name,"場所*" %>
-      <%= lo.text_field :place_name ,id: :place_name%>
-      <%= lo.hidden_field :user_id, value:current_user.id%>
-      <% end %>
-    </li>
-    <li>
       <%= fields_for event do |ev| %>
       <%= ev.label :program,"演目" %>
       <%= ev.text_field :program ,id: :program%>
@@ -34,6 +27,13 @@
       <%= ev.label :performer,"出演者" %>
       <%= ev.text_field :performer, id: :performer %>
       <%= ev.hidden_field :user_id, value:current_user.id%>
+      <% end %>
+    </li>
+    <li>
+      <%= fields_for :location do |lo| %>
+      <%= lo.label :place_name,"場所*" %>
+      <%= lo.text_field :place_name ,id: :place_name%>
+      <%= lo.hidden_field :user_id, value:current_user.id%>
       <% end %>
     </li>
     <li>
