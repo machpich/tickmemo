@@ -148,13 +148,13 @@ class SchedulesController < ApplicationController
 # =========================================create json field=========================================
 
   def autocomplete_place_name
-    locations = Location.select(:place_name).where(user_id:current_user.id).where("place_name like '%" + params[:term] + "%'").order(:place_name).distinct
+    locations = Location.select(:place_name).where(user_id:current_user.id).where("place_name like '%" + params[:term] + "%'").order(:location).distinct
     locations = locations.map(&:place_name)
     render json: locations.to_json
   end
 
   def autocomplete_program
-    programs = Event.select(:program).where(user_id:current_user.id).where("program like '%" + params[:term] + "%'").order(:program).distinct
+    programs = Event.select(:program).where(user_id:current_user.id).where("program like '%" + params[:term] + "%'").order(:created_at).reverse_order.distinct
     programs = programs.map(&:program)
     render json: programs.to_json
   end
