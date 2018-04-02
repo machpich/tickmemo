@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="col-md-4">
+    <h1>設定項目</h1>
+    <div>
+      <ul>
+        <li><%= link_to 'ユーザー情報変更', edit_user_registration_path %></li>
+        <li><%= link_to 'イベント情報変更', edit_event_path(1) %></li>
+        <li><%= link_to '取引先情報変更', edit_otherside_path(1) %></li>
+        <li><%= link_to '仕訳辞書一覧', trade_account_dicts_path %></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <h1>Trade_account_dicts#index</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>取引名</th>
+          <th>借方</th>
+          <th>貸方</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @trade_types.each.with_index(1) do |trade_type,idx|%>
+        <tr>
+          <!-- name -->
+          <td>
+            <%= idx%>.
+            <%= trade_type.trade_name%>
+            <%= link_to '削除',trade_type_path(trade_type),method: :delete, class:"btn",style:"border:gray 1px solid"%>
+            </td>
+
+          <!-- credit / debit-->
+          <% trade_type.trade_account_dicts.each do |tad|%>
+          <td><%= tad.account.account_name %>:
+            <%= tad.position_status_i18n %>
+          [e]
+          <%= link_to "[d]", trade_account_dict_path(tad), method: :delete%></td>
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</div>

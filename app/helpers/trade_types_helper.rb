@@ -1,0 +1,2 @@
+module TradeTypesHelper
+end
