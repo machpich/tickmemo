@@ -30,12 +30,8 @@ class OthersidesController < ApplicationController
     @journal.memo || @journal.build_memo
 
     # journal_form_select and related_schedules
-    @schedules = Schedule.where(id: schedule_ids_related(@otherside).each{|id|id})
+    @schedules = Schedule.where(id: schedule_ids_related(@otherside).each{|id|id}).order(:start_datetime)
     @related_schedules = @schedules
-
-    # journal_list
-    @journals = nil if @journals.blank?
-    @sub_or_others = judge_sub_or_others(@otherside)
 
 # params[:c]での切り替え
     if params[:c].present?
@@ -52,6 +48,11 @@ class OthersidesController < ApplicationController
       @journals = @journals.where(schedule_id: ids.each{|id|id}).new_order
     end
 
+    # journal_list
+    @journals = nil if @journals.blank?
+    @sub_or_others = judge_sub_or_others(@otherside)
+
+
   end
 
   def edit
@@ -64,7 +65,7 @@ class OthersidesController < ApplicationController
     @sub_or_others = judge_sub_or_others(@otherside)
 
     # related_schedules,schedule_selecte
-    @schedules = Schedule.where(id: schedule_ids_related(@otherside).each{|id|id})
+    @schedules = Schedule.where(id: schedule_ids_related(@otherside).each{|id|id}).order(:start_datetime)
     @related_schedules = @schedules
   end
 

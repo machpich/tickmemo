@@ -15,8 +15,8 @@ class SchedulesController < ApplicationController
 
     # 未来の予定（今月から6ヶ月）のみ表示
     today = Date.today
-    from = today - 1.month
-    to = today + 5.month
+    from = today
+    to = today + 1.year
     @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).includes([:event,:otherside,:location]).order(:start_datetime)
   end
 
@@ -180,8 +180,8 @@ class SchedulesController < ApplicationController
       check = false
     end
     today = Date.today
-    from = today - 1.month
-    to = today + 5.month
+    from = today
+    to = today + 1.year
     @schedules = Schedule.where(user_id:current_user.id).where(start_datetime:from..to).where(check: check).order(:start_datetime)
   end
 
